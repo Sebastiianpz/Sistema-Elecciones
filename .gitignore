@@ -6,4 +6,4 @@ target/
 .recommenders/
 tomcat8080/
 *.log
-src/main/java/ar/edu/padron/db/ConexionDB.java
+
