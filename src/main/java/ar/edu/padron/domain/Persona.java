@@ -2,13 +2,15 @@ package ar.edu.padron.domain;
 
 import java.time.LocalDate;
 
+import ar.edu.padron.enums.SexoEnum;
+
 public class Persona {
 	private int id;
 	private String nroDocumento;
 	private String apellido;
 	private String nombre;
 	private LocalDate fechaNacimiento;
-	private char sexo;
+	private SexoEnum sexo;
 	private String domicilio;
 	private boolean habilitadoVotar;
 
@@ -16,7 +18,7 @@ public class Persona {
 		super();
 	}
 
-	public Persona(int id, String nroDocumento, String apellido, String nombre, LocalDate fechaNacimiento, char sexo,
+	public Persona(int id, String nroDocumento, String apellido, String nombre, LocalDate fechaNacimiento, SexoEnum sexo,
 			String domicilio, boolean habilitadoVotar) {
 		super();
 		this.id = id;
@@ -69,11 +71,11 @@ public class Persona {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	public char getSexo() {
+	public SexoEnum getSexo() {
 		return sexo;
 	}
 
-	public void setSexo(char sexo) {
+	public void setSexo(SexoEnum sexo) {
 		this.sexo = sexo;
 	}
 
