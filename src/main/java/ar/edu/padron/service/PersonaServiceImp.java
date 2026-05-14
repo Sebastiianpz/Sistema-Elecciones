@@ -12,18 +12,22 @@ public class PersonaServiceImp implements PersonaService {
 
     @Override
     public void registrarPersona(Persona p, byte[] foto, String nombreFoto) throws Exception {
-        // REGLA DE NEGOCIO (RF-5): Validar DNI duplicado
         if (personaDao.existeDocumento(p.getNroDocumento())) {
             throw new Exception("No se puede registrar: El DNI " + p.getNroDocumento() + " ya existe.");
         }
+        
+        // 1. Guardamos la persona (devuelve 1 si tuvo éxito)
+        personaDao.save(p);
 
-        // Si el DNI estÃ¡ ok, guardamos la persona
-        // El DAO devuelve el ID generado por la DB
-        int idGenerado = personaDao.save(p);
-
-        // REGLA DE NEGOCIO (RF-4): Si hay foto, la guardamos vinculada al ID
+        // 2. Si el usuario subió una foto, buscamos el ID real asignado por la BD
         if (foto != null && foto.length > 0) {
-            personaDao.saveImagen(idGenerado, foto, nombreFoto);
+            // Buscamos la persona recién insertada usando su DNI
+            Persona personaRecienCreada = personaDao.findByDocumento(p.getNroDocumento());
+            
+            if (personaRecienCreada != null) {
+                // Ahora sí, guardamos la imagen con el ID autoincremental correcto (ej: 42, 43, etc.)
+                personaDao.saveImagen(personaRecienCreada.getId(), foto, nombreFoto);
+            }
         }
     }
 
