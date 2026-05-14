@@ -10,12 +10,14 @@ public class PersonaServiceImp implements PersonaService {
     // El Service usa al DAO
     private PersonaDAO personaDao = new PersonaDaoImp();
 
+ 
     @Override
     public void registrarPersona(Persona p, byte[] foto, String nombreFoto) throws Exception {
         if (personaDao.existeDocumento(p.getNroDocumento())) {
             throw new Exception("No se puede registrar: El DNI " + p.getNroDocumento() + " ya existe.");
         }
         
+<<<<<<< Updated upstream
         // 1. Guardamos la persona (devuelve 1 si tuvo �xito)
         personaDao.save(p);
 
@@ -26,10 +28,23 @@ public class PersonaServiceImp implements PersonaService {
             
             if (personaRecienCreada != null) {
                 // Ahora s�, guardamos la imagen con el ID autoincremental correcto (ej: 42, 43, etc.)
+=======
+        // 1. Guardamos la persona (devuelve 1 si tuvo éxito)
+        personaDao.save(p);
+
+        // 2. Si el usuario subió una foto, buscamos el ID real asignado por la BD
+        if (foto != null && foto.length > 0) {
+            // Buscamos la persona recién insertada usando su DNI
+            Persona personaRecienCreada = personaDao.findByDocumento(p.getNroDocumento());
+            
+            if (personaRecienCreada != null) {
+                // Ahora sí, guardamos la imagen con el ID autoincremental correcto (ej: 42, 43, etc.)
+>>>>>>> Stashed changes
                 personaDao.saveImagen(personaRecienCreada.getId(), foto, nombreFoto);
             }
         }
     }
+
 
     @Override
     public List<Persona> listarPadron() throws Exception {
