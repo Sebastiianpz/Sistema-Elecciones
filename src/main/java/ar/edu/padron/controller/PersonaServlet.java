@@ -55,7 +55,7 @@ public class PersonaServlet extends HttpServlet {
 			personaService.registrarPersona(p, foto, nombreFoto);
 
 			// Respuesta JSON manual
-			out.print("{\"ok\": true, \"mensaje\": \"Guardado con éxito\"}");
+			out.print("{\"ok\": true, \"mensaje\": \"Guardado con Ã©xito\"}");
 
 		} catch (Exception e) {
 			response.setStatus(400);
