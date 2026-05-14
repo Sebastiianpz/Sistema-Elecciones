@@ -17,29 +17,15 @@ public class PersonaServiceImp implements PersonaService {
             throw new Exception("No se puede registrar: El DNI " + p.getNroDocumento() + " ya existe.");
         }
         
-<<<<<<< Updated upstream
-        // 1. Guardamos la persona (devuelve 1 si tuvo éxito)
+        // 1. Guardar la persona en la base de datos
         personaDao.save(p);
 
-        // 2. Si el usuario subió una foto, buscamos el ID real asignado por la BD
+        // 2. Si el usuario subio una foto, buscar el ID real asignado por la BD
         if (foto != null && foto.length > 0) {
-            // Buscamos la persona recién insertada usando su DNI
             Persona personaRecienCreada = personaDao.findByDocumento(p.getNroDocumento());
             
             if (personaRecienCreada != null) {
-                // Ahora sí, guardamos la imagen con el ID autoincremental correcto (ej: 42, 43, etc.)
-=======
-        // 1. Guardamos la persona (devuelve 1 si tuvo Ã©xito)
-        personaDao.save(p);
-
-        // 2. Si el usuario subiÃ³ una foto, buscamos el ID real asignado por la BD
-        if (foto != null && foto.length > 0) {
-            // Buscamos la persona reciÃ©n insertada usando su DNI
-            Persona personaRecienCreada = personaDao.findByDocumento(p.getNroDocumento());
-            
-            if (personaRecienCreada != null) {
-                // Ahora sÃ­, guardamos la imagen con el ID autoincremental correcto (ej: 42, 43, etc.)
->>>>>>> Stashed changes
+                // Guardar la imagen vinculada al ID correcto
                 personaDao.saveImagen(personaRecienCreada.getId(), foto, nombreFoto);
             }
         }
