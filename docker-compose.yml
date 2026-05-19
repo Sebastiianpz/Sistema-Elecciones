@@ -3,8 +3,6 @@ services:
   padron:
     container_name: padron
     build: .
-    environment:
-      - JAVA_OPTS=-XX:-UseContainerSupport
     restart: always
     ports:
       - "8080:8080"
@@ -12,48 +10,22 @@ services:
       - db
     networks:
       - red-backend
-    hostname: backend
-
-  mesas:
-    container_name: mesas
-    build: .
-    environment:
-      - JAVA_OPTS=-XX:-UseContainerSupport
-    restart: always
-    ports:
-      - "8081:8080"
-    depends_on:
-      - db
-    networks:
-      - red-backend
-    hostname: backend
 
   db:
     image: mysql:8.0
-    container_name: padron-db
-    command: --default-authentication-plugin=mysql_native_password
+    container_name: elecciones-db
     restart: always
-
     environment:
       MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: padron
-      MYSQL_PASSWORD: admin
+      MYSQL_DATABASE: elecciones
       MYSQL_USER: admin
-
+      MYSQL_PASSWORD: admin
     ports:
       - "3306:3306"
-
     networks:
       - red-backend
-
     volumes:
       - ./dump.sql:/docker-entrypoint-initdb.d/init.sql
-      - mysql_data:/var/lib/mysql
-
-    hostname: db
-
-volumes:
-  mysql_data:
 
 networks:
   red-backend:
