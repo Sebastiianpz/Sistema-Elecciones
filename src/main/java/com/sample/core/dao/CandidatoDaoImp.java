@@ -12,9 +12,9 @@ import com.sample.core.exceptions.ErrorException;
 
 public class CandidatoDaoImp {
 
-	private static final String queryConsultarCandidato = "SELECT id, nombre_completo, partido, num_partido, color_partido FROM candidatos WHERE id=?";
+	private static final String queryConsultarCandidato = "SELECT id, nombre_completo, partido, num_partido, color_partido, votos FROM candidatos WHERE id=?";
 	
-	private static final String queryList = "SELECT id, nombre_completo, partido, num_partido, color_partido FROM candidatos";
+	private static final String queryList = "SELECT id, nombre_completo, partido, num_partido, color_partido, votos FROM candidatos";
 	
 	private static final String queryAddCandidato = "INSERT INTO candidatos (nombre_completo, partido, num_partido, color_partido, votos) VALUES (?, ?, ?, ?, 0)";	
 	
@@ -33,12 +33,14 @@ public Candidato findById(int id) throws Exception {
 		st.setInt(1, id);
 		rs = st.executeQuery();
 		if (rs.next()) {
-			return new Candidato(rs.getInt("id"),     
-	                rs.getString("nombreCompleto"),   
+			return new Candidato(
+					rs.getInt("id"),     
+	                rs.getString("nombre_completo"),   
 	                rs.getString("partido"),
 	                rs.getInt("num_partido"),
-	                rs.getString("colorPartido"),     	                
-	                rs.getInt("votos"));
+	                rs.getString("color_partido"),
+	                rs.getInt("votos")
+	                );
 		}
 
 	 }catch (Exception e) {
@@ -60,21 +62,20 @@ public List<Candidato> list() throws Exception {
 
 	PreparedStatement st= null;
 	ResultSet rs = null;
-	List<Candidato> rodados = new ArrayList<Candidato>();
+	List<Candidato> candidatos = new ArrayList<Candidato>();
 
 	try {
 		st = conexion.dameConnection().prepareStatement(queryList);
 		rs = st.executeQuery();
 		
 		while (rs.next()) {
-		    rodados.add(new Candidato(
+			candidatos.add(new Candidato(
 		    	rs.getInt("id"),
-		        rs.getString("patente"),
-		        TipoEnum.valueOf(rs.getString("tipo")),
-		        rs.getString("motor"),
-		        rs.getString("color"),
-		        CajaEnum.valueOf(rs.getString("tipo_caja")),
-		        ConsumoEnum.valueOf(rs.getString("tipo_consumo"))
+		        rs.getString("nombre_completo"),
+		        rs.getString("partido"),
+		        rs.getInt("num_partido"),
+		        rs.getString("color_partido"),
+		        rs.getInt("votos")
 		    ));
 		}
 		
@@ -85,22 +86,19 @@ public List<Candidato> list() throws Exception {
 		rs.close();
 	}
 	
-	return rodados;
+	return candidatos;
 }
 
-public void save(String patente, TipoEnum tipo, String motor, String color, CajaEnum tipoCaja,
-		ConsumoEnum tipoConsumo) throws ErrorException {
+public void save(String nombreCompleto, String partido, int numPartido, String colorPartido) throws ErrorException {
 
 	 ResultSet rs = null;
 	 PreparedStatement st = null;
 	 try{
-		st = conexion.dameConnection().prepareStatement(queryAddRodado);
-		st.setString(1, patente);
-        st.setString(2, tipo.name());
-        st.setString(3, motor);
-        st.setString(4, color);
-        st.setString(5, tipoCaja.name());
-        st.setString(6, tipoConsumo.name());
+		st = conexion.dameConnection().prepareStatement(queryAddCandidato);
+		st.setString(1, nombreCompleto);
+        st.setString(2, partido);
+        st.setInt(3, numPartido);
+        st.setString(4, colorPartido);
         st.executeUpdate();
 	 }catch (Exception e) {
 			throw new ErrorException("Hubo un error al realizar la consulta", e);
@@ -115,7 +113,7 @@ public void save(String patente, TipoEnum tipo, String motor, String color, Caja
 }
 
 public void delete(int id) throws Exception {
-	PreparedStatement st = this.conexion.dameConnection().prepareStatement(queryDeleteRodado);
+	PreparedStatement st = this.conexion.dameConnection().prepareStatement(queryDeleteCandidato);
 	st.setInt(1, id);
 	int registros = st.executeUpdate();
 	
@@ -125,20 +123,18 @@ public void delete(int id) throws Exception {
 	st.close();
 }
 
-public void update(Rodado r) throws Exception {
+public void update(Candidato c) throws Exception {
     PreparedStatement st = null;
     try {
         java.sql.Connection con = conexion.dameConnection();
         
-        st = con.prepareStatement(queryUpdateRodado);
+        st = con.prepareStatement(queryUpdateCandidato);
         
-        st.setString(1, r.getPatente());
-        st.setString(2, r.getTipo().name());
-        st.setString(3, r.getMotor());
-        st.setString(4, r.getColor());
-        st.setString(5, r.getTipoCaja().name());
-        st.setString(6, r.getTipoConsumo().name());
-        st.setInt(7, r.getId()); 
+        st.setString(1, c.getNombreCompleto());
+        st.setString(2, c.getPartido());
+        st.setInt(3, c.getNumPartido());
+        st.setString(4, c.getColorPartido());
+        st.setInt(5, c.getId()); 
         
         int filasAfectadas = st.executeUpdate();
         

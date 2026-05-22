@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.sample.core.dao.PersonaDaoImp;
 import com.sample.core.domain.Persona;
+import com.sample.core.dao.PersonaDao;
+
 
 public class PersonaServiceImp implements PersonaService{
 
@@ -11,13 +13,13 @@ public class PersonaServiceImp implements PersonaService{
 
 	
 	@Override
-	public List<Persona> listarBebidas() throws Exception {
+	public List<Persona> listarPersonas() throws Exception {
 		// TODO Auto-generated method stub
 		return personaDao.list();
 	}
 
 	@Override
-	public Persona consultarBebida(int id) throws Exception {
+	public Persona consultarPersona(int id) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

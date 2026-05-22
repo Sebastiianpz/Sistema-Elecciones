@@ -1,6 +1,6 @@
 package com.sample.core.domain;
 
-public class GestionDeMacs {
+public class GestionDeMacs extends GenericEntity {
 
 	String macAddress;
 	String nombreMac;
@@ -10,8 +10,8 @@ public class GestionDeMacs {
 		super();
 	}
 
-	public GestionDeMacs(String macAddress, String nombreMac, boolean estadoPc) {
-		super();
+	public GestionDeMacs(int id, String macAddress, String nombreMac, boolean estadoPc) {
+	    super.setId(id); 
 		this.macAddress = macAddress;
 		this.nombreMac = nombreMac;
 		this.estadoPc = estadoPc;

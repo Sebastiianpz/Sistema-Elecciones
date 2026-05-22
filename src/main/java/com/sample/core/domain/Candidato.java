@@ -1,6 +1,6 @@
 package com.sample.core.domain;
 
-public class Candidato extends Persona {
+public class Candidato extends GenericEntity {
 
 	String nombreCompleto;
 	String partido;
@@ -11,17 +11,14 @@ public class Candidato extends Persona {
 	public Candidato() {
 		super();
 	}
-
-	public Candidato(int id, String nroDocumento, boolean habilitadoVotar, boolean yaVoto, String nombreCompleto, String partido, int numPartido, String colorPartido, int votos) {
-		super.setId(id);	
-		super.setNroDocumento(nroDocumento);		
-		super.setHabilitadoVotar(habilitadoVotar);		
-		super.setYaVoto(yaVoto);		
-		this.nombreCompleto = nombreCompleto;
-		this.partido = partido;
-		this.numPartido = numPartido;
-		this.colorPartido = colorPartido;
-		this.votos = votos;
+	
+	public Candidato(int id, String nombreCompleto, String partido, int numPartido, String colorPartido, int votos) {
+	    super.setId(id); 
+	    this.nombreCompleto = nombreCompleto;
+	    this.partido = partido;
+	    this.numPartido = numPartido;
+	    this.colorPartido = colorPartido;
+	    this.votos = votos;
 	}
 
 
@@ -41,11 +38,11 @@ public class Candidato extends Persona {
 		this.partido = partido;
 	}
 	
-	public int getnumPartido() {
+	public int getNumPartido() {
 		return numPartido;
 	}
 
-	public void setnumPartido(int numPartido) {
+	public void setNumPartido(int numPartido) {
 		this.numPartido = numPartido;
 	}
 
