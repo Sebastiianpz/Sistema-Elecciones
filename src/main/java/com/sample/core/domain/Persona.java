@@ -1,6 +1,6 @@
 package com.sample.core.domain;
 
-public abstract class Persona {
+public class Persona extends GenericEntity{
 
 	String nroDocumento;
 	boolean habilitadoVotar;
@@ -10,8 +10,8 @@ public abstract class Persona {
 		super();
 	}
 
-	public Persona(String nroDocumento, boolean habilitadoVotar, boolean yaVoto) {
-		super();
+	public Persona(int id, String nroDocumento, boolean habilitadoVotar, boolean yaVoto) {
+		super.setId(id);		
 		this.nroDocumento = nroDocumento;
 		this.habilitadoVotar = habilitadoVotar;
 		this.yaVoto = yaVoto;
