@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Registro de Persona</title>
+        <link href="${pageContext.request.contextPath}/assets/boostrap/css/bootstrap.min.css">
 </head>
 <body>
 

@@ -7,19 +7,32 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/Login")
-public class LoginServlet extends HttpServlet {
+/**
+ * Servlet implementation class ModificarServlet
+ */
+@WebServlet("/ModificarServlet")
+public class ModificarServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-  
-    public LoginServlet() {
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ModificarServlet() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);

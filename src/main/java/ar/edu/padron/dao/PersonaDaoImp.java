@@ -186,4 +186,62 @@ public class PersonaDaoImp implements PersonaDAO {
 			System.out.println("Error al cerrar recursos: " + e.getMessage());
 		}
 	}
+
+	@Override
+	public boolean delete(String dni) throws Exception {
+		Statement st = null;
+		try {
+			st = ConexionDB.getInstance().dameConnection().createStatement();
+			
+			// 1. Primero buscamos a la persona para conocer su ID interno
+			Persona p = findByDocumento(dni);
+			
+			if (p != null) {
+				// 2. Si la persona existe, borramos primero su foto de 'imagenes_dni' usando su ID
+				String sqlImagen = "DELETE FROM imagenes_dni WHERE persona_id = " + p.getId();
+				st.executeUpdate(sqlImagen);
+				
+				// 3. Ahora que la foto no existe, borramos de forma segura a la persona por su DNI
+				String sqlPersona = "DELETE FROM personas WHERE nro_documento = '" + dni + "'";
+				int result = st.executeUpdate(sqlPersona);
+				
+				return result > 0;
+			}
+			
+			return false; // Si no se encontró la persona
+			
+		} catch (Exception e) {
+			System.out.println("Error en DAO al eliminar por documento e imagen: " + e.getMessage());
+			throw new Exception("Error al eliminar la persona y sus archivos: " + e.getMessage());
+		} finally {
+			finalizarConexion(st, null);
+		}
+	}
+	@Override
+	public boolean update(Persona p) throws Exception {
+		Statement st = null;
+		try {
+			st = ConexionDB.getInstance().dameConnection().createStatement();
+			
+			// Armamos la sentencia SQL concatenando los atributos igual que en tu método save
+			String sql = "UPDATE personas SET "
+					+ "apellido = '" + p.getApellido() + "', "
+					+ "nombre = '" + p.getNombre() + "', "
+					+ "fecha_nacimiento = '" + p.getFechaNacimiento() + "', "
+					+ "sexo = '" + p.getSexo().name() + "', "
+					+ "domicilio = '" + p.getDomicilio() + "', "
+					+ "habilitado_votar = " + (p.isHabilitadoVotar() ? 1 : 0) + " "
+					+ "WHERE nro_documento = '" + p.getNroDocumento() + "'";
+
+			int result = st.executeUpdate(sql);
+			return result > 0;
+			
+		} catch (Exception e) {
+			System.out.println("Error en DAO al actualizar persona: " + e.getMessage());
+			throw new Exception("Error al modificar los datos de la persona: " + e.getMessage());
+		} finally {
+			finalizarConexion(st, null);
+		}
+	}
+
 }
