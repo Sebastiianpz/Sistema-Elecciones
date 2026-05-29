@@ -24,6 +24,9 @@
 
         <button type="submit">Registrar Persona</button>
     </form>
+    <li><a href="${pageContext.request.contextPath}/vistas/listar.jsp" class="sidebar-nav-link"> <span
+						class="nav-icon">➕</span> listar
+				</a></li>
 
     <div id="mensaje"></div>
 

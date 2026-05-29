@@ -538,3 +538,321 @@ body {
 	background: rgba(255, 255, 255, .15);
 	border-radius: 4px;
 }
+/* ═══════════════════════════════════════════════════════════════
+   AGREGAR AL FINAL DE css1.css
+   Estilos para botones de acción (Modificar / Eliminar)
+   y modal de modificación
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── COLUMNA ACCIONES ────────────────────────────────────── */
+.acciones-td {
+    white-space: nowrap;
+}
+
+/* ─── BOTÓN BASE ──────────────────────────────────────────── */
+.btn-accion {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 11px;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    transition: all .15s ease;
+    font-family: var(--font);
+    line-height: 1.4;
+}
+
+.btn-accion:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+}
+
+/* ─── MODIFICAR (azul outline) ────────────────────────────── */
+.btn-modificar {
+    background: transparent;
+    border-color: var(--blue);
+    color: var(--blue);
+}
+
+.btn-modificar:hover {
+    background: var(--blue-lt);
+}
+
+.btn-modificar:active {
+    transform: scale(.96);
+}
+
+/* ─── ELIMINAR (rojo outline) ─────────────────────────────── */
+.btn-eliminar {
+    background: transparent;
+    border-color: var(--red);
+    color: var(--red);
+    margin-left: 6px;
+}
+
+.btn-eliminar:hover {
+    background: var(--red-lt);
+}
+
+.btn-eliminar:active {
+    transform: scale(.96);
+}
+
+/* ─── MODAL MODIFICAR ─────────────────────────────────────── */
+.modal-content {
+    border-radius: 14px;
+    border: none;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, .15);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--border);
+    padding: 18px 24px;
+}
+
+.modal-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.modal-body {
+    padding: 20px 24px;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--border);
+    padding: 14px 24px;
+    gap: 8px;
+}
+
+/* Labels del formulario */
+.modal-body .form-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: var(--text-3);
+    margin-bottom: 5px;
+}
+
+/* Inputs del formulario */
+.modal-body .form-control {
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 13.5px;
+    padding: 9px 13px;
+    color: var(--text);
+    font-family: var(--font);
+    transition: all .15s;
+}
+
+.modal-body .form-control:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(21, 101, 192, .10);
+}
+
+.modal-body .form-control[readonly] {
+    background: var(--page-bg);
+    color: var(--text-3);
+    cursor: not-allowed;
+}
+
+/* Botones del modal */
+#btn-confirmar-modificar {
+    background: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .15s;
+    font-family: var(--font);
+}
+
+#btn-confirmar-modificar:hover {
+    background: #1251A3;
+}
+
+#btn-confirmar-modificar:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+.btn-cancelar-modal {
+    background: transparent;
+    color: var(--text-2);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .15s;
+    font-family: var(--font);
+}
+
+.btn-cancelar-modal:hover {
+    background: var(--page-bg);
+}
+
+/* ══ ESTILOS PARA ACCIONES DE LA TABLA ═════════════════════ */
+.acciones-td {
+    white-space: nowrap; /* Evita que los botones se quiebren en dos renglones */
+    width: 1%;          /* Ajusta la columna al tamaño mínimo del contenido */
+    gap: 8px;
+}
+
+/* Botón base para las acciones (Modificar / Eliminar) */
+.btn-accion {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    background: transparent;
+}
+
+/* Variante específica: Modificar (Estilo Amarillo/Naranja sutil) */
+.btn-modificar {
+    color: #b45309; /* Marrón/Dorado oscuro para legibilidad */
+    background-color: #fef3c7; /* Fondo amarillo muy suave */
+}
+
+.btn-modificar:hover {
+    color: #ffffff;
+    background-color: #d97706; /* Cambia a naranja sólido en hover */
+    box-shadow: 0 2px 4px rgba(217, 119, 6, 0.2);
+}
+
+/* Variante específica: Eliminar (Estilo Rojo sutil) */
+.btn-eliminar {
+    color: #dc2626; /* Rojo */
+    background-color: #fee2e2; /* Fondo rojo muy suave */
+}
+
+.btn-eliminar:hover {
+    color: #ffffff;
+    background-color: #dc2626; /* Cambia a rojo sólido en hover */
+    box-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);
+}
+
+/* Estado inhabilitado (mientras procesa el AJAX) */
+.btn-accion:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ══ ESTILOS COMPLEMENTARIOS PARA EL MODAL ════════════════ */
+.modal-content {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+    border-bottom: 1px solid #f3f4f6;
+    background-color: #f9fafb;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.modal-footer {
+    border-top: 1px solid #f3f4f6;
+    background-color: #f9fafb;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+/* Botón cancelar del modal */
+.btn-cancelar-modal {
+    background: #f3f4f6;
+    color: #4b5563;
+    border: 1px solid #e5e7eb;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.15s;
+}
+
+.btn-cancelar-modal:hover {
+    background: #e5e7eb;
+    color: #1f2937;
+}
+
+/* Ajustes a los campos de formulario dentro del modal */
+.modal-body .form-label {
+    font-weight: 500;
+    color: #374151;
+    font-size: 0.88rem;
+    margin-bottom: 6px;
+}
+
+.modal-body .form-control, 
+.modal-body .form-select {
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    padding: 8px 12px;
+    font-size: 0.92rem;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.modal-body .form-control:focus, 
+.modal-body .form-select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* Input readonly (DNI) */
+.modal-body .form-control[readonly] {
+    background-color: #f3f4f6;
+    color: #6b7280;
+    cursor: not-allowed;
+    border-color: #e5e7eb;
+}
+/* Asegura que el modal no se renderice plano en el documento inicial */
+.modal.fade:not(.show) {
+    display: none !important;
+}
+
+/* Evita problemas si tu archivo css1 tiene inputs globales que rompan el modal */
+.modal-body .form-control,
+.modal-body .form-select {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Esto clava la foto en un cuadrito perfecto para que no deforme la fila */
+.img-miniatura-dni {
+    width: 40px !important;
+    height: 40px !important;
+    object-fit: cover !important; /* Recorta la foto proporcionalmente sin estirarla */
+    border-radius: 6px !important; /* Bordes suaves */
+    border: 1px solid #e5e7eb !important;
+    display: inline-block !important;
+}
+
+/* Evita que la columna de la foto use más espacio del necesario */
+.padron-table th:first-child, 
+.padron-table td:first-child {
+    width: 60px !important;
+    max-width: 60px !important;
+    text-align: center !important;
+}
+

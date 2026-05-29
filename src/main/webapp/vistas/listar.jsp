@@ -9,7 +9,7 @@
 
 <!-- Bootstrap 5 Local -->
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/assets/boostrap/css/bootstrap.min.css">
+	href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/styles/css1.css">
 </head>
@@ -37,8 +37,10 @@
 				<li><a href="#" class="sidebar-nav-link"> <span
 						class="nav-icon">🔍</span> Buscar Ciudadano
 				</a></li>
-				<li><a href="#" class="sidebar-nav-link"> <span
-						class="nav-icon">➕</span> Alta Padrón
+				<li><a
+					href="${pageContext.request.contextPath}/vistas/index.jsp"
+					class="sidebar-nav-link"> <span class="nav-icon">➕</span> Alta
+						Padrón
 				</a></li>
 				<li><span class="sidebar-nav-label">Sistema</span></li>
 				<li><a href="#" class="sidebar-nav-link"> <span
@@ -155,10 +157,13 @@
 								<table class="padron-table">
 									<thead>
 										<tr>
+											<th class="text-center" style="width: 70px;">Foto</th>
 											<th>Documento (DNI)</th>
 											<th>Apellido</th>
 											<th>Nombre</th>
 											<th class="text-center">Estado Electoral</th>
+											<th class="text-center">Acciones</th>
+											<!-- Columna de control -->
 										</tr>
 									</thead>
 									<tbody id="tabla-padron-body">
@@ -182,17 +187,85 @@
 	</div>
 	<!-- /wrapper -->
 
-	<!-- Scripts -->
+	<!-- ══ EL MODAL VA ACÁ AFUERA (Justo antes de los scripts) ════════════ -->
+	<div class="modal fade" id="modalModificar" tabindex="-1"
+		aria-labelledby="modalModificarLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content"
+				style="background: #ffffff; color: #333333;">
+				<!-- Forzamos fondo blanco -->
+				<div class="modal-header">
+					<h5 class="modal-title" id="modalModificarLabel">✏️ Modificar
+						Ciudadano</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Cerrar"></button>
+				</div>
+				<div class="modal-body">
+					<div class="mb-3">
+						<label class="form-label">Número de Documento</label> <input
+							type="text" id="modal-mod-dni" class="form-control" readonly>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Apellido</label> <input type="text"
+							id="modal-mod-apellido" class="form-control"
+							placeholder="Apellido">
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Nombre</label> <input type="text"
+							id="modal-mod-nombre" class="form-control" placeholder="Nombre">
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Domicilio</label> <input type="text"
+							id="modal-mod-domicilio" class="form-control"
+							placeholder="Domicilio">
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Fecha de Nacimiento</label> <input
+							type="date" id="modal-mod-fecha" class="form-control">
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Sexo</label> <select id="modal-mod-sexo"
+							class="form-select">
+							<option value="M">M — Masculino</option>
+							<option value="F">F — Femenino</option>
+							<option value="X">X — No binario</option>
+						</select>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Estado en Padrón</label> <select
+							id="modal-mod-habilitado" class="form-select">
+							<option value="true">✅ Habilitado para votar</option>
+							<option value="false">🚫 Inhabilitado</option>
+						</select>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Cancelar</button>
+					<button type="button" id="btn-confirmar-modificar"
+						class="btn btn-primary">💾 Guardar cambios</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 1. Primero cargamos JQuery (Base de todo) -->
 	<script
 		src="${pageContext.request.contextPath}/assets/jquery/jquery.min.js"></script>
+
+	<!-- 2. Segundo cargamos Bootstrap (Acá se define el objeto 'bootstrap' que te faltaba) -->
 	<script
-		src="${pageContext.request.contextPath}/assets/boostrap/js/bootstrap.bundle.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/assets/scripts/persona.js"></script>
+		src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+	<!-- 3. Tercero definimos el contexto global -->
 	<script>
 		const ctx = "${pageContext.request.contextPath}";
 	</script>
 
+	<!-- 4. Por ÚLTIMO cargamos tu lógica (Para que ya encuentre a JQuery y Bootstrap cargados) -->
+	<script
+		src="${pageContext.request.contextPath}/assets/scripts/persona.js?v=${pageContext.session.lastAccessedTime}"></script>
 
 </body>
 </html>
