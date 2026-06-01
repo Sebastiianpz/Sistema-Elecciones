@@ -1,0 +1,36 @@
+services:
+
+  padron:
+    container_name: padron
+    build: .
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - red-backend
+
+  db:
+    image: mysql:8.0
+    container_name: elecciones-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: elecciones
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    ports:
+      - "3306:3306"
+    networks:
+      - red-backend
+	  
+    volumes:
+     - ./dump.sql:/docker-entrypoint-initdb.d/init.sql
+     - mysql_data:/var/lib/mysql
+
+    hostname: db
+
+networks:
+  red-backend:
+    driver: bridge
