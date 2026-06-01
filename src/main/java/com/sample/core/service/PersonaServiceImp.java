@@ -1,9 +1,9 @@
-package ar.edu.padron.service;
+package com.sample.core.service;
 
 import java.util.List;
-import ar.edu.padron.dao.PersonaDAO;
-import ar.edu.padron.dao.PersonaDaoImp;
-import ar.edu.padron.domain.Persona;
+import com.sample.core.dao.PersonaDAO;
+import com.sample.core.dao.PersonaDaoImp;
+import com.sample.core.domain.Persona;
 
 public class PersonaServiceImp implements PersonaService {
 

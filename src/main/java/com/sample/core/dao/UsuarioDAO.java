@@ -1,6 +1,6 @@
-package ar.edu.padron.dao;
+package com.sample.core.dao;
 
-import ar.edu.padron.domain.Usuario;
+import com.sample.core.domain.Usuario;
 
 public interface UsuarioDAO {
 

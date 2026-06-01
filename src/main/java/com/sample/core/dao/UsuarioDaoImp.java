@@ -1,6 +1,6 @@
-package ar.edu.padron.dao;
+package com.sample.core.dao;
 
-import ar.edu.padron.db.ConexionDB;
+import com.sample.core.db.ConexionDB;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import ar.edu.padron.domain.Usuario;
+import com.sample.core.domain.Usuario;
 
 public class UsuarioDaoImp implements UsuarioDAO {
 

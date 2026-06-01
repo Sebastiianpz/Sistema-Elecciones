@@ -1,11 +1,11 @@
-package ar.edu.padron.dao;
+package com.sample.core.dao;
 
 import java.util.List;
 
-import ar.edu.padron.domain.Persona;
+import com.sample.core.domain.Persona;
 
 import java.util.List;
-import ar.edu.padron.domain.Persona;
+import com.sample.core.domain.Persona;
 
 public interface PersonaDAO {
 

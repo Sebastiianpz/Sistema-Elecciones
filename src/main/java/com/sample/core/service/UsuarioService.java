@@ -1,7 +1,7 @@
-package ar.edu.padron.service;
+package com.sample.core.service;
 
 import java.util.List;
-import ar.edu.padron.domain.Usuario;
+import com.sample.core.domain.Usuario;
 
 //Dentro de UsuarioService.java
 public interface UsuarioService {

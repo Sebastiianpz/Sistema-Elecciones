@@ -1,8 +1,8 @@
-package ar.edu.padron.service;
+package com.sample.core.service;
 
 import java.util.List;
 
-import ar.edu.padron.domain.Persona;
+import com.sample.core.domain.Persona;
 
 public interface PersonaService {
 

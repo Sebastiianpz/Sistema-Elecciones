@@ -1,8 +1,8 @@
-package ar.edu.padron.domain;
+package com.sample.core.domain;
 
 import java.time.LocalDate;
 
-import ar.edu.padron.enums.SexoEnum;
+import com.sample.core.enums.SexoEnum;
 
 public class Persona {
 	private int id;

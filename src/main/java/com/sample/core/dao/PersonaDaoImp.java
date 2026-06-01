@@ -1,4 +1,4 @@
-package ar.edu.padron.dao;
+package com.sample.core.dao;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,9 +7,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.edu.padron.db.ConexionDB;
-import ar.edu.padron.domain.Persona;
-import ar.edu.padron.enums.SexoEnum;
+import com.sample.core.db.ConexionDB;
+import com.sample.core.domain.Persona;
+import com.sample.core.enums.SexoEnum;
 
 public class PersonaDaoImp implements PersonaDAO {
 

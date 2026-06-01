@@ -1,8 +1,8 @@
-package ar.edu.padron.service;
+package com.sample.core.service;
 
-import ar.edu.padron.domain.Usuario;
-import ar.edu.padron.dao.UsuarioDAO;
-import ar.edu.padron.dao.UsuarioDaoImp;
+import com.sample.core.domain.Usuario;
+import com.sample.core.dao.UsuarioDAO;
+import com.sample.core.dao.UsuarioDaoImp;
 
 public class UsuarioServiceImp implements UsuarioService {
 

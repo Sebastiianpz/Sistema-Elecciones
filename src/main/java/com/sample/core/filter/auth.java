@@ -1,4 +1,4 @@
-package ar.edu.padron.filter;
+package com.sample.core.filter;
 
 public class auth {
 

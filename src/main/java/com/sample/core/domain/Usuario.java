@@ -1,4 +1,4 @@
-package ar.edu.padron.domain;
+package com.sample.core.domain;
 
 public class Usuario {
 	private int id;

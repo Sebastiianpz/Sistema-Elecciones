@@ -1,4 +1,4 @@
-package ar.edu.padron.db;
+package com.sample.core.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
