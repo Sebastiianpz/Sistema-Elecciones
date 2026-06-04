@@ -2,7 +2,7 @@ package com.sample.core.domain;
 
 public class GenericEntity {
 
-	private int id;
+	protected int id;
 
 	public int getId() {
 		return id;

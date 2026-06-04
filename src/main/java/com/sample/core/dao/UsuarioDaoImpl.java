@@ -1,0 +1,212 @@
+package com.sample.core.dao;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.sample.core.dao.config.Conexion;
+import com.sample.core.domain.Usuario;
+import com.sample.core.exceptions.ErrorException;
+
+public class UsuarioDaoImpl implements UsuarioDao {
+
+	private static final String queryLogin = "SELECT id, username, password FROM usuarios WHERE username=? AND password=?";
+	private static final String queryFindCandidato = "SELECT id, nombre_completo, partido, num_partido, color_partido, votos FROM candidatos WHERE id=?";
+	private static final String queryListCandidato = "SELECT id, nombre_completo, partido, num_partido, color_partido, votos FROM candidatos";
+	private static final String queryAddCandidato = "INSERT INTO candidatos (nombre_completo, partido, num_partido, color_partido, votos) VALUES (?, ?, ?, ?, 0)";	
+	private static final String queryUpdateCandidato = "UPDATE candidatos SET nombre_completo=?, partido=?, num_partido=?, color_partido=? WHERE id=?";
+	private static final String queryFindEquipo = "SELECT id, mac_address, nombre, habilitada, votos_emitidos, fecha_registro, usuario_id FROM pcs_habilitadas WHERE id=?";
+
+	
+	private Conexion conexion = Conexion.getInstance();
+
+	public Usuario loginAdmin(String usuario, String contrasena) throws Exception {
+		
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		Usuario adminLogueado = null;
+		
+		try {
+			
+			st = this.conexion.dameConnection().prepareStatement(queryLogin);
+			
+			st.setString(1, usuario);
+			st.setString(2, contrasena);
+
+			rs = st.executeQuery();
+			boolean encontro = rs.next();
+
+			if (rs.next()) {
+	            adminLogueado = new Usuario();
+	            adminLogueado.setId(rs.getInt("id"));
+	            adminLogueado.setUsuario(rs.getString("usuario"));
+	        } else {
+	            throw new Exception("El usuario o la contraseña no coinciden.");
+	        }
+		} catch (Exception e) {
+			throw new Exception("login incorrecto");
+		} finally {
+			st.close();
+			rs.close();
+		}
+		return adminLogueado;
+	}
+
+	public Usuario findCandidatoByid(int id) throws Exception {
+		 ResultSet rs = null;
+		 PreparedStatement st = null;
+		 try{
+			st = conexion.dameConnection().prepareStatement(queryFindCandidato);
+			st.setInt(1, id);
+			rs = st.executeQuery();
+			if (rs.next()) {
+			    Usuario candidato = new Usuario();
+			    
+			    candidato.setId(rs.getInt("id"));
+			    candidato.setNombreCompleto(rs.getString("nombre_completo"));
+			    candidato.setPartido(rs.getString("partido"));
+			    candidato.setNumPartido(rs.getInt("num_partido")); 
+			    candidato.setColorPartido(rs.getString("color_partido"));
+			    candidato.setVotos(rs.getInt("votos"));
+			    
+			    return candidato;
+			}
+
+		 }catch (Exception e) {
+				throw new ErrorException("Hubo un error al realizar la consulta", e);
+		}finally {
+			try {
+				st.close();
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		return null;
+	}
+
+	public List<Usuario> listCandidatos() throws Exception {
+
+		PreparedStatement st= null;
+		ResultSet rs = null;
+		List<Usuario> candidatos = new ArrayList<Usuario>();
+
+		try {
+			st = conexion.dameConnection().prepareStatement(queryListCandidato);
+			rs = st.executeQuery();
+			
+			while (rs.next()) {
+				 Usuario candidato = new Usuario();
+				    
+				    candidato.setId(rs.getInt("id"));
+				    candidato.setNombreCompleto(rs.getString("nombre_completo"));
+				    candidato.setPartido(rs.getString("partido"));
+				    candidato.setNumPartido(rs.getInt("num_partido")); 
+				    candidato.setColorPartido(rs.getString("color_partido"));
+				    candidato.setVotos(rs.getInt("votos"));
+			    
+				    candidatos.add(candidato);
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e.getCause());
+		}finally {
+			if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+	        if (st != null) try { st.close(); } catch (SQLException e) { e.printStackTrace(); }
+		}
+		
+		return candidatos;
+	}
+	
+	public void saveCandidato(String nombreCompleto, String partido, int numPartido, String colorPartido) throws ErrorException {
+
+		 ResultSet rs = null;
+		 PreparedStatement st = null;
+		 try{
+			st = conexion.dameConnection().prepareStatement(queryAddCandidato);
+			st.setString(1, nombreCompleto);
+	        st.setString(2, partido);
+	        st.setInt(3, numPartido);
+	        st.setString(4, colorPartido);
+	        st.executeUpdate();
+		 }catch (Exception e) {
+				throw new ErrorException("Hubo un error al realizar la consulta", e);
+		}finally {
+			try {
+				st.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}		
+	}
+	public void updateCandidato(Usuario can) throws Exception {
+	    PreparedStatement st = null;
+	    try {
+	        java.sql.Connection con = conexion.dameConnection();
+	        
+	        st = con.prepareStatement(queryUpdateCandidato);
+	        
+	        st.setString(1, can.getNombreCompleto());
+	        st.setString(2, can.getPartido());
+	        st.setInt(3, can.getNumPartido());
+	        st.setString(4, can.getColorPartido());
+	        st.setInt(5, can.getId()); 
+	        
+	        int filasAfectadas = st.executeUpdate();
+	        
+	        if (!con.getAutoCommit()) {
+	            con.commit();
+	        }
+	        
+	    } catch (Exception e) {
+	        try {
+	            conexion.dameConnection().rollback();
+	        } catch (Exception ex) { }
+	        
+	        e.printStackTrace();
+	        throw new Exception("Error al actualizar en BD: " + e.getMessage());
+	    } finally {
+	        if (st != null) st.close();
+	    }
+	}
+	
+	public Usuario findEquipoByid(int id) throws Exception {
+		 ResultSet rs = null;
+		 PreparedStatement st = null;
+		 try{
+			st = conexion.dameConnection().prepareStatement(queryFindEquipo);
+			st.setInt(1, id);
+			rs = st.executeQuery();
+			if (rs.next()) {
+				Usuario equipo = new Usuario();
+						equipo.setId(rs.getInt("id"));     
+						equipo.setMacAddress(rs.getString("mac_address"));  
+		                equipo.setNombreCompleto(rs.getString("nombre"));
+		                rs.getBoolean("habilitada"),
+		                rs.getInt("votos_emitidos"),
+		                rs.getDate("fecha_registro"),
+						rs.getInt("usuario_id")  
+		                
+			}
+
+		 }catch (Exception e) {
+				throw new ErrorException("Hubo un error al realizar la consulta", e);
+		}finally {
+			try {
+				st.close();
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		return null;
+	}
+	
+}
