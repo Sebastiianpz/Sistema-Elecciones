@@ -11,7 +11,7 @@ public class ConexionDB {
 
     private static final String HOST = "db"; // nombre del servicio docker
     private static final String PORT = "3306";
-    private static final String DBNAME = "elecciones";
+    private static final String DBNAME = "padron";
 
     private static final String URL =
             "jdbc:mysql://" + HOST + ":" + PORT + "/" + DBNAME;
