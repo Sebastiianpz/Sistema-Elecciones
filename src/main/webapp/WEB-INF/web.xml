@@ -10,7 +10,7 @@
     <display-name>Sistema Elecciones</display-name>
 
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>vistas/dashboard.jsp</welcome-file>
     </welcome-file-list>
 
 </web-app>
