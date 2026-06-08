@@ -17,20 +17,21 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: elecciones
+      MYSQL_DATABASE: padron
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
     ports:
       - "3306:3306"
     networks:
       - red-backend
-	  
     volumes:
-     - ./dump.sql:/docker-entrypoint-initdb.d/init.sql
-     - mysql_data:/var/lib/mysql
-
+      - ./dump.sql:/docker-entrypoint-initdb.d/init.sql
+      - mysql_data:/var/lib/mysql
     hostname: db
 
 networks:
   red-backend:
     driver: bridge
+
+volumes:
+  mysql_data:
