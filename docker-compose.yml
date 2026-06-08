@@ -33,3 +33,6 @@ services:
 networks:
   red-backend:
     driver: bridge
+
+volumes:
+  mysql_data:
