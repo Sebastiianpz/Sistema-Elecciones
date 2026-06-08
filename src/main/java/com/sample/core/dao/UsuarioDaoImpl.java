@@ -1,5 +1,6 @@
 package com.sample.core.dao;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,6 +19,9 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	private static final String queryAddCandidato = "INSERT INTO candidatos (nombre_completo, partido, num_partido, color_partido, votos) VALUES (?, ?, ?, ?, 0)";	
 	private static final String queryUpdateCandidato = "UPDATE candidatos SET nombre_completo=?, partido=?, num_partido=?, color_partido=? WHERE id=?";
 	private static final String queryFindEquipo = "SELECT id, mac_address, nombre, habilitada, votos_emitidos, fecha_registro, usuario_id FROM pcs_habilitadas WHERE id=?";
+	private static final String queryListEquipo = "SELECT id, mac_address, nombre, habilitada, votos_emitidos, fecha_registro, usuario_id FROM pcs_habilitadas";
+	private static final String queryAddEquipo = "INSERT INTO pcs_habilitadas (mac_address, nombre, habilitada, votos_emitidos, fecha_registro, usuario_id) VALUES (?, ?, ?, 0, NOW(), ?)";	private static final String queryDeleteMac = "DELETE FROM pcs_habilitadas WHERE id=?";
+	private static final String queryUpdateEquipos = "UPDATE pcs_habilitadas SET mac_address =?, nombre =?, habilitada =? WHERE id=?";
 
 	
 	private Conexion conexion = Conexion.getInstance();
@@ -187,10 +191,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
 						equipo.setId(rs.getInt("id"));     
 						equipo.setMacAddress(rs.getString("mac_address"));  
 		                equipo.setNombreCompleto(rs.getString("nombre"));
-		                rs.getBoolean("habilitada"),
-		                rs.getInt("votos_emitidos"),
-		                rs.getDate("fecha_registro"),
-						rs.getInt("usuario_id")  
+		                equipo.setEstadoPc(rs.getBoolean("habilitada"));
+		                equipo.setVotos(rs.getInt("votos_emitidos"));
 		                
 			}
 
@@ -209,4 +211,99 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		return null;
 	}
 	
+	public List<Usuario> listEquipos() throws Exception {
+
+		PreparedStatement st= null;
+		ResultSet rs = null;
+		List<Usuario> gestionDeEquipos = new ArrayList<Usuario>();
+
+		try {
+			st = conexion.dameConnection().prepareStatement(queryListEquipo);
+			rs = st.executeQuery();
+			
+			while (rs.next()) {
+				Usuario gestionDeEquipo = new Usuario();
+				
+				gestionDeEquipo.setId(rs.getInt("id"));     
+				gestionDeEquipo.setMacAddress(rs.getString("mac_address"));  
+				gestionDeEquipo.setNombreMac(rs.getString("nombre"));
+				gestionDeEquipo.setEstadoPc(rs.getBoolean("habilitada"));
+				gestionDeEquipo.setVotos(rs.getInt("votos_emitidos"));		              
+			    
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e.getCause());
+		}finally {
+			st.close();
+			rs.close();
+		}
+		
+		return gestionDeEquipos;
+	}
+	
+	public void saveEquipos(String macAddress, String nombreMac, boolean estadoPc, int votosEmitidos, Date fechaRegistro) throws ErrorException {
+
+		 ResultSet rs = null;
+		 PreparedStatement st = null;
+		 try{
+			st = conexion.dameConnection().prepareStatement(queryAddEquipo);
+			st.setString(1, macAddress);
+	        st.setString(2, nombreMac);
+	        st.setBoolean(3, estadoPc);
+	        st.setInt(4, votosEmitidos);
+	        st.setDate(5, fechaRegistro);
+	        st.executeUpdate();
+		 }catch (Exception e) {
+				throw new ErrorException("Hubo un error al realizar la consulta", e);
+		}finally {
+			try {
+				st.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}		
+	}
+	
+	public void deleteEquipos(int id) throws Exception {
+		PreparedStatement st = this.conexion.dameConnection().prepareStatement(queryDeleteMac);
+		st.setInt(1, id);
+		int registros = st.executeUpdate();
+		
+		if (registros==0) {
+			throw new Exception("hubo un error ");
+		}		
+		st.close();
+	}
+	
+	public void cambiarEstadoEquipos(Usuario mac) throws Exception {
+	    PreparedStatement st = null;
+	    try {
+	        java.sql.Connection con = conexion.dameConnection();
+	        
+	        st = con.prepareStatement(queryUpdateEquipos);
+	        
+	        st.setString(1, mac.getMacAddress());
+	        st.setString(2, mac.getNombreMac());
+	        st.setBoolean(3, mac.isEstadoPc());
+	        st.setInt(4, mac.getId()); 
+	        
+	        int filasAfectadas = st.executeUpdate();
+	        
+	        if (!con.getAutoCommit()) {
+	            con.commit();
+	        }
+	        
+	    } catch (Exception e) {
+	        try {
+	            conexion.dameConnection().rollback();
+	        } catch (Exception ex) { }
+	        
+	        e.printStackTrace();
+	        throw new Exception("Error al actualizar en BD: " + e.getMessage());
+	    } finally {
+	        if (st != null) st.close();
+	    }
+	}
 }

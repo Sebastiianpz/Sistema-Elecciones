@@ -12,7 +12,7 @@ public interface UsuarioDao {
 	
 	public List<Usuario> listCandidatos() throws Exception;
 
-	public void saveCandidato(int id, String nombreCompleto, String partido, int numPartido, String colorPartido) throws Exception;
+	public void saveCandidato( String nombreCompleto, String partido, int numPartido, String colorPartido) throws Exception;
 
 	public void updateCandidato(Usuario can) throws Exception;
 	

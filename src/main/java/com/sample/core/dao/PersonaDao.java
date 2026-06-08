@@ -11,6 +11,4 @@ public Persona findById(int id) throws Exception;
 	
 	public List<Persona> list() throws Exception;
 
-
-
 }
