@@ -10,7 +10,11 @@
     <display-name>Sistema Elecciones</display-name>
 
     <welcome-file-list>
+<<<<<<< HEAD
         <welcome-file>vistas/dashboard.jsp</welcome-file>
+=======
+        <welcome-file>index.jsp</welcome-file>
+>>>>>>> padron-crud
     </welcome-file-list>
 
 </web-app>

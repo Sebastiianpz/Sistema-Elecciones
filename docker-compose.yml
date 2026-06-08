@@ -13,7 +13,7 @@ services:
 
   db:
     image: mysql:8.0
-    container_name: elecciones-db
+    container_name: padron-db
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: admin
