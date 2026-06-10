@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+<<<<<<< HEAD
         
     <wb-module deploy-name="padron-nacional">
                 
@@ -6,9 +7,23 @@
                 
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
                 
+=======
+            
+    
+    <wb-module deploy-name="ROOT">
+                        
+        
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+                        
+        
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+                        
+        
+>>>>>>> f95916c69f48519981b847095dfb7790c71c5785
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
                 
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+<<<<<<< HEAD
                 
         <property name="java-output-path" value="/padron-nacional/target/classes"/>
                 
@@ -16,4 +31,17 @@
             
     </wb-module>
     
+=======
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/resources"/>
+                        
+        
+        <property name="java-output-path" value="/padron-nacional/target/classes"/>
+        <property name="context-root" value="ROOT"/>
+                    
+    
+    </wb-module>
+        
+
+>>>>>>> f95916c69f48519981b847095dfb7790c71c5785
 </project-modules>
