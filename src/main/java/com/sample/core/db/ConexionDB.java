@@ -9,12 +9,13 @@ public class ConexionDB {
 
     private static final Logger log = Logger.getLogger(ConexionDB.class.getName());
 
-    private static final String HOST = "db"; // nombre del servicio docker
+    private static final String HOST = "db";
     private static final String PORT = "3306";
     private static final String DBNAME = "padron";
 
     private static final String URL =
-            "jdbc:mysql://" + HOST + ":" + PORT + "/" + DBNAME;
+            "jdbc:mysql://" + HOST + ":" + PORT + "/" + DBNAME
+            + "?useUnicode=true&serverTimezone=UTC";
 
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 

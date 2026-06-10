@@ -16,4 +16,9 @@ public interface PersonaService {
 
 	byte[] obtenerFotoDni(int personaId) throws Exception;
 
+	void eliminarPersona(String dni) throws Exception;
+	
+	void modificarPersona(Persona p) throws Exception;
+
+
 }

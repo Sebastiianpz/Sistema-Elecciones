@@ -1,7 +1,6 @@
 package com.sample.core.service;
 
 import java.util.List;
-
 import com.sample.core.dao.PersonaDAO;
 import com.sample.core.dao.PersonaDaoImp;
 import com.sample.core.domain.Persona;
@@ -42,12 +41,10 @@ public class PersonaServiceImp implements PersonaService {
     @Override
     public void conmutarHabilitacion(int id, boolean estadoActual) throws Exception {
         // RF-7 y 8: Invertimos el estado (Toggle)
-        boolean nuevoEstado = !estadoActual;
-        boolean exito = personaDao.updateHabilitado(id, nuevoEstado);
-        
-        if (!exito) {
-            throw new Exception("Error al intentar cambiar el estado de la persona.");
-        }
+    	 boolean exito = personaDao.updateHabilitado(id, estadoActual);
+    	    if (!exito) {
+    	        throw new Exception("Error al intentar cambiar el estado de la persona.");
+    	    }
     }
 
     @Override
@@ -65,4 +62,35 @@ public class PersonaServiceImp implements PersonaService {
         // RF-10: Recuperar la imagen
         return personaDao.getImagen(personaId);
     }
+
+
+	@Override
+	public void eliminarPersona(String dni) throws Exception {
+		// 1. Llama al DAO modificado (que ahora borra imagen + persona)
+		boolean exito = personaDao.delete(dni);
+		
+		// 2. Controla si el DNI existía
+		if (!exito) {
+			throw new Exception("No se pudo eliminar: El ciudadano con DNI " + dni + " no existe en el sistema.");
+		}
+	}
+
+	@Override
+	public void modificarPersona(Persona p) throws Exception {
+		// 1. Validamos que el ciudadano exista en el padrón
+		if (!personaDao.existeDocumento(p.getNroDocumento())) {
+			throw new Exception("No se puede modificar: El DNI " + p.getNroDocumento() + " no está registrado.");
+		}
+		
+		// 2. Si existe, mandamos los nuevos datos al DAO
+		boolean exito = personaDao.update(p);
+		
+		if (!exito) {
+			throw new Exception("Error interno: No se pudieron impactar los cambios del ciudadano.");
+		}
+	}
+
+
+
+
 }

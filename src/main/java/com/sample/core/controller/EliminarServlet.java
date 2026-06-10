@@ -10,36 +10,45 @@ import jakarta.servlet.http.HttpServletResponse;
 import com.sample.core.service.PersonaService;
 import com.sample.core.service.PersonaServiceImp;
 
-@WebServlet("/Habilitar")
-public class HabilitarServlet extends HttpServlet {
+@WebServlet("/Eliminar")
+public class EliminarServlet extends HttpServlet {
 
-	private static final long serialVersionUID = 1L;
 	private PersonaService personaService = new PersonaServiceImp();
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		request.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 
-		String dni = request.getParameter("nroDocumento");
-		boolean estado = Boolean.parseBoolean(request.getParameter("habilitadoVotar"));
+		PrintWriter out = response.getWriter();
 
 		try {
-			personaService.conmutarHabilitacion(Integer.parseInt(dni), estado);
 
-			PrintWriter out = response.getWriter();
-			out.print("{\"ok\":true,\"habilitado\":" + estado + "}");
-			out.flush();
+			String dni = request.getParameter("nroDocumento");
+
+			personaService.eliminarPersona(dni);
+
+			out.print("""
+					    {
+					        "ok": true,
+					        "mensaje": "Ciudadano eliminado correctamente"
+					    }
+					""");
 
 		} catch (Exception e) {
-			e.printStackTrace();
+
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			PrintWriter out = response.getWriter();
-			out.print("{\"ok\":false,\"error\":\"" + e.getMessage().replace("\"", "'") + "\"}");
-			out.flush();
+
+			out.print("""
+					    {
+					        "ok": false,
+					        "error": "%s"
+					    }
+					""".formatted(e.getMessage()));
 		}
+
+		out.flush();
 	}
 }

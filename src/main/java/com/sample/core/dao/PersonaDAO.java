@@ -29,4 +29,10 @@ public interface PersonaDAO {
 
     // SELECT contenido FROM imagenes_dni WHERE persona_id = ?
     public byte[] getImagen(int personaId) throws Exception;
+ // DELETE FROM personas WHERE nro_documento = ?
+    public boolean delete(String dni) throws Exception;
+
+ // UPDATE personas SET ... WHERE nro_documento = ?
+    public boolean update(Persona p) throws Exception;
+
 }

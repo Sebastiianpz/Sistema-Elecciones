@@ -1,8 +1,8 @@
 package com.sample.core.service;
 
+import com.sample.core.domain.Usuario;
 import com.sample.core.dao.UsuarioDAO;
 import com.sample.core.dao.UsuarioDaoImp;
-import com.sample.core.domain.Usuario;
 
 public class UsuarioServiceImp implements UsuarioService {
 
