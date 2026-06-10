@@ -18,7 +18,7 @@
     </properties>
 
     <dependencies>
-<<<<<<< HEAD
+
         <!-- Tomcat Embebido (NECESARIO para tu clase Main) -->
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
@@ -35,8 +35,6 @@
     <artifactId>gson</artifactId>
     <version>2.13.1</version>
 </dependency>
-=======
->>>>>>> f95916c69f48519981b847095dfb7790c71c5785
 
         <!-- SERVLETS -->
         <dependency>
@@ -66,13 +64,11 @@
             <artifactId>gson</artifactId>
             <version>2.10.1</version>
         </dependency>
-<<<<<<< HEAD
         <dependency>
         	<groupId>com.jpa</groupId>
         	<artifactId>segundapruebajpa</artifactId>
         	<version>0.0.1-SNAPSHOT</version>
         </dependency>
-=======
 
         <!-- JUNIT -->
         <dependency>
@@ -82,7 +78,6 @@
             <scope>test</scope>
         </dependency>
 
->>>>>>> f95916c69f48519981b847095dfb7790c71c5785
     </dependencies>
 
     <build>
