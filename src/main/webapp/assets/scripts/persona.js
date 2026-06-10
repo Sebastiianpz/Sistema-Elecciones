@@ -1,31 +1,43 @@
 // ALTA
 $(document).ready(function() {
-	$('#formPersona').on('submit', function(e) {
-		e.preventDefault();
 
-		const formData = new FormData(this);
+    $('#formPersona').on('submit', function(e) {
 
-		$.ajax({
-			url: $(this).attr('action'), // Ahora sí resolverá correctamente a la ruta del Servlet
-			type: 'POST',
-			data: formData,
-			processData: false,
-			contentType: false,
-			dataType: 'json',
-			success: function(data) {
-				if (data.ok) {
-					alert("Guardado!");
-					$('#formPersona')[0].reset();
-				} else {
-					alert("Error: " + data.errores.join(", "));
-				}
-			},
-			error: function(xhr) {
-				console.error("Error en la petición:", xhr);
-				alert("Error en el envío del formulario. Estado: " + xhr.status);
-			}
-		});
-	});
+        e.preventDefault();
+
+        const formData = new FormData(this);
+
+        $.ajax({
+
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+
+            success: function(data) {
+
+                alert(data.mensaje);
+
+                $('#formPersona')[0].reset();
+            },
+
+            error: function(xhr) {
+
+                console.error("Error en la petición:", xhr);
+
+                if (xhr.responseJSON && xhr.responseJSON.errores) {
+
+                    alert(xhr.responseJSON.errores.join("\n"));
+
+                } else {
+
+                    alert("Error en el envío del formulario. Estado: " + xhr.status);
+                }
+            }
+        });
+    });
 });
 
 // LECTURA
@@ -37,7 +49,7 @@ $(document).ready(function() {
 		$("#contenedor-tabla").addClass("d-none");
 
 		$.ajax({
-			url: ctx + "/Listar", // Ruta relativa limpia e inmune a fallas de contexto
+			url: ctx + "/Listar",
 			type: "GET",
 			dataType: "json",
 
@@ -66,41 +78,49 @@ $(document).ready(function() {
 					// Construcción de la fila con metadatos para el modal y marcador SVG nativo
 					let fila = `
 					<tr id="fila-${p.nroDocumento}">
-					          <td class="text-center" style="width: 60px; vertical-align: middle;">
-					              <!-- Agregamos "../" para salir de la carpeta /vistas/ y pegarle directo al Servlet en la raíz -->
-					              <img src="../Imagen?id=${p.id}" 
-					                   alt="Foto DNI" 
-					                   class="img-miniatura-dni"
-					                   onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://w3.org\' viewBox=\'0 0 24 24\' fill=\'%239ca3af\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>';">
-					          </td>
-					          <td class="td-dni" style="vertical-align: middle;">${p.nroDocumento}</td>
-					           <td class="td-nombre" style="vertical-align: middle;">${p.apellido}</td>
-					           <td style="vertical-align: middle;">${p.nombre}</td>
-					           <td class="text-center" style="vertical-align: middle;">
-					               <span class="${badgeClass}">
-					                   <span class="badge-dot"></span>
-					                   ${texto}
-					               </span>
-					           </td>
-					           <td class="text-center acciones-td" style="vertical-align: middle;">
-					               <button class="btn-accion btn-modificar"
+					    <td class="text-center" style="width: 60px; vertical-align: middle;">
+					        <img src="../Imagen?id=${p.id}" 
+					             alt="Foto DNI" 
+					             class="img-miniatura-dni"
+					             onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://w3.org\' viewBox=\'0 0 24 24\' fill=\'%239ca3af\'><path d=\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\'/></svg>';">
+					    </td>
+					    <td class="td-dni" style="vertical-align: middle;">${p.nroDocumento}</td>
+					    <td class="td-nombre" style="vertical-align: middle;">${p.apellido}</td>
+					    <td style="vertical-align: middle;">${p.nombre}</td>
+					    <td class="text-center" style="vertical-align: middle;">
+					        <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+					            <label class="form-switch" style="margin:0;">
+					                <input type="checkbox"
+					                       class="form-check-input toggle-habilitar"
 					                       data-dni="${p.nroDocumento}"
-					                       data-apellido="${p.apellido}"
-					                       data-nombre="${p.nombre}"
-					                       data-domicilio="${p.domicilio || ''}"
-					                       data-fecha="${p.fechaNacimiento || ''}"
-					                       data-sexo="${p.sexo || ''}"
-					                       data-habilitado="${p.habilitadoVotar}"
-					                       title="Modificar ciudadano">
-					                   ✏️ Modificar
-					               </button>
-					               <button class="btn-accion btn-eliminar"
-					                       data-dni="${p.nroDocumento}"
-					                       title="Eliminar ciudadano">
-					                   🗑️ Eliminar
-					               </button>
-					           </td>
-					       </tr>`;
+					                       data-id="${p.id}"
+					                       ${esHab ? "checked" : ""}>
+					            </label>
+					            <span class="${badgeClass} badge-estado">
+					                <span class="badge-dot"></span>
+					                ${texto}
+					            </span>
+					        </div>
+					    </td>
+					    <td class="text-center acciones-td" style="vertical-align: middle;">
+					        <button class="btn-accion btn-modificar"
+					                data-dni="${p.nroDocumento}"
+					                data-apellido="${p.apellido}"
+					                data-nombre="${p.nombre}"
+					                data-domicilio="${p.domicilio || ''}"
+					                data-fecha="${p.fechaNacimiento || ''}"
+					                data-sexo="${p.sexo || ''}"
+					                data-habilitado="${p.habilitadoVotar}"
+					                title="Modificar ciudadano">
+					            ✏️ Modificar
+					        </button>
+					        <button class="btn-accion btn-eliminar"
+					                data-dni="${p.nroDocumento}"
+					                title="Eliminar ciudadano">
+					            🗑️ Eliminar
+					        </button>
+					    </td>
+					</tr>`;
 
 					$("#tabla-padron-body").append(fila);
 				});
@@ -212,70 +232,113 @@ $(document).ready(function() {
 	});
 });
 
-/* ─── 3. MODIFICAR ───────────────────────────────────────────── */
+/* ─── 4. MODIFICAR ─────────────────────────────────────────── */
 
 $(document).ready(function() {
 
-	$("#tabla-padron-body").on("click", ".btn-modificar", function() {
-		const dni = $(this).data("dni");
-		const apellido = $(this).data("apellido");
-		const nombre = $(this).data("nombre");
-		const domicilio = $(this).data("domicilio");
-		const fecha = $(this).data("fecha");
-		const sexo = $(this).data("sexo");
-		const habilitado = $(this).data("habilitado");
+    // Abre el modal con los datos precargados
+    $("#tabla-padron-body").on("click", ".btn-modificar", function() {
 
-		// Precarga de todos los campos mapeados en la estructura modal del JSP
-		$("#modal-mod-dni").val(dni);
-		$("#modal-mod-apellido").val(apellido);
-		$("#modal-mod-nombre").val(nombre);
-		$("#modal-mod-domicilio").val(domicilio);
-		$("#modal-mod-fecha").val(fecha);
-		$("#modal-mod-sexo").val(sexo);
-		$("#modal-mod-habilitado").val(habilitado.toString());
+        const dni       = $(this).data("dni");
+        const apellido  = $(this).data("apellido");
+        const nombre    = $(this).data("nombre");
+        const domicilio = $(this).data("domicilio");
+        const fecha     = $(this).data("fecha");
+        const sexo      = $(this).data("sexo");
 
-		// Abre el modal de Bootstrap
-		const modal = new bootstrap.Modal(document.getElementById("modalModificar"));
-		modal.show();
-	});
+        // habilitadoVotar ya NO va al modal de modificar
+        // tiene su propio toggle directo en la tabla
 
-	/* ─── 4. SUBMIT DEL MODAL MODIFICAR ───────────────────────────
-		   Envía el POST al servlet /Modificar de forma relativa
-		─────────────────────────────────────────────────────────────── */
-	$("#btn-confirmar-modificar").on("click", function() {
-		const boton = $(this);
-		boton.prop("disabled", true).html("⏳ Guardando...");
+        $("#modal-mod-dni").val(dni);
+        $("#modal-mod-apellido").val(apellido);
+        $("#modal-mod-nombre").val(nombre);
+        $("#modal-mod-domicilio").val(domicilio);
+        $("#modal-mod-fecha").val(fecha);
+        $("#modal-mod-sexo").val(sexo);
 
-		$.ajax({
+        const modal = new bootstrap.Modal(
+            document.getElementById("modalModificar")
+        );
+        modal.show();
+    });
 
-			url: ctx + "/Modificar",
-			type: "POST",
+    // Confirmar modificación
+    $("#btn-confirmar-modificar").on("click", function() {
+
+        const boton = $(this);
+        boton.prop("disabled", true).html("⏳ Guardando...");
+
+        $.ajax({
+            url:  ctx + "/Modificar",
+            type: "POST",
+            data: {
+                nroDocumento:    $("#modal-mod-dni").val(),
+                apellido:        $("#modal-mod-apellido").val(),
+                nombre:          $("#modal-mod-nombre").val(),
+                domicilio:       $("#modal-mod-domicilio").val(),
+                fechaNacimiento: $("#modal-mod-fecha").val(),
+                sexo:            $("#modal-mod-sexo").val()
+                // habilitadoVotar se sacó — lo maneja /Habilitar
+            },
+            success: function() {
+                bootstrap.Modal
+                    .getInstance(document.getElementById("modalModificar"))
+                    .hide();
+                boton.prop("disabled", false).html("💾 Guardar cambios");
+                window.recargarTablaCompleta();
+            },
+            error: function(xhr) {
+                boton.prop("disabled", false).html("💾 Guardar cambios");
+                alert("Error " + xhr.status + ": No se pudo guardar.");
+            }
+        });
+    });
+
+});
+
+/* ─── 5. HABILITAR / INHABILITAR ────────────────────────────── */
+
+$(document).ready(function() {
+
+    // Delegación de eventos — el toggle está en cada fila generada dinámicamente
+    $("#tabla-padron-body").on("change", ".toggle-habilitar", function() {
+
+        const id     = $(this).data("id");     // id interno — lo que espera conmutarHabilitacion(int, boolean)
+        const estado = $(this).is(":checked"); // true = habilitar, false = inhabilitar
+        const fila   = $(this).closest("tr");
+        const badge  = fila.find(".badge-estado");
+        const toggle = $(this);
+
+        // Deshabilitar el toggle mientras espera respuesta
+        toggle.prop("disabled", true);
+
+        $.ajax({
+            url:  ctx + "/Habilitar",
+            type: "POST",
 			data: {
-				nroDocumento: $("#modal-mod-dni").val(),
-				apellido: $("#modal-mod-apellido").val(),
-				nombre: $("#modal-mod-nombre").val(),
-				domicilio: $("#modal-mod-domicilio").val(),
-				fechaNacimiento: $("#modal-mod-fecha").val(),
-				sexo: $("#modal-mod-sexo").val(),
-				habilitadoVotar: $("#modal-mod-habilitado").val()
+			    nroDocumento:    id,
+			    habilitadoVotar: estado   // ← sin el !
 			},
-
-			success: function() {
-				bootstrap.Modal.getInstance(document.getElementById("modalModificar")).hide();
-				boton.prop("disabled", false).html("💾 Guardar cambios");
-				window.recargarTablaCompleta(); // Recarga la tabla dinámica
-			},
-
-			error: function(xhr) {
-				boton.prop("disabled", false).html("💾 Guardar cambios");
-				if (xhr.status === 401) {
-					window.location.href = "listar.jsp";
-				} else {
-					alert("Error " + xhr.status + ": No se pudo guardar. Comprobá las firmas del Servlet.");
-				}
-			}
-		});
-	});
-
+            success: function(response) {
+                // Actualiza el badge sin recargar la tabla
+                if (response.habilitado) {
+                    badge.text("Habilitado")
+                         .removeClass("bhab off")
+                         .addClass("bhab on");
+                } else {
+                    badge.text("Inhabilitado")
+                         .removeClass("bhab on")
+                         .addClass("bhab off");
+                }
+                toggle.prop("disabled", false);
+            },
+            error: function(xhr) {
+                // Si falla, revierte el toggle al estado anterior
+                toggle.prop("checked", !estado);
+                toggle.prop("disabled", false);
+                alert("Error " + xhr.status + ": No se pudo cambiar el estado.");
+            }
+        });
+    });
 
 });

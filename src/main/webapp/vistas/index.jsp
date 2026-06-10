@@ -29,7 +29,9 @@
 				</a></li>
 
     <div id="mensaje"></div>
-
+	<script>
+		const ctx = "${pageContext.request.contextPath}";
+	</script>
     <!-- Importación de librerías según tu estructura de carpetas en Eclipse -->
     <script src="${pageContext.request.contextPath}/assets/jquery/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/persona.js"></script>

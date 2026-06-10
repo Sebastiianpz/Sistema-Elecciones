@@ -20,4 +20,5 @@ public interface PersonaService {
 	
 	void modificarPersona(Persona p) throws Exception;
 
+
 }

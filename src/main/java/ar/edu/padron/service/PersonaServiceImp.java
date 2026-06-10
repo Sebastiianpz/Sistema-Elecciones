@@ -41,12 +41,10 @@ public class PersonaServiceImp implements PersonaService {
     @Override
     public void conmutarHabilitacion(int id, boolean estadoActual) throws Exception {
         // RF-7 y 8: Invertimos el estado (Toggle)
-        boolean nuevoEstado = !estadoActual;
-        boolean exito = personaDao.updateHabilitado(id, nuevoEstado);
-        
-        if (!exito) {
-            throw new Exception("Error al intentar cambiar el estado de la persona.");
-        }
+    	 boolean exito = personaDao.updateHabilitado(id, estadoActual);
+    	    if (!exito) {
+    	        throw new Exception("Error al intentar cambiar el estado de la persona.");
+    	    }
     }
 
     @Override
@@ -91,5 +89,8 @@ public class PersonaServiceImp implements PersonaService {
 			throw new Exception("Error interno: No se pudieron impactar los cambios del ciudadano.");
 		}
 	}
+
+
+
 
 }

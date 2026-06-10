@@ -163,7 +163,6 @@
 											<th>Nombre</th>
 											<th class="text-center">Estado Electoral</th>
 											<th class="text-center">Acciones</th>
-											<!-- Columna de control -->
 										</tr>
 									</thead>
 									<tbody id="tabla-padron-body">
@@ -187,13 +186,12 @@
 	</div>
 	<!-- /wrapper -->
 
-	<!-- ══ EL MODAL VA ACÁ AFUERA (Justo antes de los scripts) ════════════ -->
+	<!-- ══ MODAL MODIFICAR ════════════════════════════════════════════ -->
 	<div class="modal fade" id="modalModificar" tabindex="-1"
 		aria-labelledby="modalModificarLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content"
 				style="background: #ffffff; color: #333333;">
-				<!-- Forzamos fondo blanco -->
 				<div class="modal-header">
 					<h5 class="modal-title" id="modalModificarLabel">✏️ Modificar
 						Ciudadano</h5>
@@ -231,13 +229,7 @@
 							<option value="X">X — No binario</option>
 						</select>
 					</div>
-					<div class="mb-3">
-						<label class="form-label">Estado en Padrón</label> <select
-							id="modal-mod-habilitado" class="form-select">
-							<option value="true">✅ Habilitado para votar</option>
-							<option value="false">🚫 Inhabilitado</option>
-						</select>
-					</div>
+					<!-- El estado electoral se maneja con el toggle en la tabla (HabilitarServlet) -->
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
@@ -248,22 +240,22 @@
 			</div>
 		</div>
 	</div>
+	<!-- ══ /MODAL MODIFICAR ═══════════════════════════════════════════ -->
 
-	<!-- 1. Primero cargamos JQuery (Base de todo) -->
+	<!-- 1. jQuery -->
 	<script
 		src="${pageContext.request.contextPath}/assets/jquery/jquery.min.js"></script>
 
-	<!-- 2. Segundo cargamos Bootstrap (Acá se define el objeto 'bootstrap' que te faltaba) -->
+	<!-- 2. Bootstrap Bundle (incluye Popper) -->
 	<script
 		src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-
-	<!-- 3. Tercero definimos el contexto global -->
+	<!-- 3. Contexto global para los scripts -->
 	<script>
 		const ctx = "${pageContext.request.contextPath}";
 	</script>
 
-	<!-- 4. Por ÚLTIMO cargamos tu lógica (Para que ya encuentre a JQuery y Bootstrap cargados) -->
+	<!-- 4. Lógica de la página (requiere jQuery y Bootstrap ya cargados) -->
 	<script
 		src="${pageContext.request.contextPath}/assets/scripts/persona.js?v=${pageContext.session.lastAccessedTime}"></script>
 

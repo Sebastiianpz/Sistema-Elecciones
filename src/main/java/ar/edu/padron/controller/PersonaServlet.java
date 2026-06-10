@@ -28,38 +28,42 @@ public class PersonaServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 
 		try {
-			// Extraer campos de texto
-			Persona p = new Persona();
-			p.setNroDocumento(request.getParameter("dni"));
-			p.setApellido(request.getParameter("apellido"));
-			p.setNombre(request.getParameter("nombre"));
-			p.setFechaNacimiento(LocalDate.parse(request.getParameter("fechaNac")));
-			p.setSexo(SexoEnum.valueOf(request.getParameter("sexo")));
-			p.setDomicilio(request.getParameter("domicilio"));
-			p.setHabilitadoVotar(true);
 
-			// Extraer Imagen
-			Part part = request.getPart("imagen");
-			byte[] foto = null;
-			String nombreFoto = null;
+	        Persona p = new Persona();
 
-			if (part != null && part.getSize() > 0) {
-				nombreFoto = part.getSubmittedFileName();
-				// try-with-resources garantiza el cierre del stream incluso ante excepciones
-				try (java.io.InputStream is = part.getInputStream()) {
-					foto = is.readAllBytes();
-				}
-			}
+	        p.setNroDocumento(request.getParameter("dni"));
+	        p.setApellido(request.getParameter("apellido"));
+	        p.setNombre(request.getParameter("nombre"));
+	        p.setFechaNacimiento(LocalDate.parse(request.getParameter("fechaNac")));
+	        p.setSexo(SexoEnum.valueOf(request.getParameter("sexo")));
+	        p.setDomicilio(request.getParameter("domicilio"));
+	        p.setHabilitadoVotar(true);
 
-			// Llamada al Service
-			personaService.registrarPersona(p, foto, nombreFoto);
+	        // Imagen obligatoria
+	        Part part = request.getPart("imagen");
 
-			// Respuesta JSON manual
-			out.print("{\"ok\": true, \"mensaje\": \"Guardado con éxito\"}");
+	        if (part == null || part.getSize() == 0) {
+	            throw new Exception("Debe adjuntar una imagen del DNI.");
+	        }
 
-		} catch (Exception e) {
-			response.setStatus(400);
-			out.print("{\"ok\": false, \"errores\": [\"" + e.getMessage() + "\"]}");
-		}
+	        String nombreFoto = part.getSubmittedFileName();
+	        byte[] foto;
+
+	        try (java.io.InputStream is = part.getInputStream()) {
+	            foto = is.readAllBytes();
+	        }
+
+	        personaService.registrarPersona(p, foto, nombreFoto);
+
+	        out.print("{\"ok\": true, \"mensaje\": \"Guardado con éxito\"}");
+
+	    } catch (Exception e) {
+
+	        response.setStatus(400);
+
+	        out.print("{\"ok\": false, \"errores\": [\"" +
+	                e.getMessage().replace("\"", "'") +
+	                "\"]}");
+	    }
 	}
 }
