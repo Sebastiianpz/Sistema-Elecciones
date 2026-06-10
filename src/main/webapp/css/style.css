@@ -5,7 +5,7 @@ margin:0;
 }
 
 .navbar-custom{
-background:#0d6efd;
+background:#5581c4;
 padding:15px 30px;
 display:flex;
 justify-content:space-between;
@@ -31,7 +31,7 @@ text-decoration:underline;
 
 .btn-logout{
 background:white;
-color:#0d6efd;
+color:#5581c4;
 border:none;
 padding:8px 15px;
 border-radius:8px;
@@ -63,7 +63,7 @@ color:#555;
 }
 
 .card h1{
-color:#0d6efd;
+color:#5581c4;
 }
 
 .actions{
@@ -83,22 +83,40 @@ color:white;
 }
 
 .btn-primary{
-background:#0d6efd;
+background:#5581c4;
 }
 
 .btn-success{
 background:#198754;
 }
 
+.btn-warning,
 .btn-danger{
-background:#dc3545;
+    width:120px;
+    height:40px;
+    padding:0;
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    vertical-align:middle;
+    box-sizing:border-box;
+    border:none;
+    border-radius:10px;
+    text-decoration:none;
+    font-size:14px;
+    font-weight:500;
+}
+
+.btn-danger{
+    background:#df3f4f;
+    color:white;
 }
 
 .btn-warning{
-background:#ffc107;
-color:black;
+    margin-right:5px;
+    background:#e4b836;
+    color:white;
 }
-
 .table-container{
 margin-top:30px;
 }
@@ -112,7 +130,7 @@ overflow:hidden;
 }
 
 th{
-background:#0d6efd;
+background:#5581c4;
 color:white;
 padding:15px;
 }
