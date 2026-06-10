@@ -7,6 +7,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import com.sample.core.domain.Persona;
 import com.sample.core.service.PersonaService;
 import com.sample.core.service.PersonaServiceImp;
 
