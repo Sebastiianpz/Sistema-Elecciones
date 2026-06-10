@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Buscar Persona</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+</head>
+<body>
+
+<nav class="navbar-custom">
+
+    <div class="logo">Padrón Nacional Electoral</div>
+
+    <div class="menu">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="buscarPersona.html">Buscar Persona</a>
+        <a href="registrarPersona.html">Registrar Persona</a>
+        <a href="consultaEstado.html">Consultar Estado</a>
+    </div>
+
+    <button class="btn-logout">Cerrar Sesión</button>
+
+</nav>
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>Buscar Persona por DNI</h2>
+
+        <input
+            type="text"
+            placeholder="Ingrese DNI">
+
+        <button class="btn btn-primary">
+            Buscar
+        </button>
+
+    </div>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>DNI</th>
+                    <th>Apellido</th>
+                    <th>Nombre</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>40123456</td>
+                    <td>Pérez</td>
+                    <td>Juan</td>
+                    <td class="estado-ok">Habilitado</td>
+
+                    <td>
+
+                        <a href="editarPersona.html"
+                           class="btn btn-warning">
+                           Editar
+                        </a>
+
+                        <button class="btn btn-danger">
+                            Inhabilitar
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>
