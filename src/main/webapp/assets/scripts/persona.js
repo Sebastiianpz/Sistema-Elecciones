@@ -75,7 +75,6 @@ $(document).ready(function() {
 
 					if (esHab) { habilitados++; } else { inhabilitados++; }
 
-					// Construcción de la fila con metadatos para el modal y marcador SVG nativo
 					let fila = `
 					<tr id="fila-${p.nroDocumento}">
 					    <td class="text-center" style="width: 60px; vertical-align: middle;">
@@ -103,6 +102,18 @@ $(document).ready(function() {
 					        </div>
 					    </td>
 					    <td class="text-center acciones-td" style="vertical-align: middle;">
+					        <button class="btn-accion btn-ver" style="background:#eef2f7; color:#1a2f5e; border:1.5px solid #cbd5e0; border-radius:8px; padding:0.35rem 0.75rem; font-size:0.82rem; font-weight:600; cursor:pointer; transition:all 0.2s;"
+					                data-id="${p.id}"
+					                data-dni="${p.nroDocumento}"
+					                data-apellido="${p.apellido}"
+					                data-nombre="${p.nombre}"
+					                data-domicilio="${p.domicilio || ''}"
+					                data-fecha="${p.fechaNacimiento || ''}"
+					                data-sexo="${p.sexo || ''}"
+					                data-habilitado="${p.habilitadoVotar}"
+					                title="Ver detalle">
+					            👁️ Ver
+					        </button>
 					        <button class="btn-accion btn-modificar"
 					                data-dni="${p.nroDocumento}"
 					                data-apellido="${p.apellido}"
@@ -135,7 +146,7 @@ $(document).ready(function() {
 
 			error: function(xhr) {
 				if (xhr.status === 401) {
-					window.location.href = "index.html";
+					window.location.href = "login.jsp";
 					return;
 				}
 				$("#alerta-estado").html(
@@ -145,19 +156,14 @@ $(document).ready(function() {
 		});
 	}
 
-	// Carga automática al entrar al dashboard
 	cargarPadron();
-
-	// Hacemos la función accesible globalmente para que los bloques de afuera puedan llamarla
 	window.recargarTablaCompleta = cargarPadron;
 
-	// Botón sincronizar
 	$("#btn-refrescar").on("click", function(e) {
 		e.preventDefault();
 		cargarPadron();
 	});
 
-	/* ── FILTRO RÁPIDO ── */
 	$('#input-buscar-tabla').on('input', function() {
 		var q = $(this).val().toLowerCase();
 		$('#tabla-padron-body tr').each(function() {
@@ -171,7 +177,6 @@ $(document).ready(function() {
 
 $(document).ready(function() {
 
-	// Función requerida para recalcular las tarjetas de control del panel tras un borrado fluido
 	function recalcularContadores() {
 		let total = 0;
 		let habilitados = 0;
@@ -191,7 +196,7 @@ $(document).ready(function() {
 		$("#dash-inhabilitados").text(inhabilitados);
 
 		if (total === 0) {
-			window.recargarTablaCompleta(); // Muestra el cartel de padrón vacío si no quedan filas
+			window.recargarTablaCompleta();
 		}
 	}
 
@@ -223,7 +228,7 @@ $(document).ready(function() {
 				if (xhr.status === 500) {
 					alert("Error del servidor: no se pudo eliminar el registro.");
 				} else if (xhr.status === 401) {
-					window.location.href = "index.jsp";
+					window.location.href = "login.jsp";
 				} else {
 					alert("Error inesperado al comunicarse con el servidor.");
 				}
@@ -232,11 +237,49 @@ $(document).ready(function() {
 	});
 });
 
-/* ─── 4. MODIFICAR ─────────────────────────────────────────── */
+/* ─── VER DETALLE ─────────────────────────────────────────── */
 
 $(document).ready(function() {
 
-    // Abre el modal con los datos precargados
+	$("#tabla-padron-body").on("click", ".btn-ver", function() {
+
+		const id        = $(this).data("id");
+		const dni       = $(this).data("dni");
+		const apellido  = $(this).data("apellido");
+		const nombre    = $(this).data("nombre");
+		const domicilio = $(this).data("domicilio") || "—";
+		const fecha     = $(this).data("fecha")     || "—";
+		const sexo      = $(this).data("sexo")      || "—";
+		const habilitado= $(this).data("habilitado");
+
+		const estadoHtml = habilitado === true || habilitado === "true"
+			? '<span style="color:#16a34a;font-weight:700;">✅ Habilitado para votar</span>'
+			: '<span style="color:#dc2626;font-weight:700;">🚫 Inhabilitado</span>';
+
+		const sexoTexto = sexo === "M" ? "Masculino" : sexo === "F" ? "Femenino" : "No binario";
+
+		// Foto grande
+		$("#detalle-foto").attr("src", ctx + "/Imagen?id=" + id)
+		                  .on("error", function() {
+		                      $(this).attr("src", "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%239ca3af'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z'/></svg>");
+		                  });
+
+		$("#detalle-nombre").text(apellido + ", " + nombre);
+		$("#detalle-dni").text("DNI: " + dni);
+		$("#detalle-domicilio").text(domicilio);
+		$("#detalle-fecha").text(fecha);
+		$("#detalle-sexo").text(sexoTexto);
+		$("#detalle-estado").html(estadoHtml);
+
+		const modal = new bootstrap.Modal(document.getElementById("modalDetalle"));
+		modal.show();
+	});
+});
+
+/* ─── MODIFICAR ─────────────────────────────────────────── */
+
+$(document).ready(function() {
+
     $("#tabla-padron-body").on("click", ".btn-modificar", function() {
 
         const dni       = $(this).data("dni");
@@ -246,9 +289,6 @@ $(document).ready(function() {
         const fecha     = $(this).data("fecha");
         const sexo      = $(this).data("sexo");
 
-        // habilitadoVotar ya NO va al modal de modificar
-        // tiene su propio toggle directo en la tabla
-
         $("#modal-mod-dni").val(dni);
         $("#modal-mod-apellido").val(apellido);
         $("#modal-mod-nombre").val(nombre);
@@ -256,13 +296,10 @@ $(document).ready(function() {
         $("#modal-mod-fecha").val(fecha);
         $("#modal-mod-sexo").val(sexo);
 
-        const modal = new bootstrap.Modal(
-            document.getElementById("modalModificar")
-        );
+        const modal = new bootstrap.Modal(document.getElementById("modalModificar"));
         modal.show();
     });
 
-    // Confirmar modificación
     $("#btn-confirmar-modificar").on("click", function() {
 
         const boton = $(this);
@@ -278,12 +315,9 @@ $(document).ready(function() {
                 domicilio:       $("#modal-mod-domicilio").val(),
                 fechaNacimiento: $("#modal-mod-fecha").val(),
                 sexo:            $("#modal-mod-sexo").val()
-                // habilitadoVotar se sacó — lo maneja /Habilitar
             },
             success: function() {
-                bootstrap.Modal
-                    .getInstance(document.getElementById("modalModificar"))
-                    .hide();
+                bootstrap.Modal.getInstance(document.getElementById("modalModificar")).hide();
                 boton.prop("disabled", false).html("💾 Guardar cambios");
                 window.recargarTablaCompleta();
             },
@@ -296,44 +330,38 @@ $(document).ready(function() {
 
 });
 
-/* ─── 5. HABILITAR / INHABILITAR ────────────────────────────── */
+/* ─── HABILITAR / INHABILITAR ────────────────────────────── */
 
 $(document).ready(function() {
 
-    // Delegación de eventos — el toggle está en cada fila generada dinámicamente
     $("#tabla-padron-body").on("change", ".toggle-habilitar", function() {
 
-        const id     = $(this).data("id");     // id interno — lo que espera conmutarHabilitacion(int, boolean)
-        const estado = $(this).is(":checked"); // true = habilitar, false = inhabilitar
+        const id     = $(this).data("id");
+        const estado = $(this).is(":checked");
         const fila   = $(this).closest("tr");
         const badge  = fila.find(".badge-estado");
         const toggle = $(this);
 
-        // Deshabilitar el toggle mientras espera respuesta
         toggle.prop("disabled", true);
 
         $.ajax({
             url:  ctx + "/Habilitar",
             type: "POST",
-			data: {
-			    nroDocumento:    id,
-			    habilitadoVotar: estado   // ← sin el !
-			},
-            success: function(response) {
-                // Actualiza el badge sin recargar la tabla
-                if (response.habilitado) {
-                    badge.text("Habilitado")
-                         .removeClass("bhab off")
-                         .addClass("bhab on");
-                } else {
-                    badge.text("Inhabilitado")
-                         .removeClass("bhab on")
-                         .addClass("bhab off");
-                }
-                toggle.prop("disabled", false);
+            data: {
+                nroDocumento:    id,
+                habilitadoVotar: estado
             },
+			success: function(response) {
+			    if (response.habilitado) {
+			        badge.text("Habilitado").removeClass("bhab off").addClass("bhab on");
+			    } else {
+			        badge.text("Inhabilitado").removeClass("bhab on").addClass("bhab off");
+			    }
+			    // ← Actualizar el data-habilitado del botón Ver en la misma fila
+			    fila.find(".btn-ver").data("habilitado", response.habilitado);
+			    toggle.prop("disabled", false);
+			},
             error: function(xhr) {
-                // Si falla, revierte el toggle al estado anterior
                 toggle.prop("checked", !estado);
                 toggle.prop("disabled", false);
                 alert("Error " + xhr.status + ": No se pudo cambiar el estado.");
