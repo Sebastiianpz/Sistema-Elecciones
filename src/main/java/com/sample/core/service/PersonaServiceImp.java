@@ -11,17 +11,15 @@ public class PersonaServiceImp implements PersonaService{
 
 	private PersonaDao personaDao = new PersonaDaoImp();
 
-	
-	@Override
-	public List<Persona> listarPersonas() throws Exception {
-		// TODO Auto-generated method stub
-		return personaDao.list();
-	}
 
-	@Override
-	public Persona consultarPersona(int id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Persona buscarPorDocumento(String dni) throws Exception {
+        // RF-6: Busqueda para el buscador AJAX
+        Persona p = personaDao.findBynroDocumento(dni);
+        if (p == null) {
+            throw new Exception("No se encontró ninguna persona con el DNI: " + dni);
+        }
+        return p;
+    }
 
 }

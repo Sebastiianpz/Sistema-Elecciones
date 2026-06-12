@@ -13,9 +13,7 @@ import com.sample.core.exceptions.ErrorException;
 public class PersonaDaoImp implements PersonaDao {
 	
 	private static final String queryConsultarPadron = "SELECT id, nro_documento, habilitado_votar, ya_voto FROM personas WHERE id=?";
-				
-		private static final String queryList = "SELECT id, nro_documento, habilitado_votar, ya_voto FROM personas";
-	
+	private static final String queryBuscarDni = "SELECT id, nro_documento, habilitado_votar, ya_voto, nombre, apellido FROM personas WHERE nro_documento = ?";	
 		
 	private Conexion conexion = Conexion.getInstance();
 
@@ -32,7 +30,8 @@ public class PersonaDaoImp implements PersonaDao {
 						rs.getInt("id"),
 						rs.getString("nro_documento"),
 					    rs.getBoolean("habilitado_votar"),
-					    rs.getBoolean("ya_voto")
+					    rs.getBoolean("ya_voto"),
+					    null
 					   );
 			}
 
@@ -50,39 +49,42 @@ public class PersonaDaoImp implements PersonaDao {
 		}
 		return null;
 	}
-
-	public List<Persona> list() throws Exception {
-
-		PreparedStatement st= null;
+	
+	@Override
+	public Persona findByDocumento(String dni) throws Exception {
 		ResultSet rs = null;
-		List<Persona> personas = new ArrayList<Persona>();
-
+		PreparedStatement st = null;
 		try {
-			st = conexion.dameConnection().prepareStatement(queryList);
+			st = conexion.dameConnection().prepareStatement(queryBuscarDni);
+			st.setString(1, dni);
 			rs = st.executeQuery();
 			
-			while (rs.next()) {
-				personas.add(new Persona(
-			    	rs.getInt("id"),
-			        rs.getString("nro_documento"),
-			        rs.getBoolean("habilitado_votar"),
-			        rs.getBoolean("ya_voto")
-			        
-			    ));
+			if (rs.next()) {
+				Persona p = new Persona(
+						rs.getInt("id"),
+						rs.getString("nro_documento"),
+						rs.getBoolean("habilitado_votar"),
+						rs.getBoolean("ya_voto"),
+						null // El rol va null en el DAO
+				);
+				
+				// p.setNombre(rs.getString("nombre"));    <-- Comentado temporalmente
+				// p.setApellido(rs.getString("apellido"));
+				
+				return p;
 			}
-			
 		} catch (Exception e) {
-			System.out.println(e.getCause());
-		}finally {
-			st.close();
-			rs.close();
+			throw new ErrorException("Hubo un error al realizar la consulta por DNI", e);
+		} finally {
+			try {
+				if (st != null) st.close();
+				if (rs != null) rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		
-		return personas;
+		return null;
 	}
-
-
-	
 	}
 
 
