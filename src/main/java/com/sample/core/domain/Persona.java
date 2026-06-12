@@ -5,16 +5,19 @@ public class Persona extends GenericEntity{
 	String nroDocumento;
 	boolean habilitadoVotar;
 	boolean yaVoto;
+	String rol;
 	
 	public Persona() {
 		super();
 	}
 
-	public Persona(int id, String nroDocumento, boolean habilitadoVotar, boolean yaVoto) {
+	public Persona(int id, String nroDocumento, boolean habilitadoVotar, boolean yaVoto, String rol) {
 		super.setId(id);		
 		this.nroDocumento = nroDocumento;
 		this.habilitadoVotar = habilitadoVotar;
 		this.yaVoto = yaVoto;
+		this.rol = rol;
+
 	}
 
 	
@@ -42,5 +45,12 @@ public class Persona extends GenericEntity{
 		this.yaVoto = yaVoto;
 	}
 	
-	
+	public String getRol() {
+		return rol;
+	}
+
+	public void setRol(String rol) {
+		this.rol = rol;
+	}
+
 }

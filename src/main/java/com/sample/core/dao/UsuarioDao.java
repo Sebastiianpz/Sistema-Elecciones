@@ -27,6 +27,7 @@ public interface UsuarioDao {
 	public void cambiarEstadoEquipos(Usuario mac) throws Exception;
 
 
+
 }
 
 
