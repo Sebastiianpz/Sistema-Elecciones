@@ -133,7 +133,7 @@
 
         <div class="alerta-error" id="alerta-error"></div>
 
-        <a href="${pageContext.request.contextPath}/vistas/busqueda.jsp"
+        <a href="${pageContext.request.contextPath}/vistas/Busqueda.jsp"
            class="link-ciudadano">
             ¿Sos ciudadano? Consultá tu habilitación →
         </a>
