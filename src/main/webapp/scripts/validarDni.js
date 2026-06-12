@@ -22,22 +22,33 @@ function ejecutarValidacion(dni) {
         success: function(response) {
 			
 			if (response == null || response.id == 0) {
-			                Swal.fire("Error", "El DNI ingresado no figura en el padrón electoral.", "error");
+			                window.location.href = contextPath + "/no-existe.html";
 			                return;
 			            }
+						
+			sessionStorage.setItem("nombrePersona", response.nombre + " " + response.apellido);
+
+			if (response.habilitadoVotar === false || response.habilitadoVotar === 0) {
+			                window.location.href = contextPath + "/no-habilitado.html";
+			                return;
+			            }
+						
 			if (response.yaVoto === true || response.yaVoto === 1) {
-						    Swal.fire("Acceso Denegado", "Usted ya ha realizado su voto.", "warning");
+						    window.location.href = contextPath + "/ya-voto.html";
 						    return;
 						}		
+						
 			sessionStorage.setItem("idPersonaVotando", response.id);
-			
-			
-						            
-		    window.location.href = contextPath + "/votar.jsp";				
-			
+			                        
+			            if (response.rol === "ADMIN") {
+			                window.location.href = contextPath + "/habilitado-administrador.html"; 
+			            } 
+			            else {
+			                window.location.href = contextPath + "/habilitado-ciudadano.html"; 
+			            }
         },
         error: function(xhr) {
-            console.log("Error al obtener mesas:", xhr);
+            console.log("Error al obtener dni:", xhr);
 			Swal.fire("Error", "Hubo un error al consultar el padrón.", "error");
         }
     });
