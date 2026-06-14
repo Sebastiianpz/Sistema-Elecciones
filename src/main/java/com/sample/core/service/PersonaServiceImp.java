@@ -15,7 +15,7 @@ public class PersonaServiceImp implements PersonaService{
     @Override
     public Persona buscarPorDocumento(String dni) throws Exception {
         // RF-6: Busqueda para el buscador AJAX
-        Persona p = personaDao.findBynroDocumento(dni);
+        Persona p = personaDao.findByDocumento(dni);
         if (p == null) {
             throw new Exception("No se encontró ninguna persona con el DNI: " + dni);
         }

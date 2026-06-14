@@ -8,6 +8,7 @@ $(function() {
             var idCandidato =$(this).data("id");
 			var nombreCandidato = $(this).data("nombre");
 			var idPersonaVotando = sessionStorage.getItem("idPersonaVotando");
+            var idPC = sessionStorage.getItem("idPcMesa");
             
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
@@ -30,16 +31,17 @@ $(function() {
 				if (result.isConfirmed) {
 					
 				   $.ajax({
-				        url: contextPath + '/registrarVoto', 
+				        url: contextPath + '/guardarVoto', 
 				        method: 'POST',
 				        data: {
-				            idPersona: idPersonaVotando,  
-				            idCandidato: idCandidato       
+				            personaId: idPersonaVotando,  
+				            candidatoId: idCandidato,   
+				            pcId: idPcMesa
 				        },
 				        success: function (response) {
 				            sessionStorage.clear();
 				            
-				            window.location.href = contextPath + "/confirmacion.html"; 
+				            window.location.href = contextPath + "/confirmacion.jsp"; 
 				        },
 				        error: function(xhr) {
 				            console.log("Error al registrar el voto:", xhr);
