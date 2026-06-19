@@ -5,6 +5,7 @@ import java.sql.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,7 +13,7 @@ import com.sample.core.service.VotosService;
 import com.sample.core.service.VotosServiceImp;
 
 @WebServlet("/guardarVoto")
-public class VotoController {
+public class VotoController extends HttpServlet{
 
 	private VotosService votosService = new VotosServiceImp();
 
