@@ -44,8 +44,7 @@ function ejecutarValidacion(dni) {
             if (response.rol === "ADMIN") {
                 window.location.href = "habilitado-administrador.jsp"; 
             } else {
-                window.location.href = "habilitado-ciudadano.jsp"; 
-            }
+window.location.href = contextPath + "/habilitado-ciudadano/habilitado-ciudadano.jsp";            }
         },
         error: function(xhr, status, error) {
             console.log("Error al obtener dni:", error);
