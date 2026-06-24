@@ -22,8 +22,8 @@ public class Conexion {
 	private static final String PASSWORD = "Fatima5totc"; // <-- Tu contraseña nueva
 	
 
-	private static Conexion instance = Conexion.getInstance();
-	 
+	private static Conexion instance = null;
+	
 	private Connection conn;
 	
 	private Conexion() {}

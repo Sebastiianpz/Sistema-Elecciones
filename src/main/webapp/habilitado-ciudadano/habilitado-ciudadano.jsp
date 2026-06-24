@@ -9,7 +9,7 @@
  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
- <link rel="stylesheet" href="<%=request.getContextPath()%>/style.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/Style.css">
  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
  <script type="text/javascript">
       var contextPath = '<%=request.getContextPath()%>';
@@ -77,7 +77,7 @@
                // Borra la sesión actual por seguridad al salir
                sessionStorage.clear();
                // Redirige al inicio (puedes anteponer contextPath si lo necesitas)
-               window.location.href = "index.jsp";
+               window.location.href = "/home/home.jsp";
            });
        });
    </script>

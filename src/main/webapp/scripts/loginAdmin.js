@@ -13,22 +13,24 @@ $(function() {
         }, 2500);
 
             e.preventDefault(); 
-            var usuario =$("#usuario").val();
-            var password =$("#password").val();
-            var mensaje="";
+            var usuario = $("#email").val(); // Mantenemos tu variable 'usuario'
+            var password = $("#password").val();
+            var mensaje = "";
+            
                 $.ajax({
-                    url: contextPath + '/login',
+                    url: contextPath + '/loginAdministrador', // Cambiado al nombre de tu servlet
                     dataType: 'JSON',
                     success: function(data){
+                        // Mantenemos la estructura exacta de tu ejemplo con data[0]
                         if (data[0].estatus == "error") {
                             mensaje = data[0].msg;
                             $('#grupo-passowrd').append("<div class='alert alert-primary' role='alert'> "+mensaje+" </div>");                    
                         } else {
-                        window.location.href=contextPath+"/home";
+                            window.location.href = contextPath + "/home";
                         }
                     },
                     data: {
-                        user : usuario,
+                        username : usuario, // Cambiado para que tu Controller lo reciba bien
                         password : password
                     },
                     cache: false,
@@ -37,8 +39,5 @@ $(function() {
 
         }
     );
-
-
-
 
 });

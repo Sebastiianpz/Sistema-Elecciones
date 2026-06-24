@@ -18,8 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- CSS -->
-<link rel="stylesheet" href="style.css">
-
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/Style.css">
 </head>
 
 <body>
@@ -92,7 +91,7 @@
                  </button>
 
                  <button class="btn btn-custom btn-salir"
-                 onclick="window.location.href='inicio.html'">
+                 onclick="window.location.href='home.html'">
 
                     <i class="fas fa-arrow-left me-2"></i>
                     VOLVER

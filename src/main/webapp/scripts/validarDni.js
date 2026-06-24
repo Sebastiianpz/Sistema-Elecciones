@@ -22,7 +22,7 @@ function ejecutarValidacion(dni) {
         },
         success: function(response) {
             if (response == null || response.id == 0) {
-                window.location.href = "no-existe.jsp";
+            window.location.href = contextPath + "/no-existe.jsp";                
                 return;
             }
 						
@@ -30,21 +30,22 @@ function ejecutarValidacion(dni) {
             sessionStorage.setItem("dniPersona", dni);
 
             if (response.habilitadoVotar === false || response.habilitadoVotar === 0) {
-                window.location.href = "no-habilitado.jsp";
+                window.location.href = contextPath + "/no-habilitado/no-habilitado.jsp";
                 return;
             }
 						
             if (response.yaVoto === true || response.yaVoto === 1) {
-                window.location.href = "ya-voto.jsp";
+                window.location.href = contextPath + "/ya-voto/ya-voto.jsp";
                 return;
             }		
 						
             sessionStorage.setItem("idPersonaVotando", response.id);
 			                        
             if (response.rol === "ADMIN") {
-                window.location.href = "habilitado-administrador.jsp"; 
+                window.location.href = contextPath + "/habilitado-administrador/habilitado-administrador.jsp";
             } else {
-window.location.href = contextPath + "/habilitado-ciudadano/habilitado-ciudadano.jsp";            }
+                window.location.href = contextPath + "/habilitado-ciudadano/habilitado-ciudadano.jsp";
+            }
         },
         error: function(xhr, status, error) {
             console.log("Error al obtener dni:", error);

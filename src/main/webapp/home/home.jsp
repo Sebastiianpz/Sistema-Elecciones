@@ -10,8 +10,7 @@
    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
    <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
    
-   <link rel="stylesheet" href="<%=request.getContextPath()%>/style.css">
-
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/Style.css">
    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
    
    <script type="text/javascript">
