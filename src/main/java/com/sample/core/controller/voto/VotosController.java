@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.sample.core.domain.Voto;
 import com.sample.core.service.VotosService;
 import com.sample.core.service.VotosServiceImp;
+import com.sample.core.domain.Voto;
+import com.sample.core.service.VotosService;
 
 @WebServlet("/listarVotos")
 public class VotosController extends HttpServlet {
