@@ -1,43 +1,52 @@
 $(function() {
     
+    // 🌟 NUEVO: Esto frena el envío nativo del formulario para que no limpie los inputs antes de tiempo
+    $("#formAdmin").on('submit', function(e) {
+        e.preventDefault();
+    });
+    
     $("#btn-login").click(function (e) {
+        e.preventDefault(); 
         
-        // Show full page LoadingOverlay
-        $.LoadingOverlay("show",{
-            text        : "Cargando..."
-        });
+        var usuario = $("#username").val(); 
+        var password = $("#password").val();
 
-        // Hide it after 3 seconds
+        if (!usuario || !password || usuario.trim() === "" || password.trim() === "") {
+            Swal.fire("Atención", "Por favor, ingresá tu usuario y contraseña.", "warning");
+            return;
+        }
+
+        $.LoadingOverlay("show", { text : "Cargando..." });
+
         setTimeout(function(){
             $.LoadingOverlay("hide");
         }, 2500);
-
-            e.preventDefault(); 
-            var usuario = $("#email").val(); // Mantenemos tu variable 'usuario'
-            var password = $("#password").val();
-            var mensaje = "";
-            
-                $.ajax({
-                    url: contextPath + '/loginAdministrador', // Cambiado al nombre de tu servlet
-                    dataType: 'JSON',
-                    success: function(data){
-                        // Mantenemos la estructura exacta de tu ejemplo con data[0]
-                        if (data[0].estatus == "error") {
-                            mensaje = data[0].msg;
-                            $('#grupo-passowrd').append("<div class='alert alert-primary' role='alert'> "+mensaje+" </div>");                    
-                        } else {
-                            window.location.href = contextPath + "/home";
-                        }
-                    },
-                    data: {
-                        username : usuario, // Cambiado para que tu Controller lo reciba bien
-                        password : password
-                    },
-                    cache: false,
-                    type: 'POST'
-                });
-
-        }
-    );
-
+        
+        $.ajax({
+            url: contextPath + '/loginAdministrador', 
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                username : usuario.trim(), 
+                password : password       
+            },
+            cache: false,
+            success: function(data) {
+                if (data.ok === true) {
+                    window.location.href = contextPath + "/dashboard/dashboard.jsp";
+                } else {
+                    var errorMsg = data.error ? data.error : "Usuario o contraseña incorrectos.";
+                    Swal.fire("Error de acceso", errorMsg, "error");
+                }
+            },
+            error: function(xhr, status, error) {
+                try {
+                    var responseJson = JSON.parse(xhr.responseText);
+                    Swal.fire("Error", responseJson.error, "error");
+                } catch(e) {
+                    Swal.fire("Error", "No se pudo procesar la solicitud (Código: " + xhr.status + ").", "error");
+                }
+            }
+        });
+    });
 });

@@ -46,20 +46,20 @@ public class LoginAdministradorController extends HttpServlet{
 	            username.trim().isEmpty() || password.trim().isEmpty()) {
 	            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 	            PrintWriter out = response.getWriter();
-	            out.print("{\"ok\":false,\"error\":\"Usuario y contrase√±a son obligatorios.\"}");
+	            out.print("{\"ok\":false,\"error\":\"Usuario y contraseÒa son obligatorios.\"}");
 	            out.flush();
 	            return;
 	        }
 
 	        try {
 	            String passHash = sha256(password.trim());
-	            boolean valido  = usuarioService.loginAdmin(username.trim(), passHash);
 
-	            if (valido) {
-	                // Crear sesi√≥n
-	                HttpSession session = request.getSession(true);
-	                Usuario u = usuarioService.buscarUsuarioPorNombre(username.trim());
-	                session.setAttribute("usuarioId",   u.getId());
+	            Usuario u = usuarioService.loginAdmin(username.trim(), passHash);
+	            if (u != null) {
+
+	            	HttpSession session = request.getSession(true);
+
+	            	session.setAttribute("usuarioId",   u.getId());
 	                session.setAttribute("username",    u.getNombreCompleto());
 	                session.setMaxInactiveInterval(30 * 60); // 30 minutos
 
@@ -70,7 +70,7 @@ public class LoginAdministradorController extends HttpServlet{
 	            } else {
 	                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 	                PrintWriter out = response.getWriter();
-	                out.print("{\"ok\":false,\"error\":\"Usuario o contrase√±a incorrectos.\"}");
+	                out.print("{\"ok\":false,\"error\":\"Usuario o contraseÒa incorrectos.\"}");
 	                out.flush();
 	            }
 
@@ -87,7 +87,6 @@ public class LoginAdministradorController extends HttpServlet{
 	    protected void doGet(HttpServletRequest request,
 	                         HttpServletResponse response)
 	            throws ServletException, IOException {
-	        response.sendRedirect(request.getContextPath() + "/vistas/login.jsp");
+	        response.sendRedirect(request.getContextPath() + "/login-admin/login-admin.jsp");
 	    }
 	}
-

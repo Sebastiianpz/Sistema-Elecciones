@@ -75,7 +75,7 @@
                 </div>
 
                  <button class="btn btn-custom btn-votar"
-                  onclick="window.location.href='votacion.html?tipo=admin'">
+                  onclick="window.location.href='/votacion/votacion.jsp?tipo=admin'">
 
                  <i class="fas fa-vote-yea me-2"></i>
                  IR A VOTAR
@@ -91,7 +91,7 @@
                  </button>
 
                  <button class="btn btn-custom btn-salir"
-                 onclick="window.location.href='home.html'">
+                 onclick="window.location.href='/home/home.jsp'">
 
                     <i class="fas fa-arrow-left me-2"></i>
                     VOLVER
