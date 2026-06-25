@@ -121,7 +121,7 @@
 
                     <button type="button"
                             class="btn btn-outline-secondary w-100 mt-3"
-                            onclick="window.location.href='habilitado-Administrador.html'">
+                            onclick="window.location.href='/dashboard/dashboard.jsp'">
 
                         <i class="fas fa-arrow-left me-2"></i>
                         VOLVER

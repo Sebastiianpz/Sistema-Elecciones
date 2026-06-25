@@ -83,7 +83,7 @@
                    </button>
  
                  <button class="btn btn-custom btn-admin"
-                 onclick="window.location.href='login-admin.html'">
+                 onclick="window.location.href='/login-admin/login-admin.jsp'">
 
                     <i class="fas fa-user-shield me-2"></i>
                     PANEL ADMINISTRATIVO
