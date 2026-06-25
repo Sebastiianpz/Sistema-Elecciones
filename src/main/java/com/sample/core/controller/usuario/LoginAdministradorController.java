@@ -20,7 +20,6 @@ public class LoginAdministradorController extends HttpServlet{
 	    private static final long serialVersionUID = 1L;
 	    private UsuarioService usuarioService = new UsuarioServiceImp();
 
-	    // SHA-256 del password ingresado para comparar con la BD
 	    private String sha256(String input) throws Exception {
 	        MessageDigest md = MessageDigest.getInstance("SHA-256");
 	        byte[] hash = md.digest(input.getBytes("UTF-8"));
