@@ -71,7 +71,7 @@
 		</div>
 
 		<a
-			href="${pageContext.request.contextPath}/vistas/Busqueda.jsp"
+			href="${pageContext.request.contextPath}/vistas/busqueda.jsp"
 			class="link-ciudadano">
 
 			Consultar habilitación electoral
