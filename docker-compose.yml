@@ -26,7 +26,7 @@ services:
       - "3306:3306"
 
     volumes:
-      - ./padron.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./dump.sql:/docker-entrypoint-initdb.d/init.sql
       - mysql_data:/var/lib/mysql
 
     networks:

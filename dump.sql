@@ -36,8 +36,10 @@ CREATE TABLE IF NOT EXISTS imagenes_dni (
 CREATE INDEX idx_nro_doc
 ON personas(nro_documento);
 
-INSERT INTO usuarios(username,password)
-VALUES('admin','admin123');
+INSERT INTO usuarios (username, password)
+SELECT 'admin', 'admin123'
 WHERE NOT EXISTS (
-    SELECT 1 FROM usuarios WHERE username = 'admin'
+    SELECT *
+    FROM usuarios
+    WHERE username = 'admin'
 );
