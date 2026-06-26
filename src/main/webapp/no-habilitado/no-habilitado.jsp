@@ -93,25 +93,5 @@
 </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            // 1. Recuperamos el nombre que guardó tu JS original
-            var nombreCompleto = sessionStorage.getItem("nombrePersona");
-            
-            // 2. Si existe lo pintamos, si no ponemos un genérico
-            if (nombreCompleto) {
-                $('#lblNombrePersona').text(nombreCompleto);
-            } else {
-                $('#lblNombrePersona').text("Ciudadano no identificado");
-            }
-
-            // 3. Acción del botón volver usando el contextPath y limpiando la sesión
-            $('#btnVolverInicio').on('click', function () {
-                sessionStorage.clear(); // Limpieza de seguridad
-                window.location.href = contextPath + "/index.jsp"; // O el nombre de tu pantalla de login principal
-            });
-        });
-    </script>
 </body>
 </html>
