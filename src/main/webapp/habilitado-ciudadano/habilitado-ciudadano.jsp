@@ -48,7 +48,7 @@
                    </p>
            </div>
            <button class="btn btn-custom btn-votar"
-            onclick="window.location.href='votacion.jsp?tipo=ciudadano'">
+            onclick="window.location.href='/votacion/votacion.jsp?tipo=ciudadano'">
              <i class="fas fa-vote-yea me-2"></i>
               IR A VOTAR
            </button>

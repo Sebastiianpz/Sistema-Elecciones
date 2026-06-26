@@ -27,30 +27,24 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	private Conexion conexion = Conexion.getInstance();
 
 	public Usuario loginAdmin(String usuario, String contrasena) throws Exception {
-	    
 	    PreparedStatement st = null;
 	    ResultSet rs = null;
 	    Usuario adminLogueado = null;
 	    
 	    try {
 	        st = this.conexion.dameConnection().prepareStatement(queryLogin);
-	        
 	        st.setString(1, usuario);
 	        st.setString(2, contrasena);
-
 	        rs = st.executeQuery();
 
 	        if (rs.next()) {
 	            adminLogueado = new Usuario();
 	            adminLogueado.setId(rs.getInt("id"));
-	            
-	            adminLogueado.setNombreCompleto(rs.getString("username")); 
-	        } else {
-	            throw new Exception("El usuario o la contraseña no coinciden en la base de datos.");
+	            adminLogueado.setNombreCompleto(rs.getString("username"));
 	        }
 	        
 	    } catch (Exception e) {
-	        e.printStackTrace(); 
+	        e.printStackTrace();
 	        throw new Exception("Error en la consulta de login: " + e.getMessage());
 	    } finally {
 	        if (rs != null) rs.close();

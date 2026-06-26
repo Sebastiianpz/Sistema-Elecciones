@@ -53,7 +53,7 @@
                         <input type="password" id="password" class="form-control" placeholder="Ingrese contraseña" required>
                     </div>
 
-                    <button type="submit" id="btn-login" class="btn btn-auth w-100">
+                    <button type="button" id="btn-login" class="btn btn-auth w-100">
                         <i class="fas fa-right-to-bracket me-2"></i> INGRESAR
                     </button>
 
@@ -67,7 +67,6 @@
         </div>
     </main>
 
-    <script src="<%=request.getContextPath()%>/scripts/loginAdmin.js"></script>
-
+<script src="<%=request.getContextPath()%>/scripts/loginAdmin.js?v=2"></script>
 </body>
 </html>

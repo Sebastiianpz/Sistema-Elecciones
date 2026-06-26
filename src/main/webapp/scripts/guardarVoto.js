@@ -36,12 +36,12 @@ $(function() {
 				        data: {
 				            personaId: idPersonaVotando,  
 				            candidatoId: idCandidato,   
-				            pcId: idPcMesa
+				            pcId: idPC
 				        },
 				        success: function (response) {
 				            sessionStorage.clear();
 				            
-				            window.location.href = contextPath + "/confirmacion.jsp"; 
+				            window.location.href = contextPath + "/confirmacion/confirmacion.jsp"; 
 				        },
 				        error: function(xhr) {
 				            console.log("Error al registrar el voto:", xhr);
@@ -91,5 +91,21 @@ function cargarCandidatos() {
         error: function(xhr) {
             console.log("Error crítico al cargar los candidatos en la pantalla:", xhr);
         }
+        
+        
     });
+    
+    
+}
+
+function volverPagina() {
+    const params = new URLSearchParams(window.location.search);
+    const tipo = params.get('tipo');
+    
+    if (tipo === 'admin') {
+        // Usamos contextPath para que busque bien dentro del servidor
+        window.location.href = contextPath + '/habilitado-administrador/habilitado-administrador.jsp'; 
+    } else {
+        window.location.href = contextPath + '/habilitado-ciudadano/habilitado-ciudadano.jsp'; 
+    }
 }

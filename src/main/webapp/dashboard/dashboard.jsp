@@ -175,7 +175,7 @@
         <div class="row justify-content-center">
             
             <div class="col-lg-6 mb-4">
-                <a href="gestion-equipos.html" class="text-decoration-none d-block card-clickable">
+                <a href="/gestion-equipos/gestion-equipos.jsp" class="text-decoration-none d-block card-clickable">
                     <div class="card-action action-purple">
                         <div class="icon-action purple">
                             <i class="fas fa-computer"></i>

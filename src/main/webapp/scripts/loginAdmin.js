@@ -1,50 +1,42 @@
 $(function() {
-    
-    // 🌟 NUEVO: Esto frena el envío nativo del formulario para que no limpie los inputs antes de tiempo
-    $("#formAdmin").on('submit', function(e) {
+    $("#btn-login").on('click', function (e) {
         e.preventDefault();
-    });
-    
-    $("#btn-login").click(function (e) {
-        e.preventDefault(); 
-        
-        var usuario = $("#username").val(); 
-        var password = $("#password").val();
+        e.stopPropagation();
 
-        if (!usuario || !password || usuario.trim() === "" || password.trim() === "") {
+        var usuario = $("#username").val().trim();
+        var password = $("#password").val().trim();
+
+        if (!usuario || !password) {
             Swal.fire("Atención", "Por favor, ingresá tu usuario y contraseña.", "warning");
             return;
         }
 
-        $.LoadingOverlay("show", { text : "Cargando..." });
+        $.LoadingOverlay("show", { text: "Cargando..." });
 
-        setTimeout(function(){
-            $.LoadingOverlay("hide");
-        }, 2500);
-        
         $.ajax({
-            url: contextPath + '/loginAdministrador', 
+            url: contextPath + '/loginAdministrador',
             type: 'POST',
             dataType: 'JSON',
             data: {
-                username : usuario.trim(), 
-                password : password       
+                username: usuario,
+                password: password
             },
             cache: false,
             success: function(data) {
+                $.LoadingOverlay("hide");
                 if (data.ok === true) {
                     window.location.href = contextPath + "/dashboard/dashboard.jsp";
                 } else {
-                    var errorMsg = data.error ? data.error : "Usuario o contraseña incorrectos.";
-                    Swal.fire("Error de acceso", errorMsg, "error");
+                    Swal.fire("Error de acceso", data.error || "Usuario o contraseña incorrectos.", "error");
                 }
             },
-            error: function(xhr, status, error) {
+            error: function(xhr) {
+                $.LoadingOverlay("hide");
                 try {
-                    var responseJson = JSON.parse(xhr.responseText);
-                    Swal.fire("Error", responseJson.error, "error");
+                    var res = JSON.parse(xhr.responseText);
+                    Swal.fire("Error", res.error, "error");
                 } catch(e) {
-                    Swal.fire("Error", "No se pudo procesar la solicitud (Código: " + xhr.status + ").", "error");
+                    Swal.fire("Error", "Código: " + xhr.status, "error");
                 }
             }
         });
