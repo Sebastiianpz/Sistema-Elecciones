@@ -19,6 +19,7 @@ public class VotosDaoImp implements VotosDao {
 	
 	private static final String querySumarVotoCandidato = "UPDATE candidatos SET votos = votos + 1 WHERE id = ?";
 	
+	private static final String queryBloquearPersona = "UPDATE personas SET ya_voto = 1 WHERE id = ?";
 	
 	private Conexion conexion = Conexion.getInstance();
 
@@ -56,6 +57,7 @@ public class VotosDaoImp implements VotosDao {
 		 ResultSet rs = null;
 		 PreparedStatement stvoto = null;
 		 PreparedStatement stcandidato = null;
+		 PreparedStatement stpersona = null;
 
 		 try{
 			 stvoto = conexion.dameConnection().prepareStatement(queryAddVoto);
@@ -67,13 +69,18 @@ public class VotosDaoImp implements VotosDao {
 			stcandidato = conexion.dameConnection().prepareStatement(querySumarVotoCandidato);
 			stcandidato.setInt(1, candidatoId);
 			stcandidato.executeUpdate();
-
+			
+			stpersona = conexion.dameConnection().prepareStatement(queryBloquearPersona);
+	        stpersona.setInt(1, personaId); 
+	        stpersona.executeUpdate();
+	        
 		 }catch (Exception e) {
 				throw new ErrorException("Hubo un error al realizar el voto", e);
 		}finally {
 			try {
 				if (stvoto != null) stvoto.close();
 	            if (stcandidato != null) stcandidato.close();
+	            if (stpersona != null) stpersona.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
