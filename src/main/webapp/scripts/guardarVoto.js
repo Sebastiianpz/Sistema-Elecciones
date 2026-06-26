@@ -1,7 +1,7 @@
 $(function() {
 
     // ==========================================
-    // 1. CARGAR DATOS DEL VOTANTE DESDE SESSIONSTORAGE
+    // 1. CARGAR DATOS DEL VOTANTE DESDE SESSIONSTORAGE (Lo que hizo ella)
     // ==========================================
     var nombreVotante = sessionStorage.getItem("nombrePersona");
     var dniVotante = sessionStorage.getItem("dniPersona");
@@ -13,19 +13,41 @@ $(function() {
         $("#lblDniVotante").text("DNI " + dniVotante);
     }
 
-    // ==========================================
-    // 2. CARGAR LISTA DE CANDIDATOS (Campos corregidos)
-    // ==========================================
+    // Variables globales para recordar la selección (Tu flujo)
+    var idCandidatoSeleccionado = null;
+    var nombreCandidatoSeleccionado = null;
+
     cargarCandidatos();
 	
     // ==========================================
-    // 3. EVENTO AL HACER CLIC EN "VOTAR"
+    // 2. EVENTO AL HACER CLIC EN "VOTAR" EN UNA TARJETA
     // ==========================================
     $(document).on("click", ".btn-seleccionar-candidato", function (e) {
         e.preventDefault();
 		  
-        var idCandidato = $(this).data("id");
-        var nombreCandidato = $(this).data("nombre");
+        // Guardamos los datos temporalmente sin abrir carteles (Tu flujo)
+        idCandidatoSeleccionado = $(this).data("id");
+        nombreCandidatoSeleccionado = $(this).data("nombre");
+
+        // Cambios visuales de selección
+        $(".btn-seleccionar-candidato").removeClass("btn-success").addClass("btn-primary").html("<i class='fas fa-vote-yea me-2'></i>VOTAR");
+        $(this).removeClass("btn-primary").addClass("btn-success").html("<i class='fas fa-check me-2'></i>SELECCIONADO");
+        
+        console.log("Candidato seleccionado temporalmente:", nombreCandidatoSeleccionado, "(ID:", idCandidatoSeleccionado + ")");
+    }); 
+
+    // ==========================================
+    // 3. EVENTO AL HACER CLIC EN "CONFIRMAR VOTO" (Botón verde abajo)
+    // ==========================================
+    $(document).on("click", "#btnConfirmar", function (e) {
+        e.preventDefault();
+
+        // Si no seleccionó a nadie, frenamos
+        if (!idCandidatoSeleccionado) {
+            Swal.fire("Atención", "Por favor, seleccione un candidato antes de confirmar su voto.", "warning");
+            return;
+        }
+
         var idPersonaVotando = sessionStorage.getItem("idPersonaVotando");
         var idPC = sessionStorage.getItem("idPcMesa");
             
@@ -37,9 +59,10 @@ $(function() {
             buttonsStyling: false
         });
 
+        // Abrimos el cartel con el nombre que guardamos en memoria (Tu flujo)
         swalWithBootstrapButtons.fire({
             title: "¿Confirma su voto?",
-            text: "Está a punto de votar por: " + nombreCandidato,
+            text: "Está a punto de votar por: " + nombreCandidatoSeleccionado,
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "Sí, confirmar voto",
@@ -47,12 +70,13 @@ $(function() {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
+                // Si confirma, se hace el envío AJAX al servidor
                 $.ajax({
                     url: contextPath + '/guardarVoto', 
                     method: 'POST',
                     data: {
                         personaId: idPersonaVotando,  
-                        candidatoId: idCandidato,   
+                        candidatoId: idCandidatoSeleccionado,   
                         pcId: idPC
                     },
                     success: function (response) {
@@ -66,9 +90,12 @@ $(function() {
                 }); 
             }
         });
-    }); 
+    });
 }); 
 					
+// ==========================================
+// 4. CARGA DINÁMICA DE CANDIDATOS (Estructura de ella con tus mapeos)
+// ==========================================
 function cargarCandidatos() {
     $.ajax({
         url: contextPath + "/listarCandidatos",
@@ -76,10 +103,13 @@ function cargarCandidatos() {
         dataType: "json",
         success: function(listaCandidatos) {
             var contenedor = $("#contenedor-candidatos"); 
+            
+            if(contenedor.length === 0) return;
+
             contenedor.empty();
 
             $.each(listaCandidatos, function(index, candidato) {
-                // Mapeo directo con los nombres de columna de tu base de datos (HeidiSQL)
+                // Mapeo directo con los nombres de columna de tu base de datos / HeidiSQL (De ella)
                 var nombreMostrar = candidato.nombre_completo; 
                 var partidoMostrar = candidato.partido;
 
@@ -104,7 +134,7 @@ function cargarCandidatos() {
             });
         },
         error: function(xhr) {
-            console.log("Error crítico al cargar los candidatos en la pantalla:", xhr);
+            console.log("Error al cargar los candidatos remotos.");
         }
     });
 }

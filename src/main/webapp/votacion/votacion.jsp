@@ -16,7 +16,7 @@
          var contextPath = '<%=request.getContextPath()%>';
     </script>
     
-    <%-- Tu script encargado de cargar todo dinámicamente --%>
+    <%-- Script encargado de cargar todo dinámicamente y procesar la confirmación --%>
     <script src="<%=request.getContextPath()%>/scripts/guardarVoto.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -75,7 +75,10 @@
                             </div>
 
                             <div class="text-center mt-5">
-                                <%-- Volvemos a activar el evento que tenías con onclick seguro --%>
+                                <button class="btn btn-success px-5 py-3" id="btnConfirmar">
+                                    <i class="fas fa-check-circle me-2"></i> CONFIRMAR VOTO
+                                </button>
+                                
                                 <button class="btn btn-outline-secondary px-5 py-3 ms-3" onclick="volverPagina()">
                                     <i class="fas fa-arrow-left me-2"></i> VOLVER
                                 </button>
