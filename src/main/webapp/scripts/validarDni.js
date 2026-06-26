@@ -25,10 +25,20 @@ $(document).ready(function() {
     });
 
     // Configuración del botón IR A VOTAR (para la pantalla de habilitado)
-    $('#btnIrAVotar').on('click', function(e) {
-        e.preventDefault();
-        window.location.href = contextPath + "/votacion/votacion.jsp";
-    });
+	// Configuración del botón IR A VOTAR (para la pantalla de habilitado)
+	$('#btnIrAVotar').on('click', function(e) {
+	    e.preventDefault();
+	    
+	    // Verificamos si estás en la página de administrador mirando la ruta actual
+	    if (window.location.pathname.includes("habilitado-administrador")) {
+	        // Guardamos el rol como respaldo en la sesión del navegador
+	        sessionStorage.setItem("rolUsuario", "ADMIN");
+	        window.location.href = contextPath + "/votacion/votacion.jsp?tipo=admin";
+	    } else {
+	        sessionStorage.setItem("rolUsuario", "CIUDADANO");
+	        window.location.href = contextPath + "/votacion/votacion.jsp?tipo=ciudadano";
+	    }
+	});
 
 
     // ==========================================
