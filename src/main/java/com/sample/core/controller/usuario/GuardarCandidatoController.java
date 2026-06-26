@@ -23,26 +23,36 @@ public class GuardarCandidatoController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        PrintWriter out = response.getWriter();
 
-        try {
+        // Usamos el try con recursos para el PrintWriter, protegiendo el flujo
+        try (PrintWriter out = response.getWriter()) {
+            
+            // 1. Levantamos los parámetros exactos desde el formulario AJAX
             String nombreCompleto = request.getParameter("nombreCompleto");
             String partido = request.getParameter("partido");
             int numPartido = Integer.parseInt(request.getParameter("numPartido"));
-            // Agrega aquí el cuarto parámetro que pida tu firma (ej: String cargo)
-            String cargo = request.getParameter("cargo"); 
+            String colorPartido = request.getParameter("colorPartido"); 
+            
+            usuarioService.saveCandidato(nombreCompleto, partido, numPartido, colorPartido);
 
-            // Llamamos al método de tu interfaz UsuarioService
-            usuarioService.saveCandidato(nombreCompleto, partido, numPartido, cargo);
-
-            out.print("{\"ok\":true,\"mensaje\":\"Candidato registrado con éxito.\"}");
+            // 3. Respuesta JSON manual 
+            out.print("{");
+            out.print("\"ok\":true,");
+            out.print("\"mensaje\":\"Candidato registrado con éxito.\"");
+            out.print("}");
             out.flush();
 
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            out.print("{\"ok\":false,\"error\":\"Error al guardar el candidato.\"}");
-            out.flush();
+            
+            try (PrintWriter out = response.getWriter()) {
+                out.print("{");
+                out.print("\"ok\":false,");
+                out.print("\"error\":\"Error al guardar el candidato: " + e.getMessage().replace("\"", "'") + "\"");
+                out.print("}");
+                out.flush();
+            }
         }
     }
 }
