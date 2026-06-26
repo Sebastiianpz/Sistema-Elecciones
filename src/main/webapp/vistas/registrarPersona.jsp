@@ -25,7 +25,7 @@
 
     <div class="menu">
         <a href="${pageContext.request.contextPath}/vistas/dashboard.jsp">Dashboard</a>
-        <a href="${pageContext.request.contextPath}/vistas/buscarPersona.jsp">Buscar Persona</a>
+        <a href="${pageContext.request.contextPath}/vistas/busqueda.jsp">Buscar Persona</a>
         <a href="${pageContext.request.contextPath}/vistas/registrarPersona.jsp">Registrar Persona</a>
         <a href="${pageContext.request.contextPath}/vistas/consultaEstado.jsp">Consultar Estado</a>
     </div>

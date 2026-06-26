@@ -75,7 +75,7 @@
 
 			<li>
 
-				<a href="${pageContext.request.contextPath}/vistas/Busqueda.jsp"
+				<a href="${pageContext.request.contextPath}/vistas/busqueda.jsp"
 					class="sidebar-nav-link">
 
 					<span class="nav-icon">🔍</span>
@@ -88,7 +88,7 @@
 
 			<li>
 
-				<a href="${pageContext.request.contextPath}/vistas/index.jsp"
+				<a href="${pageContext.request.contextPath}/vistas/registrarPersona.jsp"
 					class="sidebar-nav-link">
 
 					<span class="nav-icon">➕</span>

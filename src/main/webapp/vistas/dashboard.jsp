@@ -15,7 +15,7 @@
       href="${pageContext.request.contextPath}/css/style.css">
 
 <!-- jQuery -->
-<script src="${pageContext.request.contextPath}/assets/jquery/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/scripts/jquery/jquery.min.js"></script>
 
 <!-- Chart (si después lo querés usar) -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -63,7 +63,7 @@
         </li>
 
         <li>
-            <a href="#" class="sidebar-nav-link">
+            <a href="${pageContext.request.contextPath}/LogoutServlet.java"" class="sidebar-nav-link">
                 🚪 Cerrar Sesión
             </a>
         </li>
