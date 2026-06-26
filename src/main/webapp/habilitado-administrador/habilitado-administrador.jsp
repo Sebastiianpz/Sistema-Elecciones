@@ -18,8 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- CSS -->
-<link rel="stylesheet" href="style.css">
-
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/Style.css">
 </head>
 
 <body>
@@ -76,7 +75,7 @@
                 </div>
 
                  <button class="btn btn-custom btn-votar"
-                  onclick="window.location.href='votacion.html?tipo=admin'">
+                  onclick="window.location.href='/votacion/votacion.jsp?tipo=admin'">
 
                  <i class="fas fa-vote-yea me-2"></i>
                  IR A VOTAR
@@ -84,7 +83,7 @@
                    </button>
  
                  <button class="btn btn-custom btn-admin"
-                 onclick="window.location.href='login-admin.html'">
+                 onclick="window.location.href='/login-admin/login-admin.jsp'">
 
                     <i class="fas fa-user-shield me-2"></i>
                     PANEL ADMINISTRATIVO
@@ -92,7 +91,7 @@
                  </button>
 
                  <button class="btn btn-custom btn-salir"
-                 onclick="window.location.href='inicio.html'">
+                 onclick="window.location.href='/home/home.jsp'">
 
                     <i class="fas fa-arrow-left me-2"></i>
                     VOLVER

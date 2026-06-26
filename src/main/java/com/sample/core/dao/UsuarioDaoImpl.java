@@ -27,35 +27,30 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	private Conexion conexion = Conexion.getInstance();
 
 	public Usuario loginAdmin(String usuario, String contrasena) throws Exception {
-		
-		PreparedStatement st = null;
-		ResultSet rs = null;
-		Usuario adminLogueado = null;
-		
-		try {
-			
-			st = this.conexion.dameConnection().prepareStatement(queryLogin);
-			
-			st.setString(1, usuario);
-			st.setString(2, contrasena);
+	    PreparedStatement st = null;
+	    ResultSet rs = null;
+	    Usuario adminLogueado = null;
+	    
+	    try {
+	        st = this.conexion.dameConnection().prepareStatement(queryLogin);
+	        st.setString(1, usuario);
+	        st.setString(2, contrasena);
+	        rs = st.executeQuery();
 
-			rs = st.executeQuery();
-			boolean encontro = rs.next();
-
-			if (rs.next()) {
+	        if (rs.next()) {
 	            adminLogueado = new Usuario();
 	            adminLogueado.setId(rs.getInt("id"));
-	            adminLogueado.setUsuario(rs.getString("usuario"));
-	        } else {
-	            throw new Exception("El usuario o la contraseña no coinciden.");
+	            adminLogueado.setNombreCompleto(rs.getString("username"));
 	        }
-		} catch (Exception e) {
-			throw new Exception("login incorrecto");
-		} finally {
-			st.close();
-			rs.close();
-		}
-		return adminLogueado;
+	        
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        throw new Exception("Error en la consulta de login: " + e.getMessage());
+	    } finally {
+	        if (rs != null) rs.close();
+	        if (st != null) st.close();
+	    }
+	    return adminLogueado;
 	}
 
 	public Usuario findCandidatoByid(int id) throws Exception {
