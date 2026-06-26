@@ -54,6 +54,8 @@ public class LoginServlet extends HttpServlet {
                     password.trim());
 
             if (login) {
+            	
+            	request.getSession(true).setAttribute("usuarioId", username);
 
                 out.print("{");
                 out.print("\"ok\":true");
