@@ -21,7 +21,7 @@ $(document).ready(function() {
     $('#btnVolverInicio').on('click', function(e) {
         e.preventDefault();
         sessionStorage.clear(); // Limpiamos para la siguiente consulta
-        window.location.href = contextPath + "/inicio/inicio.jsp";
+        window.location.href = contextPath + "/home/home.jsp";
     });
 
     // Configuración del botón IR A VOTAR (para la pantalla de habilitado)
@@ -62,7 +62,8 @@ function ejecutarValidacion(dni) {
                 return;
             }
 						
-            sessionStorage.setItem("nombrePersona", response.nombre + " " + response.apellido);
+            // 🌟 GUARDAMOS EL NOMBRE: Usamos la propiedad exacta del mapa que envía el Controller
+            sessionStorage.setItem("nombrePersona", response.nombreCompleto);
             sessionStorage.setItem("dniPersona", dni);
 
             if (response.habilitadoVotar === false || response.habilitadoVotar === 0) {
