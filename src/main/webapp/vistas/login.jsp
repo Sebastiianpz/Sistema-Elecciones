@@ -1,70 +1,198 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
+
 <meta charset="UTF-8">
-<title>Padrón Nacional Electoral</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Bootstrap -->
-<link rel="stylesheet"
-      href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css">
+<title>Iniciar Sesión — Padrón Nacional Electoral</title>
 
-<!-- Tu CSS custom (opcional para fondo/login-card) -->
 <link rel="stylesheet"
-      href="${pageContext.request.contextPath}/css/style.css">
+	href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap.min.css">
+
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/style.css">
+
 </head>
 
-<body class="fondo-login bg-light">
+<body class="fondo-login">
 
-<div class="container vh-100 d-flex justify-content-center align-items-center">
+	<div class="login-card">
 
-    <div class="card shadow login-card p-4" style="width: 400px;">
+		<div class="login-logo">🗳️</div>
 
-        <h2 class="text-center mb-4">
-            Padrón Nacional Electoral
-        </h2>
+		<div class="login-titulo">
+			Padrón Nacional Electoral
+		</div>
 
-        <form id="loginForm">
+		<div class="login-sub">
+			Sistema de Gestión Electoral
+		</div>
 
-            <!-- Usuario -->
-            <div class="mb-3">
-                <label class="form-label">Usuario</label>
-                <input type="text"
-                       class="form-control"
-                       id="usuario"
-                       placeholder="Ingrese usuario"
-                       required>
-            </div>
+		<label class="login-label" for="input-user">
+			Usuario
+		</label>
 
-            <!-- Password -->
-            <div class="mb-3">
-                <label class="form-label">Contraseña</label>
-                <input type="password"
-                       class="form-control"
-                       id="password"
-                       placeholder="Ingrese contraseña"
-                       required>
-            </div>
+		<input
+			type="text"
+			id="input-user"
+			class="login-input"
+			placeholder="Ingrese su usuario"
+			autocomplete="username"
+			autofocus>
 
-            <!-- Botón -->
-            <button type="submit"
-                    class="btn btn-primary w-100">
-                Ingresar
-            </button>
+		<label class="login-label" for="input-pass">
+			Contraseña
+		</label>
 
-        </form>
+		<input
+			type="password"
+			id="input-pass"
+			class="login-input"
+			placeholder="Ingrese su contraseña"
+			autocomplete="current-password">
 
-        <!-- Mensajes login -->
-        <div id="mensaje" class="mt-3 text-center"></div>
+		<button
+			type="button"
+			id="btn-login"
+			class="btn-login">
 
-    </div>
+			Ingresar
 
-</div>
+		</button>
 
-<!-- Bootstrap JS -->
-<script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.bundle.min.js"></script>
+		<div
+			id="alerta-error"
+			class="alerta-error">
+		</div>
+
+		<a
+			href="${pageContext.request.contextPath}/vistas/Busqueda.jsp"
+			class="link-ciudadano">
+
+			Consultar habilitación electoral
+
+		</a>
+
+	</div>
+
+	<script
+		src="${pageContext.request.contextPath}/scripts/jquery/jquery.min.js"></script>
+
+	<script>
+
+		const ctx = "${pageContext.request.contextPath}";
+
+		function login() {
+
+			const user = $("#input-user").val().trim();
+			const pass = $("#input-pass").val().trim();
+
+			if (user === "" || pass === "") {
+
+				mostrarError("Debe completar usuario y contraseña.");
+
+				return;
+			}
+
+			$("#btn-login")
+					.prop("disabled", true)
+					.text("Ingresando...");
+
+			$("#alerta-error").hide();
+
+			$.ajax({
+
+				url: ctx + "/Login",
+
+				type: "POST",
+
+				data: {
+
+					username: user,
+
+					password: pass
+
+				},
+
+				dataType: "json",
+
+				success: function(data) {
+
+					if (data.ok) {
+
+						window.location.href =
+								ctx + "/vistas/listar.jsp";
+
+					} else {
+
+						mostrarError(data.error);
+
+						resetBoton();
+
+					}
+
+				},
+
+				error: function(xhr) {
+
+					if (xhr.responseJSON &&
+							xhr.responseJSON.error) {
+
+						mostrarError(xhr.responseJSON.error);
+
+					} else {
+
+						mostrarError("Error al conectar con el servidor.");
+
+					}
+
+					resetBoton();
+
+				}
+
+			});
+
+		}
+
+		function mostrarError(msg) {
+
+			$("#alerta-error")
+					.text(msg)
+					.show();
+
+		}
+
+		function resetBoton() {
+
+			$("#btn-login")
+					.prop("disabled", false)
+					.text("Ingresar");
+
+		}
+
+		$("#btn-login").click(function() {
+
+			login();
+
+		});
+
+		$("#input-user, #input-pass").keypress(function(e) {
+
+			if (e.which == 13) {
+
+				login();
+
+			}
+
+		});
+
+	</script>
 
 </body>
+
 </html>

@@ -1,163 +1,205 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
 <meta charset="UTF-8">
-<title>Buscar Persona</title>
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<title>Consulta de Habilitación</title>
 
-<script src="${pageContext.request.contextPath}/assets/jquery/jquery.min.js"></script>
+<link rel="stylesheet"
+      href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css">
+
+<link rel="stylesheet"
+      href="${pageContext.request.contextPath}/css/style.css">
+
 </head>
 
-<body class="bg-light">
+<body>
 
-<!-- NAVBAR BOOTSTRAP BASE -->
-<nav class="navbar navbar-dark bg-primary">
-    <div class="container-fluid">
+<div class="container">
 
-        <span class="navbar-brand fw-bold">
-            Padrón Nacional Electoral
-        </span>
+    <div class="card busqueda-card">
 
-        <div class="d-flex gap-2">
+        <h2>Consulta Electoral</h2>
 
-            <a class="btn btn-outline-light btn-sm" href="dashboard.jsp">Dashboard</a>
-            <a class="btn btn-outline-light btn-sm" href="buscarPersona.jsp">Buscar</a>
-            <a class="btn btn-outline-light btn-sm" href="registrarPersona.jsp">Registrar</a>
-            <a class="btn btn-outline-light btn-sm" href="consultaEstado.jsp">Consultar</a>
+        <p>
+            Ingresá un número de documento para verificar si la persona
+            se encuentra habilitada para votar.
+        </p>
 
-        </div>
+        <div class="input-wrap">
 
-        <button class="btn btn-light btn-sm text-primary fw-bold">
-            Cerrar sesión
-        </button>
+            <input
+                type="text"
+                id="input-dni"
+                class="form-control"
+                placeholder="Ingrese DNI">
 
-    </div>
-</nav>
+            <button
+                id="btn-consultar"
+                class="btn btn-primary">
 
-<div class="container py-4">
-
-    <!-- BUSQUEDA -->
-    <div class="card shadow-sm p-3">
-
-        <h4 class="mb-3">Buscar Persona por DNI</h4>
-
-        <div class="input-group">
-
-            <input type="text"
-                   id="dni-input"
-                   class="form-control"
-                   placeholder="Ingrese DNI">
-
-            <button class="btn btn-primary" id="btn-buscar">
                 Buscar
+
             </button>
 
         </div>
 
-    </div>
-
-    <!-- RESULTADOS -->
-    <div class="card shadow-sm mt-3">
-
-        <div class="table-responsive">
-
-            <table class="table table-hover mb-0">
-
-                <thead class="table-dark">
-                    <tr>
-                        <th>DNI</th>
-                        <th>Apellido</th>
-                        <th>Nombre</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-
-                <tbody id="resultado-body"></tbody>
-
-            </table>
-
-        </div>
+        <div id="resultado"></div>
 
     </div>
 
 </div>
 
+
+<script src="${pageContext.request.contextPath}/scripts/jquery/jquery.min.js"></script>
+
 <script>
+
 const ctx = "${pageContext.request.contextPath}";
 
-function buscarPersona() {
+$("#btn-consultar").click(function(){
 
-    const dni = $("#dni-input").val().trim();
+    consultar();
 
-    if (!dni) {
-        alert("Ingresá un DNI");
-        return;
+});
+
+$("#input-dni").keypress(function(e){
+
+    if(e.which==13){
+
+        consultar();
+
     }
 
+});
+
+function consultar(){
+
+    let dni=$("#input-dni").val().trim();
+
+    if(dni==""){
+
+        $("#resultado").html(
+
+            '<div class="resultado-error">'+
+            'Debe ingresar un número de documento.'+
+            '</div>'
+
+        );
+
+        return;
+
+    }
+
+    $("#btn-consultar")
+        .prop("disabled",true)
+        .text("Buscando...");
+
     $.ajax({
+
         url: ctx + "/Busqueda",
-        type: "GET",
-        data: { dni: dni },
-        dataType: "json",
 
-        success: function(data) {
+        type:"GET",
 
-            if (!data.ok) {
-                $("#resultado-body").html(`<tr><td colspan="5">❌ ${data.error}</td></tr>`);
-                return;
+        data:{
+            dni:dni
+        },
+
+        dataType:"json",
+
+        success:function(data){
+
+            if(data.ok){
+
+                let clase=data.habilitado ?
+                        "habilitado" :
+                        "inhabilitado";
+
+                let icono=data.habilitado ?
+                        "✅" :
+                        "❌";
+
+                let estado=data.habilitado ?
+                        "Habilitado para votar" :
+                        "No habilitado para votar";
+
+                $("#resultado").html(
+
+                    '<div class="resultado-box '+clase+'">'+
+
+                        '<div class="resultado-icono">'+
+                        icono+
+                        '</div>'+
+
+                        '<div class="resultado-nombre">'+
+                        data.apellido+', '+data.nombre+
+                        '</div>'+
+
+                        '<div class="resultado-dni">'+
+                        'DNI: '+data.dni+
+                        '</div>'+
+
+                        '<div class="resultado-estado">'+
+                        estado+
+                        '</div>'+
+
+                    '</div>'
+
+                );
+
+            }else{
+
+                $("#resultado").html(
+
+                    '<div class="resultado-error">'+
+                    data.error+
+                    '</div>'
+
+                );
+
             }
 
-            const estado = data.habilitado
-                ? '<span class="badge bg-success">Habilitado</span>'
-                : '<span class="badge bg-danger">Inhabilitado</span>';
+        },
 
-            const fila = `
-                <tr>
-                    <td>${data.dni}</td>
-                    <td>${data.apellido}</td>
-                    <td>${data.nombre}</td>
-                    <td>${estado}</td>
-                    <td>
+        error:function(xhr){
 
-                        <a class="btn btn-warning btn-sm"
-                           href="${ctx}/vistas/editarPersona.jsp?dni=${data.dni}">
-                           Editar
-                        </a>
+            let mensaje="Error al conectar con el servidor.";
 
-                        <button class="btn btn-danger btn-sm"
-                                onclick="toggleEstado('${data.dni}', ${data.habilitado})">
-                            ${data.habilitado ? "Inhabilitar" : "Habilitar"}
-                        </button>
+            if(xhr.responseJSON){
 
-                    </td>
-                </tr>
-            `;
+                mensaje=xhr.responseJSON.error;
 
-            $("#resultado-body").html(fila);
+            }
+
+            $("#resultado").html(
+
+                '<div class="resultado-error">'+
+                mensaje+
+                '</div>'
+
+            );
+
+        },
+
+        complete:function(){
+
+            $("#btn-consultar")
+                .prop("disabled",false)
+                .text("Buscar");
+
         }
+
     });
+
 }
 
-function toggleEstado(dni, estadoActual) {
-    $.post(ctx + "/Habilitar", {
-        dni: dni,
-        habilitado: !estadoActual
-    }, function() {
-        buscarPersona();
-    });
-}
-
-$("#btn-buscar").on("click", buscarPersona);
-
-$("#dni-input").on("keypress", function(e) {
-    if (e.which === 13) buscarPersona();
-});
 </script>
 
 </body>
+
 </html>
