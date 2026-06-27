@@ -230,7 +230,6 @@ public class PersonaDaoImp implements PersonaDAO {
 					+ "fecha_nacimiento = '" + p.getFechaNacimiento() + "', "
 					+ "sexo = '" + p.getSexo().name() + "', "
 					+ "domicilio = '" + p.getDomicilio() + "', "
-					+ "habilitado_votar = " + (p.isHabilitadoVotar() ? 1 : 0) + " "
 					+ "WHERE nro_documento = '" + p.getNroDocumento() + "'";
 
 			int result = st.executeUpdate(sql);

@@ -410,7 +410,8 @@ $(document).ready(function () {
 
             });
 
-        $("#detalle-nombre").text(apellido + ", " + nombre);
+		$("#detalle-apellido").text(apellido);
+		$("#detalle-nombre").text(nombre);
         $("#detalle-dni").text("DNI: " + dni);
         $("#detalle-domicilio").text(domicilio);
         $("#detalle-fecha").text(fecha);
