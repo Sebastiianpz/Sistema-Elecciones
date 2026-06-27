@@ -99,18 +99,6 @@
 
 			</li>
 
-			<li>
-
-				<a href="${pageContext.request.contextPath}/vistas/consultaEstado.jsp"
-					class="sidebar-nav-link">
-
-					<span class="nav-icon">📋</span>
-
-					Consulta Pública
-
-				</a>
-
-			</li>
 
 			<li>
 

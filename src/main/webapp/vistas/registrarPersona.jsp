@@ -27,7 +27,6 @@
         <a href="${pageContext.request.contextPath}/vistas/listar.jsp">Dashboard</a>
         <a href="${pageContext.request.contextPath}/vistas/busqueda.jsp">Buscar Persona</a>
         <a href="${pageContext.request.contextPath}/vistas/registrarPersona.jsp">Registrar Persona</a>
-        <a href="${pageContext.request.contextPath}/vistas/consultaEstado.jsp">Consultar Estado</a>
     </div>
 
     <button class="btn-logout">Cerrar Sesión</button>
