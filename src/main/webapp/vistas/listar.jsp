@@ -25,7 +25,7 @@
 
 	<div id="sidebar-wrapper">
 
-		<a href="${pageContext.request.contextPath}/Listar"
+		<a href="${pageContext.request.contextPath}/Listar.jsp"
 			class="sidebar-brand">
 
 			<div class="sidebar-brand-icon">
@@ -56,7 +56,7 @@
 
 			<li>
 
-				<a href="${pageContext.request.contextPath}/Listar"
+				<a href="${pageContext.request.contextPath}/Listar.jsp"
 					class="sidebar-nav-link active">
 
 					<span class="nav-icon">📊</span>
