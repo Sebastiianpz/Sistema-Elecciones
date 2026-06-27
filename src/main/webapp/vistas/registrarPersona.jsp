@@ -1,115 +1,300 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
+
 <meta charset="UTF-8">
-<title>Registrar Persona</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Bootstrap -->
-<link rel="stylesheet"
-      href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css">
+<title>Registrar Ciudadano</title>
 
-<!-- Tu CSS custom -->
 <link rel="stylesheet"
-      href="${pageContext.request.contextPath}/css/style.css">
+	href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css">
+
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/style.css">
+
 </head>
 
 <body>
 
-<!-- NAVBAR (tu diseño original) -->
-<nav class="navbar-custom">
+<div id="wrapper">
 
-    <div class="logo">Padrón Nacional Electoral</div>
+	<!-- ═════════════ SIDEBAR ═════════════ -->
 
-    <div class="menu">
-        <a href="${pageContext.request.contextPath}/vistas/listar.jsp">Dashboard</a>
-        <a href="${pageContext.request.contextPath}/vistas/busqueda.jsp">Buscar Persona</a>
-        <a href="${pageContext.request.contextPath}/vistas/registrarPersona.jsp">Registrar Persona</a>
-    </div>
+	<div id="sidebar-wrapper">
 
-    <button class="btn-logout">Cerrar Sesión</button>
+		<a href="${pageContext.request.contextPath}/vistas/listar.jsp"
+			class="sidebar-brand">
 
-</nav>
+			<div class="sidebar-brand-icon">🗳️</div>
 
-<div class="container mt-4">
+			<div class="sidebar-brand-text">
 
-    <div class="card shadow-sm p-4 form-card">
+				<span class="sidebar-brand-name">
+					PadronWeb
+				</span>
 
-        <h3 class="mb-4">Registrar Persona</h3>
+				<span class="sidebar-brand-sub">
+					Sistema Electoral
+				</span>
 
-        <form id="formPersona"
-              action="${pageContext.request.contextPath}/Persona"
-              method="post"
-              enctype="multipart/form-data">
+			</div>
 
-            <!-- DNI -->
-            <div class="mb-3">
-                <label class="form-label">DNI</label>
-                <input type="text" name="dni" class="form-control" required>
-            </div>
+		</a>
 
-            <!-- Apellido -->
-            <div class="mb-3">
-                <label class="form-label">Apellido</label>
-                <input type="text" name="apellido" class="form-control" required>
-            </div>
+		<ul class="sidebar-nav">
 
-            <!-- Nombre -->
-            <div class="mb-3">
-                <label class="form-label">Nombre</label>
-                <input type="text" name="nombre" class="form-control" required>
-            </div>
+			<li>
 
-            <!-- Fecha -->
-            <div class="mb-3">
-                <label class="form-label">Fecha Nacimiento</label>
-                <input type="date" name="fechaNac" class="form-control" required>
-            </div>
+				<span class="sidebar-nav-label">
+					Principal
+				</span>
 
-            <!-- Sexo -->
-            <div class="mb-3">
-                <label class="form-label">Sexo</label>
-                <select name="sexo" class="form-select">
-                    <option value="M">Masculino</option>
-                    <option value="F">Femenino</option>
-                    <option value="X">X</option>
-                </select>
-            </div>
+			</li>
 
-            <!-- Domicilio -->
-            <div class="mb-3">
-                <label class="form-label">Domicilio</label>
-                <input type="text" name="domicilio" class="form-control">
-            </div>
+			<li>
 
-            <!-- Imagen -->
-            <div class="mb-3">
-                <label class="form-label">Foto</label>
-                <input type="file" name="imagen" class="form-control" accept="image/*">
-            </div>
+				<a href="${pageContext.request.contextPath}/vistas/listar.jsp"
+					class="sidebar-nav-link">
 
-            <!-- Botón -->
-            <button type="submit" class="btn btn-success w-100">
-                Registrar Persona
-            </button>
+					<span class="nav-icon">📊</span>
 
-        </form>
+					Dashboard
 
-        <!-- Mensaje backend -->
-        <div id="mensaje" class="mt-3"></div>
+				</a>
 
-    </div>
+			</li>
+
+			<li>
+
+				<span class="sidebar-nav-label">
+					Gestión
+				</span>
+
+			</li>
+
+			<li>
+
+				<a href="${pageContext.request.contextPath}/vistas/busqueda.jsp"
+					class="sidebar-nav-link">
+
+					<span class="nav-icon">🔍</span>
+
+					Buscar Ciudadano
+
+				</a>
+
+			</li>
+
+			<li>
+
+				<a href="${pageContext.request.contextPath}/vistas/registrarPersona.jsp"
+					class="sidebar-nav-link active">
+
+					<span class="nav-icon">➕</span>
+
+					Registrar Ciudadano
+
+				</a>
+
+			</li>
+
+			<li>
+
+				<span class="sidebar-nav-label">
+					Sistema
+				</span>
+
+			</li>
+
+			<li>
+
+				<a href="${pageContext.request.contextPath}/Logout"
+					class="sidebar-nav-link">
+
+					<span class="nav-icon">🚪</span>
+
+					Cerrar sesión
+
+				</a>
+
+			</li>
+
+		</ul>
+
+		<div class="sidebar-footer">
+
+			<div class="sidebar-footer-text">
+
+				Sistema de Gestión Electoral
+
+				<br>
+
+				<span class="sidebar-version">
+					v1.0.0
+				</span>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<!-- ═════════════ CONTENIDO ═════════════ -->
+
+	<div id="page-content-wrapper">
+
+		<div class="main-content">
+
+			<div class="page-header">
+
+				<h1 class="page-title">
+
+					Registrar Ciudadano
+
+				</h1>
+
+				<p class="page-subtitle">
+
+					Complete el formulario para incorporar un nuevo ciudadano al padrón electoral.
+
+				</p>
+
+			</div>
+
+			<div class="table-card">
+
+				<div class="table-card-header">
+
+					<div>
+
+						<div class="table-card-title">
+
+							Formulario de Registro
+
+						</div>
+
+						<div class="table-card-sub">
+
+							Complete todos los datos del ciudadano.
+
+						</div>
+
+					</div>
+
+				</div>
+
+				<div class="table-card-body">
+
+					<form id="formPersona"
+					      action="${pageContext.request.contextPath}/Persona"
+					      method="post"
+					      enctype="multipart/form-data">
+					      						<!-- DNI -->
+						<div class="mb-3">
+							<label class="form-label">DNI</label>
+							<input type="text"
+								   name="dni"
+								   class="form-control"
+								   required>
+						</div>
+
+						<!-- Apellido -->
+						<div class="mb-3">
+							<label class="form-label">Apellido</label>
+							<input type="text"
+								   name="apellido"
+								   class="form-control"
+								   required>
+						</div>
+
+						<!-- Nombre -->
+						<div class="mb-3">
+							<label class="form-label">Nombre</label>
+							<input type="text"
+								   name="nombre"
+								   class="form-control"
+								   required>
+						</div>
+
+						<!-- Fecha -->
+						<div class="mb-3">
+							<label class="form-label">Fecha de nacimiento</label>
+							<input type="date"
+								   name="fechaNac"
+								   class="form-control"
+								   required>
+						</div>
+
+						<!-- Sexo -->
+						<div class="mb-3">
+							<label class="form-label">Sexo</label>
+
+							<select name="sexo"
+									class="form-select">
+
+								<option value="M">Masculino</option>
+								<option value="F">Femenino</option>
+								<option value="X">No binario</option>
+
+							</select>
+
+						</div>
+
+						<!-- Domicilio -->
+						<div class="mb-3">
+							<label class="form-label">Domicilio</label>
+							<input type="text"
+								   name="domicilio"
+								   class="form-control">
+						</div>
+
+						<!-- Foto -->
+						<div class="mb-4">
+							<label class="form-label">Fotografía del DNI</label>
+							<input type="file"
+								   name="imagen"
+								   class="form-control"
+								   accept="image/*">
+						</div>
+
+						<div class="d-grid">
+
+							<button type="submit"
+									class="btn btn-success">
+
+								Registrar Persona
+
+							</button>
+
+						</div>
+
+					</form>
+
+					<div id="mensaje" class="mt-4"></div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
 
 </div>
 
-<!-- JS -->
 <script>
-    const ctx = "${pageContext.request.contextPath}";
+	const ctx = "${pageContext.request.contextPath}";
 </script>
 
 <script src="${pageContext.request.contextPath}/scripts/jquery/jquery.min.js"></script>
+
+<script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.bundle.min.js"></script>
+
 <script src="${pageContext.request.contextPath}/scripts/persona.js"></script>
 
 </body>
