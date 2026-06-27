@@ -1,43 +1,38 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Administrativo</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
- <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Panel Administrativo</title>
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/Style.css">
- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
- <script type="text/javascript">
-      var contextPath = '<%=request.getContextPath()%>';
- </script>
- <script src="<%=request.getContextPath()%>/scripts/loginAdmin.js"></script>
- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script type="text/javascript">
+     var contextPath = '<%=request.getContextPath()%>';
+</script>
+<script src="<%=request.getContextPath()%>/scripts/loginAdmin.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
 <header class="header-primary">
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container-fluid px-4">
-            <a class="navbar-brand" href="#">
-                <i class="fas fa-shield-halved me-3"></i>
-                Panel Administrativo
-            </a>
+   <nav class="navbar navbar-expand-lg navbar-dark">
+       <div class="container-fluid px-4">
+           <a class="navbar-brand" href="#">
+               <i class="fas fa-shield-halved me-3"></i>
+               Panel Administrativo
+           </a>
+           <div class="d-flex gap-2">
+   <a href="<%= request.getContextPath() %>/home/home.jsp" class="btn btn-logout px-3 d-inline-flex align-items-center">
+       <i class="fas fa-right-from-bracket me-2"></i>
+       Cerrar Sesión
+   </a>
+</div>
 
-            <div class="d-flex gap-2">
-                <a href="dashboard-padron.html" class="btn btn-logout px-3 text-decoration-none d-inline-flex align-items-center">
-                    <i class="fas fa-chart-line me-2"></i>
-                    Dashboard Padrón
-                </a>
-                <button class="btn btn-logout">
-                    <i class="fas fa-right-from-bracket me-2"></i>
-                    Cerrar Sesión
 
-                </button>
-            </div>
         </div>
     </nav>
 </header>
