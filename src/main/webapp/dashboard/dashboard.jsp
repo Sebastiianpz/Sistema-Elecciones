@@ -188,7 +188,7 @@
             </div>
 
             <div class="col-lg-6 col-md-6 mb-4">
-                <a href="gestion-candidatos.html" class="text-decoration-none d-block card-clickable">
+                <a href="/gestion-candidatos/gestion-candidatos.jsp" class="text-decoration-none d-block card-clickable">
                     <div class="card-action action-orange">
                         <div class="icon-action orange">
                             <i class="fas fa-users"></i>

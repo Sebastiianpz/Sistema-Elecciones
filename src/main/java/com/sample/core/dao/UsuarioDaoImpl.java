@@ -20,7 +20,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	private static final String queryUpdateCandidato = "UPDATE candidatos SET nombre_completo=?, partido=?, num_partido=?, color_partido=? WHERE id=?";
 	private static final String queryFindEquipo = "SELECT id, mac_address, nombre, habilitada, votos_emitidos, usuario_id FROM pcs_habilitadas WHERE id=?";
 	private static final String queryListEquipo = "SELECT id, mac_address, nombre, habilitada, votos_emitidos, usuario_id FROM pcs_habilitadas";
-	private static final String queryAddEquipo = "INSERT INTO pcs_habilitadas (mac_address, nombre, habilitada, votos_emitidos, fecha_registro, usuario_id) VALUES (?, ?, ?, 0, NOW(), ?)";	private static final String queryDeleteMac = "DELETE FROM pcs_habilitadas WHERE id=?";
+	private static final String queryAddEquipo = "INSERT INTO pcs_habilitadas (mac_address, nombre, habilitada, votos_emitidos, usuario_id) VALUES (?, ?, ?, 0, ?)";	
+	private static final String queryDeleteMac = "DELETE FROM pcs_habilitadas WHERE id=?";
 	private static final String queryUpdateEquipos = "UPDATE pcs_habilitadas SET mac_address =?, nombre =?, habilitada =? WHERE id=?";
 
 	
@@ -249,7 +250,6 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	        st.setString(2, nombreMac);
 	        st.setBoolean(3, estadoPc);
 	        st.setInt(4, votosEmitidos);
-	        st.setDate(5, fechaRegistro);
 	        st.executeUpdate();
 		 }catch (Exception e) {
 				throw new ErrorException("Hubo un error al realizar la consulta", e);

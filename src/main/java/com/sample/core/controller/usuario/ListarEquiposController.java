@@ -32,10 +32,15 @@ public class ListarEquiposController extends HttpServlet {
             for (int i = 0; i < lista.size(); i++) {
                 Usuario e = lista.get(i);
                 
+                // Validamos que los campos de texto no sean nulos reales en Java antes de enviar
+                String nombre = (e.getNombreMac() != null) ? e.getNombreMac() : "PC Sin Nombre";
+                String mac = (e.getMacAddress() != null) ? e.getMacAddress() : "00-00-00-00-00-00";
+                
                 out.print("{");
                 out.print("\"id\":" + e.getId() + ",");
-                // ModificÃ¡ estos getters segÃºn cÃ³mo se llamen en tu Domain para los Equipos
-                out.print("\"nombreMac\":\"" + e.getNombreCompleto() + "\""); 
+                out.print("\"nombreMac\":\"" + nombre + "\","); // <-- Se agregó la coma limpia
+                out.print("\"macAddress\":\"" + mac + "\",");   // <-- Se agregó la coma limpia
+                out.print("\"votosEmitidos\":" + e.getVotosEmitidos()); // <-- Sin comillas al final porque es INT
                 out.print("}");
                 
                 if (i < lista.size() - 1) {

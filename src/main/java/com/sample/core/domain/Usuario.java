@@ -91,6 +91,14 @@ public class Usuario extends GenericEntity{
 	public void setVotos(int votos) {
 		this.votos = votos;
 	}
+	
+	public int getVotosEmitidos() {
+		return votosEmitidos;
+	}
+
+	public void setVotosEmitidos(int votosEmitidos) {
+		this.votosEmitidos = votosEmitidos;
+	}
 
 	public String getMacAddress() {
 		return macAddress;
