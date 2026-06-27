@@ -24,7 +24,6 @@ $(function() {
         $(".btn-seleccionar-candidato").removeClass("btn-success").addClass("btn-primary").html("<i class='fas fa-vote-yea me-2'></i>VOTAR");
         $(this).removeClass("btn-primary").addClass("btn-success").html("<i class='fas fa-check me-2'></i>SELECCIONADO");
         
-        console.log("Candidato seleccionado temporalmente:", nombreCandidatoSeleccionado, "(ID:", idCandidatoSeleccionado + ")");
     }); 
 
     $(document).on("click", "#btnConfirmar", function (e) {
@@ -69,7 +68,6 @@ $(function() {
                         window.location.href = contextPath + "/confirmacion/confirmacion.jsp"; 
                     },
                     error: function(xhr) {
-                        console.log("Error al registrar el voto:", xhr);
                         Swal.fire("Error", "No se pudo registrar el voto en el servidor.", "error");
                     }
                 }); 
@@ -91,21 +89,31 @@ function cargarCandidatos() {
             contenedor.empty();
 
             $.each(listaCandidatos, function(index, candidato) {
-                var nombreMostrar = candidato.nombre_completo; 
+	
+                var nombreMostrar = candidato.nombreCompleto; 
                 var partidoMostrar = candidato.partido;
+                var colorPartido = candidato.colorPartido;
 
                 var tarjetaHTML = `
                     <div class="col-md-4 mb-4">
-                        <div class="card text-center p-3">
-                            <img src="${contextPath}/assets/img/avatar.png" class="card-img-top mx-auto" style="width: 100px;">
-                            <div class="card-body">
-                                <h5 class="card-title">${nombreMostrar}</h5>
-                                <p class="card-text text-muted">${partidoMostrar}</p>
+                        <div class="card text-center p-3 shadow-sm border-0" style="border-top: 5px solid ${colorPartido} !important;">
+                            
+                            <div class="my-3 d-inline-flex align-items-center justify-content-center rounded-circle mx-auto shadow-sm text-white" 
+                                 style="width: 85px; height: 85px; font-size: 2.5rem; background-color: ${colorPartido};">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            
+                            <div class="card-body p-2">
+                                <h5 class="card-title fw-bold mb-1">${nombreMostrar}</h5>
                                 
-                                <button class="btn btn-primary btn-seleccionar-candidato" 
+                                <p class="card-text small mb-3 fw-semibold" style="color: ${colorPartido};">
+                                    ${partidoMostrar}
+                                </p>
+                                
+                                <button class="btn btn-primary w-100 btn-seleccionar-candidato" 
                                         data-id="${candidato.id}" 
                                         data-nombre="${nombreMostrar}">
-                                    VOTAR
+                                    <i class="fas fa-vote-yea me-2"></i>VOTAR
                                 </button>
                             </div>
                         </div>
