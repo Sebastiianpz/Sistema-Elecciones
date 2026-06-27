@@ -58,7 +58,7 @@
                     </button>
 
                     <button type="button" class="btn btn-outline-secondary w-100 mt-3"
-                            onclick="window.location.href=contextPath + '/home/home.jsp'">
+                            onclick="window.location.href=contextPath + '/habilitado-administrador/habilitado-administrador.jsp'">
                         <i class="fas fa-arrow-left me-2"></i> VOLVER
                     </button>
                 </form>

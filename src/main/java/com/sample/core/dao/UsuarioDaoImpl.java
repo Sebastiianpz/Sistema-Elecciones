@@ -90,35 +90,36 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
 	public List<Usuario> listCandidatos() throws Exception {
 
-		PreparedStatement st= null;
-		ResultSet rs = null;
-		List<Usuario> candidatos = new ArrayList<Usuario>();
+	    PreparedStatement st = null;
+	    ResultSet rs = null;
+	    List<Usuario> candidatos = new ArrayList<Usuario>();
 
-		try {
-			st = conexion.dameConnection().prepareStatement(queryListCandidato);
-			rs = st.executeQuery();
-			
-			while (rs.next()) {
-				 Usuario candidato = new Usuario();
-				    
-				    candidato.setId(rs.getInt("id"));
-				    candidato.setNombreCompleto(rs.getString("nombre_completo"));
-				    candidato.setPartido(rs.getString("partido"));
-				    candidato.setNumPartido(rs.getInt("num_partido")); 
-				    candidato.setColorPartido(rs.getString("color_partido"));
-				    candidato.setVotos(rs.getInt("votos"));
-			    
-				    candidatos.add(candidato);
-			}
-			
-		} catch (Exception e) {
-			System.out.println(e.getCause());
-		}finally {
-			if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+	    try {
+	        st = conexion.dameConnection().prepareStatement(queryListCandidato);
+	        rs = st.executeQuery();
+	        
+	        while (rs.next()) {
+	            Usuario candidato = new Usuario();
+	            
+	            candidato.setId(rs.getInt("id"));
+	            candidato.setNombreCompleto(rs.getString("nombre_completo"));
+	            candidato.setPartido(rs.getString("partido"));
+	            candidato.setNumPartido(rs.getInt("num_partido")); 
+	            candidato.setColorPartido(rs.getString("color_partido"));
+	            candidato.setVotos(rs.getInt("votos"));
+	        
+	            candidatos.add(candidato); // ✅ FIX: se agrega el candidato a la lista
+	        }
+	        
+	    }  catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println("ERROR DETALLADO: " + e.getMessage());
+	    } finally {
+	        if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
 	        if (st != null) try { st.close(); } catch (SQLException e) { e.printStackTrace(); }
-		}
-		
-		return candidatos;
+	    }
+	    
+	    return candidatos;
 	}
 	
 	public void saveCandidato(String nombreCompleto, String partido, int numPartido, String colorPartido) throws ErrorException {
@@ -208,33 +209,34 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	
 	public List<Usuario> listEquipos() throws Exception {
 
-		PreparedStatement st= null;
-		ResultSet rs = null;
-		List<Usuario> gestionDeEquipos = new ArrayList<Usuario>();
+	    PreparedStatement st = null;
+	    ResultSet rs = null;
+	    List<Usuario> gestionDeEquipos = new ArrayList<Usuario>();
 
-		try {
-			st = conexion.dameConnection().prepareStatement(queryListEquipo);
-			rs = st.executeQuery();
-			
-			while (rs.next()) {
-				Usuario gestionDeEquipo = new Usuario();
-				
-				gestionDeEquipo.setId(rs.getInt("id"));     
-				gestionDeEquipo.setMacAddress(rs.getString("mac_address"));  
-				gestionDeEquipo.setNombreMac(rs.getString("nombre"));
-				gestionDeEquipo.setEstadoPc(rs.getBoolean("habilitada"));
-				gestionDeEquipo.setVotos(rs.getInt("votos_emitidos"));		              
-			    
-			}
-			
-		} catch (Exception e) {
-			System.out.println(e.getCause());
-		}finally {
-			st.close();
-			rs.close();
-		}
-		
-		return gestionDeEquipos;
+	    try {
+	        st = conexion.dameConnection().prepareStatement(queryListEquipo);
+	        rs = st.executeQuery();
+	        
+	        while (rs.next()) {
+	            Usuario gestionDeEquipo = new Usuario();
+	            
+	            gestionDeEquipo.setId(rs.getInt("id"));     
+	            gestionDeEquipo.setMacAddress(rs.getString("mac_address"));  
+	            gestionDeEquipo.setNombreMac(rs.getString("nombre"));
+	            gestionDeEquipo.setEstadoPc(rs.getBoolean("habilitada"));
+	            gestionDeEquipo.setVotos(rs.getInt("votos_emitidos"));
+	            
+	            gestionDeEquipos.add(gestionDeEquipo); // ✅ FIX: se agrega el equipo a la lista
+	        }
+	        
+	    } catch (Exception e) {
+	        System.out.println(e.getCause());
+	    } finally {
+	        if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+	        if (st != null) try { st.close(); } catch (SQLException e) { e.printStackTrace(); }
+	    }
+	    
+	    return gestionDeEquipos;
 	}
 	
 	public void saveEquipos(String macAddress, String nombreMac, boolean estadoPc, int votosEmitidos, Date fechaRegistro) throws ErrorException {
