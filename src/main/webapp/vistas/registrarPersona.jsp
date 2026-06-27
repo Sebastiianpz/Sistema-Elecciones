@@ -9,7 +9,7 @@
 
 <!-- Bootstrap -->
 <link rel="stylesheet"
-      href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap.min.css">
+      href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css">
 
 <!-- Tu CSS custom -->
 <link rel="stylesheet"
@@ -24,7 +24,7 @@
     <div class="logo">Padrón Nacional Electoral</div>
 
     <div class="menu">
-        <a href="${pageContext.request.contextPath}/vistas/dashboard.jsp">Dashboard</a>
+        <a href="${pageContext.request.contextPath}/vistas/listar.jsp">Dashboard</a>
         <a href="${pageContext.request.contextPath}/vistas/busqueda.jsp">Buscar Persona</a>
         <a href="${pageContext.request.contextPath}/vistas/registrarPersona.jsp">Registrar Persona</a>
         <a href="${pageContext.request.contextPath}/vistas/consultaEstado.jsp">Consultar Estado</a>
@@ -110,8 +110,8 @@
     const ctx = "${pageContext.request.contextPath}";
 </script>
 
-<script src="${pageContext.request.contextPath}/assets/jquery/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/assets/scripts/persona.js"></script>
+<script src="${pageContext.request.contextPath}/scripts/jquery/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/scripts/persona.js"></script>
 
 </body>
 </html>

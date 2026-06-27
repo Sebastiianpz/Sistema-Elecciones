@@ -9,7 +9,7 @@
 
 <!-- Bootstrap -->
 <link rel="stylesheet"
-      href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap.min.css">
+      href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css">
 
 <link rel="stylesheet"
       href="${pageContext.request.contextPath}/css/style.css">
@@ -49,7 +49,7 @@
         </li>
 
         <li>
-            <a href="${pageContext.request.contextPath}/vistas/buscarPersona.jsp"
+            <a href="${pageContext.request.contextPath}/vistas/busqueda.jsp"
                class="sidebar-nav-link">
                 🔍 Buscar Ciudadano
             </a>
@@ -63,7 +63,7 @@
         </li>
 
         <li>
-            <a href="${pageContext.request.contextPath}/LogoutServlet.java"" class="sidebar-nav-link">
+            <a href="${pageContext.request.contextPath}/LogoutServlet.java" class="sidebar-nav-link">
                 🚪 Cerrar Sesión
             </a>
         </li>

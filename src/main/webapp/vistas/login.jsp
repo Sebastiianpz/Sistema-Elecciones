@@ -12,7 +12,7 @@
 <title>Iniciar Sesión — Padrón Nacional Electoral</title>
 
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap.min.css">
+	href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css">
 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/style.css">

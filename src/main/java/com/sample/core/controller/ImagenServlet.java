@@ -44,8 +44,8 @@ public class ImagenServlet extends HttpServlet {
 				}
 			}
 			
-			// 4. Si no tiene foto o el ID es inválido, redirigimos a una silueta genérica
-			response.sendRedirect(request.getContextPath() + "/assets/images/no-avatar.png");
+			// Si no tiene foto o el ID es inválido
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			
 		} catch (Exception e) {
 			System.out.println("Error en ImagenServlet al recuperar binario: " + e.getMessage());

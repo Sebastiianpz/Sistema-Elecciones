@@ -755,7 +755,7 @@
 
 	<script src="${pageContext.request.contextPath}/scripts/jquery/jquery.min.js"></script>
 
-	<script src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 	<script>
 		const ctx = "${pageContext.request.contextPath}";

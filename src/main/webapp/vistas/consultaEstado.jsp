@@ -6,10 +6,10 @@
 <meta charset="UTF-8">
 <title>Consultar Estado</title>
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 
-<script src="${pageContext.request.contextPath}/assets/jquery/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/scripts/jquery/jquery.min.js"></script>
 </head>
 
 <body>
@@ -18,8 +18,8 @@
     <div class="logo">Padrón Nacional Electoral</div>
 
     <div class="menu">
-        <a href="${pageContext.request.contextPath}/vistas/dashboard.jsp">Dashboard</a>
-        <a href="${pageContext.request.contextPath}/vistas/buscarPersona.jsp">Buscar Persona</a>
+        <a href="${pageContext.request.contextPath}/vistas/listar.jsp">Dashboard</a>
+        <a href="${pageContext.request.contextPath}/vistas/busqueda.jsp">Buscar Persona</a>
         <a href="${pageContext.request.contextPath}/vistas/registrarPersona.jsp">Registrar Persona</a>
         <a href="${pageContext.request.contextPath}/vistas/consultaEstado.jsp">Consultar Estado</a>
     </div>
