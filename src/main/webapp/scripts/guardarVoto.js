@@ -89,7 +89,6 @@ function cargarCandidatos() {
             contenedor.empty();
 
             $.each(listaCandidatos, function(index, candidato) {
-	
                 var nombreMostrar = candidato.nombreCompleto; 
                 var partidoMostrar = candidato.partido;
                 var colorPartido = candidato.colorPartido;

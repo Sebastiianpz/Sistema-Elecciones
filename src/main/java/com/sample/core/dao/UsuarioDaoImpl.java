@@ -176,35 +176,35 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	}
 	
 	public Usuario findEquipoByid(int id) throws Exception {
-		 ResultSet rs = null;
-		 PreparedStatement st = null;
-		 try{
-			st = conexion.dameConnection().prepareStatement(queryFindEquipo);
-			st.setInt(1, id);
-			rs = st.executeQuery();
-			if (rs.next()) {
-				Usuario equipo = new Usuario();
-						equipo.setId(rs.getInt("id"));     
-						equipo.setMacAddress(rs.getString("mac_address"));  
-		                equipo.setNombreCompleto(rs.getString("nombre"));
-		                equipo.setEstadoPc(rs.getBoolean("habilitada"));
-		                equipo.setVotos(rs.getInt("votos_emitidos"));
-		                
-			}
+	     ResultSet rs = null;
+	     PreparedStatement st = null;
+	     try {
+	        st = conexion.dameConnection().prepareStatement(queryFindEquipo);
+	        st.setInt(1, id);
+	        rs = st.executeQuery();
+	        
+	        if (rs.next()) {
+	            Usuario equipo = new Usuario();
+	            equipo.setId(rs.getInt("id"));     
+	            equipo.setMacAddress(rs.getString("mac_address"));  
+	            equipo.setNombreMac(rs.getString("nombre")); 
+	            equipo.setEstadoPc(rs.getBoolean("habilitada"));
+	            equipo.setVotos(rs.getInt("votos_emitidos"));
+	            
+	            return equipo; 
+	        }
 
-		 }catch (Exception e) {
-				throw new ErrorException("Hubo un error al realizar la consulta", e);
-		}finally {
-			try {
-				st.close();
-				rs.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		}
-		return null;
+	     } catch (Exception e) {
+	         throw new ErrorException("Hubo un error al realizar la consulta", e);
+	     } finally {
+	         try {
+	             if (st != null) st.close();
+	             if (rs != null) rs.close();
+	         } catch (SQLException e) {
+	             e.printStackTrace();
+	         }
+	     }
+	     return null; 
 	}
 	
 	public List<Usuario> listEquipos() throws Exception {
