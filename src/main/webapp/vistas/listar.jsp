@@ -149,42 +149,6 @@
 
 	<div id="page-content-wrapper">
 
-		<nav class="topbar">
-
-			<div>
-
-				<div class="topbar-title">
-
-					Panel de Control
-
-				</div>
-
-				<div class="topbar-breadcrumb">
-
-					Inicio › Dashboard
-
-				</div>
-
-			</div>
-
-			<div class="topbar-right">
-
-				<div class="topbar-badge">
-
-					<div class="topbar-avatar">
-
-						A
-
-					</div>
-
-					Administrador
-
-				</div>
-
-			</div>
-
-		</nav>
-
 		<div class="main-content">
 
 			<div class="page-header">
