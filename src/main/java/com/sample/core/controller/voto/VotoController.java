@@ -8,31 +8,50 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.sample.core.service.VotosService;
 import com.sample.core.service.VotosServiceImp;
 
 @WebServlet("/guardarVoto")
-public class VotoController extends HttpServlet{
+public class VotoController extends HttpServlet {
 
+	private static final long serialVersionUID = 1L;
 	private VotosService votosService = new VotosServiceImp();
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            // 1. Levant√°s los IDs que vienen de la interfaz (JSP / AJAX)
-            int personaId = Integer.parseInt(request.getParameter("personaId"));
-            int candidatoId = Integer.parseInt(request.getParameter("candidatoId"));
-            int pcId = Integer.parseInt(request.getParameter("pcId")); // Computadora/Mesa de votaci√≥n
-            java.sql.Date fechaVoto = new java.sql.Date(System.currentTimeMillis());
-            // 2. Llam√°s al m√©todo save del Service que me mostraste
-            votosService.save(personaId, candidatoId, pcId);
-            
-            // 3. Respond√©s que todo sali√≥ bien (si es por AJAX pod√©s mandar un texto simple)
-            response.getWriter().write("Voto registrado con √©xito");
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
-    }
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+
+		try {
+			int personaId = Integer.parseInt(request.getParameter("personaId"));
+			int candidatoId = Integer.parseInt(request.getParameter("candidatoId"));
+			
+			HttpSession session = request.getSession();
+			Integer pcIdReal = (Integer) session.getAttribute("idPcMesa");
+
+			if (pcIdReal == null) {
+				pcIdReal = Integer.parseInt(request.getParameter("pcId"));
+				System.out.println("No se encontrÛ idPcMesa en sesiÛn, usando pcId del par·metro.");
+			} else {
+				System.out.println("Voto recibido. PC ID real de la sesiÛn: " + pcIdReal);
+			}
+
+			java.sql.Date fechaVoto = new java.sql.Date(System.currentTimeMillis());
+
+			votosService.save(personaId, candidatoId, pcIdReal);
+			
+			String jsonExito = String.format("{\"success\": %b, \"mensaje\": \"%s\"}", true, "Voto registrado con Èxito");
+			response.getWriter().write(jsonExito);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			
+			String jsonError = String.format("{\"success\": %b, \"error\": \"%s\"}", false, "No se pudo registrar el voto en el servidor.");
+			response.getWriter().write(jsonError);
+		}
+	}
 }

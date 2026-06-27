@@ -14,7 +14,6 @@ $(document).ready(function() {
                        allowEscapeKey: false,
                        showConfirmButton: false
                    });
-                   // Deshabilitamos el input y el botón por si las dudas
                    $("#inputDni").prop("disabled", true);
                    $("#btnValidar").prop("disabled", true);
                } else {
