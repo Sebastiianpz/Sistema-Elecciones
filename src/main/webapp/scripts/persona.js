@@ -186,6 +186,7 @@ data-habilitado="${p.habilitadoVotar}">
 
 <button
 class="btn-accion btn-modificar"
+data-id="${p.id}"
 data-dni="${p.nroDocumento}"
 data-apellido="${p.apellido}"
 data-nombre="${p.nombre}"
@@ -373,89 +374,6 @@ $(document).ready(function () {
     });
 
 });
-// ===============================
-// ELIMINAR
-// ===============================
-
-$(document).ready(function () {
-
-    function recalcularContadores() {
-
-        let total = 0;
-        let habilitados = 0;
-        let inhabilitados = 0;
-
-        $("#tabla-padron-body tr:visible").each(function () {
-
-            total++;
-
-            if ($(this).find(".bhab").hasClass("on")) {
-                habilitados++;
-            } else {
-                inhabilitados++;
-            }
-
-        });
-
-        $("#dash-total").text(total);
-        $("#dash-habilitados").text(habilitados);
-        $("#dash-inhabilitados").text(inhabilitados);
-
-        if (total === 0) {
-            window.recargarTablaCompleta();
-        }
-    }
-
-    $("#tabla-padron-body").on("click", ".btn-eliminar", function () {
-
-        const dni = $(this).data("dni");
-        const fila = $(this).closest("tr");
-        const boton = $(this);
-
-        if (!confirm("¿Eliminar al ciudadano con DNI " + dni + "?\nEsta acción no se puede deshacer.")) {
-            return;
-        }
-
-        boton.prop("disabled", true).text("⏳");
-
-        $.ajax({
-
-            url: ctx + "/Eliminar",
-            type: "POST",
-
-            data: {
-                nroDocumento: dni
-            },
-
-            success: function () {
-
-                fila.fadeOut(300, function () {
-
-                    $(this).remove();
-                    recalcularContadores();
-
-                });
-
-            },
-
-            error: function (xhr) {
-
-                boton.prop("disabled", false).text("🗑️ Eliminar");
-
-                if (xhr.status === 401) {
-                    window.location.href = "login.jsp";
-                } else {
-                    alert("No se pudo eliminar el ciudadano.");
-                }
-
-            }
-
-        });
-
-    });
-
-});
-
 
 // ===============================
 // VER DETALLE
@@ -514,6 +432,10 @@ $(document).ready(function () {
 
     $("#tabla-padron-body").on("click", ".btn-modificar", function () {
 
+		$("#modal-mod-foto").attr(
+		    "src",
+		    ctx + "/Imagen?id=" + $(this).data("id")
+		);
         $("#modal-mod-dni").val($(this).data("dni"));
         $("#modal-mod-apellido").val($(this).data("apellido"));
         $("#modal-mod-nombre").val($(this).data("nombre"));
