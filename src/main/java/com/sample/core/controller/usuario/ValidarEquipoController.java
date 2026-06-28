@@ -70,26 +70,36 @@ public class ValidarEquipoController extends HttpServlet {
 
 	// 🌟 METODO MODIFICADO: Ahora lee el hardware de Ubuntu saliendo de Docker
 	private String obtenerMacDeEstaPc() throws Exception {
-		try {
-			// Ejecuta el comando nativo de Linux gracias al volumen mapeado en docker-compose
-			ProcessBuilder pb = new ProcessBuilder("cat", "/sys/class/net/enp0s3/address");
-			Process proceso = pb.start();
 
-			BufferedReader lector = new BufferedReader(new InputStreamReader(proceso.getInputStream()));
-			String macReal = lector.readLine();
-			lector.close();
+	    String ruta = "/sys/class/net/enp0s3/address";
 
-			if (macReal != null && !macReal.trim().isEmpty()) {
-				// Transforma la respuesta de "08:00:27:8c:4e:16" a "08-00-27-8C-4E-16"
-				String macFormateada = macReal.trim().toUpperCase().replace(":", "-");
-				System.out.println("MAC Real del Host encontrada: " + macFormateada);
-				return macFormateada;
-			}
-		} catch (Exception e) {
-			System.out.println("Error al ejecutar ProcessBuilder en el Host Linux: " + e.getMessage());
-		}
-		
-		// Retorno por defecto si el archivo no es accesible
-		return "00-00-00-00-00-00";
+	    System.out.println("Leyendo MAC desde: " + ruta);
+
+	    ProcessBuilder pb = new ProcessBuilder("cat", ruta);
+
+	    Process proceso = pb.start();
+
+	    BufferedReader ok = new BufferedReader(
+	            new InputStreamReader(proceso.getInputStream()));
+
+	    BufferedReader err = new BufferedReader(
+	            new InputStreamReader(proceso.getErrorStream()));
+
+	    String mac = ok.readLine();
+	    String error = err.readLine();
+
+	    proceso.waitFor();
+
+	    if (error != null) {
+	        System.out.println("ERROR: " + error);
+	    }
+
+	    if (mac != null) {
+	        mac = mac.trim().toUpperCase().replace(":", "-");
+	        System.out.println("MAC encontrada: " + mac);
+	        return mac;
+	    }
+
+	    return "00-00-00-00-00-00";
 	}
 }
