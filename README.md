@@ -124,4 +124,4 @@ sebastianpzz/sistema-de-elecciones
 
 # 📄 Licencia
 
-Proyecto desarrollado con fines exclusivamente educativos para la materia Laboratorio de Programación.
+Proyecto desarrollado con fines exclusivamente educativos para la materia Programación Sobre Redes.
