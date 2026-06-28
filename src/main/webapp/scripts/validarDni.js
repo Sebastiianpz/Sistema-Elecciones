@@ -1,4 +1,50 @@
 $(document).ready(function() {
+    
+    // ==========================================
+    // 1. CONTROL DE VISTAS (Pintar datos en los JSP)
+    // ==========================================
+    
+    // Intentamos recuperar los datos del ciudadano del sessionStorage
+    var nombreGuardado = sessionStorage.getItem("nombrePersona");
+    var dniGuardado = sessionStorage.getItem("dniPersona");
+
+    // Si existen elementos con estos ID en la página actual, les metemos la info
+    if ($('#lblNombrePersona').length > 0 && nombreGuardado) {
+        $('#lblNombrePersona').text(nombreGuardado);
+    }
+    
+    if ($('#lblDniPersona').length > 0 && dniGuardado) {
+        $('#lblDniPersona').text("DNI: " + dniGuardado);
+    }
+
+    // Configuración del botón VOLVER de forma global
+    $('#btnVolverInicio').on('click', function(e) {
+        e.preventDefault();
+        sessionStorage.clear(); // Limpiamos para la siguiente consulta
+        window.location.href = contextPath + "/home/home.jsp";
+    });
+
+    // Configuración del botón IR A VOTAR (para la pantalla de habilitado)
+	// Configuración del botón IR A VOTAR (para la pantalla de habilitado)
+	$('#btnIrAVotar').on('click', function(e) {
+	    e.preventDefault();
+	    
+	    // Verificamos si estás en la página de administrador mirando la ruta actual
+	    if (window.location.pathname.includes("habilitado-administrador")) {
+	        // Guardamos el rol como respaldo en la sesión del navegador
+	        sessionStorage.setItem("rolUsuario", "ADMIN");
+	        window.location.href = contextPath + "/votacion/votacion.jsp?tipo=admin";
+	    } else {
+	        sessionStorage.setItem("rolUsuario", "CIUDADANO");
+	        window.location.href = contextPath + "/votacion/votacion.jsp?tipo=ciudadano";
+	    }
+	});
+
+
+    // ==========================================
+    // 2. LOGICA DE VALIDACIÓN (Tu AJAX original)
+    // ==========================================
+    
     $('#btnValidar').on('click', function (e) {
         e.preventDefault(); 
         
@@ -22,11 +68,12 @@ function ejecutarValidacion(dni) {
         },
         success: function(response) {
             if (response == null || response.id == 0) {
-            window.location.href = contextPath + "/no-existe.jsp";                
+                window.location.href = contextPath + "/no-existe.jsp";                
                 return;
             }
 						
-            sessionStorage.setItem("nombrePersona", response.nombre + " " + response.apellido);
+            // 🌟 GUARDAMOS EL NOMBRE: Usamos la propiedad exacta del mapa que envía el Controller
+            sessionStorage.setItem("nombrePersona", response.nombreCompleto);
             sessionStorage.setItem("dniPersona", dni);
 
             if (response.habilitadoVotar === false || response.habilitadoVotar === 0) {
