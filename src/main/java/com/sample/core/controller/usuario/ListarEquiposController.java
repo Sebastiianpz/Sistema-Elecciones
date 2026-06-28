@@ -32,15 +32,17 @@ public class ListarEquiposController extends HttpServlet {
             for (int i = 0; i < lista.size(); i++) {
                 Usuario e = lista.get(i);
                 
-                // Validamos que los campos de texto no sean nulos reales en Java antes de enviar
                 String nombre = (e.getNombreMac() != null) ? e.getNombreMac() : "PC Sin Nombre";
                 String mac = (e.getMacAddress() != null) ? e.getMacAddress() : "00-00-00-00-00-00";
                 
                 out.print("{");
                 out.print("\"id\":" + e.getId() + ",");
-                out.print("\"nombreMac\":\"" + nombre + "\","); // <-- Se agregó la coma limpia
-                out.print("\"macAddress\":\"" + mac + "\",");   // <-- Se agregó la coma limpia
-                out.print("\"votosEmitidos\":" + e.getVotosEmitidos()); // <-- Sin comillas al final porque es INT
+                out.print("\"nombreMac\":\"" + nombre + "\","); 
+                out.print("\"macAddress\":\"" + mac + "\",");   
+                
+                out.print("\"estadoPc\":" + e.isEstadoPc() + ","); // <-- Mapea true o false directo
+                
+                out.print("\"votosEmitidos\":" + e.getVotos()); 
                 out.print("}");
                 
                 if (i < lista.size() - 1) {
