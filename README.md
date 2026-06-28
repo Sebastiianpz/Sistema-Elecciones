@@ -95,7 +95,7 @@ Ambos proyectos consumen la misma estructura de datos para garantizar la interop
 Clonar el repositorio:
 
 ```bash
-git clone https://github.com/<usuario>/<repositorio>.git
+git clone https://github.com/Sebastiianpz/Sistema-Elecciones.git
 ```
 
 Ingresar al proyecto:
