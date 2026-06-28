@@ -82,9 +82,15 @@ function ejecutarValidacion(dni) {
             }
 						
             if (response.yaVoto === true || response.yaVoto === 1) {
-                window.location.href = contextPath + "/ya-voto/ya-voto.jsp";
-                return;
-            }		
+    if (response.rol === "ADMIN") {
+        window.location.href = contextPath + '/dashboard/dashboard.jsp';
+    } else {
+        sessionStorage.setItem("nombrePersona", response.nombreCompleto);
+        sessionStorage.setItem("dniPersona", response.nroDocumento);
+        window.location.href = contextPath + "/ya-voto/ya-voto.jsp";
+    }
+    return;
+}		
 						
             sessionStorage.setItem("idPersonaVotando", response.id);
 			                        

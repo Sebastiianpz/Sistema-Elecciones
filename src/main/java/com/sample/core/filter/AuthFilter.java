@@ -41,17 +41,22 @@ public class AuthFilter implements Filter {
         	    uri.contains("/habilitado-administrador")           ||
         	    uri.contains("/votacion/")                          ||
         	    uri.contains("/confirmacion/")                      ||
+        	    uri.contains("/ya-voto/")   ||
+        	    uri.contains("/no-habilitado/no-habilitado.jsp/")                      ||
         	    // Servlets del votante (públicos)
+        	    uri.equals(ctx + "/ingresarMesa")           ||
         	    uri.equals(ctx + "/dashboard-stats")        ||
         	    uri.equals(ctx + "/dashboard-resultados")   ||
         	    uri.equals(ctx + "/validarPersonaPorDNI")           ||
         	    uri.equals(ctx + "/votar")                          ||
         	    uri.equals(ctx + "/voto-confirmado")                ||
+        	    uri.equals(ctx + "/listarCandidatos")       ||
         	    // Recursos estáticos
         	    uri.contains("/scripts/")                           ||
         	    uri.contains("/css/")                               ||
         	    uri.contains("/images/")                            ||
         	    uri.endsWith(".js")                                 ||
+        	    uri.equals(ctx + "/guardarVoto")            ||
         	    uri.endsWith(".css")                                ||
         	    uri.endsWith(".png")                                ||
         	    uri.endsWith(".jpg");

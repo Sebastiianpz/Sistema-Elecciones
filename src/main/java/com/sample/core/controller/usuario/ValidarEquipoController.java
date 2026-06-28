@@ -68,17 +68,27 @@ public class ValidarEquipoController extends HttpServlet { // 🚨 ARREGLADO: Fa
 	}
 
 	private String obtenerMacDeEstaPc() throws Exception {
-		InetAddress ip = InetAddress.getLocalHost();
-		NetworkInterface network = NetworkInterface.getByInetAddress(ip);
-		if (network == null) return "00-00-00-00-00-00";
-		
-		byte[] mac = network.getHardwareAddress();
-		if (mac == null) return "00-00-00-00-00-00";
-
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < mac.length; i++) {
-			sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
-		}
-		return sb.toString(); 
+	    java.util.Enumeration<NetworkInterface> interfaces = 
+	        NetworkInterface.getNetworkInterfaces();
+	    
+	    while (interfaces.hasMoreElements()) {
+	        NetworkInterface ni = interfaces.nextElement();
+	        
+	        // Saltear loopback y interfaces inactivas
+	        if (ni.isLoopback() || !ni.isUp()) continue;
+	        
+	        byte[] mac = ni.getHardwareAddress();
+	        if (mac == null) continue;
+	        
+	        StringBuilder sb = new StringBuilder();
+	        for (int i = 0; i < mac.length; i++) {
+	            sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
+	        }
+	        
+	        String macStr = sb.toString();
+	        System.out.println("MAC encontrada: " + macStr); // para debug
+	        return macStr;
+	    }
+	    return "00-00-00-00-00-00";
 	}
 }
