@@ -3,14 +3,14 @@ package com.sample.core.controller.usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.sample.core.service.UsuarioService;
 import com.sample.core.service.UsuarioServiceImp;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/cambiarEstadoEquipo")
 public class CambiarEstadoEquiposController extends HttpServlet {
@@ -31,14 +31,14 @@ public class CambiarEstadoEquiposController extends HttpServlet {
 
             if (idParam == null || idParam.trim().isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                out.print("{\"ok\":false,\"error\":\"Falta el parámetro requerido (id).\"}");
+                out.print("{\"ok\":false,\"error\":\"Falta el parï¿½metro requerido (id).\"}");
                 out.flush();
                 return;
             }
 
             if (estadoParam == null || estadoParam.trim().isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                out.print("{\"ok\":false,\"error\":\"Falta el parámetro requerido (estadoPc).\"}");
+                out.print("{\"ok\":false,\"error\":\"Falta el parï¿½metro requerido (estadoPc).\"}");
                 out.flush();
                 return;
             }
@@ -48,7 +48,7 @@ public class CambiarEstadoEquiposController extends HttpServlet {
 
             usuarioService.cambiarEstadoEquipos(id, estadoPc);
 
-            out.print("{\"ok\":true,\"mensaje\":\"¡Estado de la terminal actualizado con éxito!\"}");
+            out.print("{\"ok\":true,\"mensaje\":\"ï¿½Estado de la terminal actualizado con ï¿½xito!\"}");
             out.flush();
 
         } catch (Exception e) {

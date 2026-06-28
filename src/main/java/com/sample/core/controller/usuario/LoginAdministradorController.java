@@ -3,16 +3,17 @@ package com.sample.core.controller.usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.MessageDigest;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.sample.core.domain.Usuario;
-import com.sample.core.service.UsuarioServiceImp;
 import com.sample.core.service.UsuarioService;
+import com.sample.core.service.UsuarioServiceImp;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/loginAdministrador")
 public class LoginAdministradorController extends HttpServlet{
@@ -46,7 +47,7 @@ public class LoginAdministradorController extends HttpServlet{
 	            username.trim().isEmpty() || password.trim().isEmpty()) {
 	            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 	            PrintWriter out = response.getWriter();
-	            out.print("{\"ok\":false,\"error\":\"Usuario y contraseña son obligatorios.\"}");
+	            out.print("{\"ok\":false,\"error\":\"Usuario y contraseï¿½a son obligatorios.\"}");
 	            out.flush();
 	            return;
 	        }
@@ -70,7 +71,7 @@ public class LoginAdministradorController extends HttpServlet{
 	            } else {
 	                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 	                PrintWriter out = response.getWriter();
-	                out.print("{\"ok\":false,\"error\":\"Usuario o contraseña incorrectos.\"}");
+	                out.print("{\"ok\":false,\"error\":\"Usuario o contraseï¿½a incorrectos.\"}");
 	                out.flush();
 	            }
 

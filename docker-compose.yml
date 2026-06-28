@@ -1,8 +1,9 @@
-version: "3.8"
-
 services:
-  app:
+	
+  mesa:
+    container_name: mesa
     build: .
-    container_name: sistema-votaciones
+    restart: always
+
     ports:
       - "8080:8080"

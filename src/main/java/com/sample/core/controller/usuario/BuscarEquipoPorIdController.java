@@ -2,15 +2,16 @@ package com.sample.core.controller.usuario;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import com.sample.core.domain.Usuario;
 import com.sample.core.service.UsuarioService;
 import com.sample.core.service.UsuarioServiceImp;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/buscarEquipoPorId")
 public class BuscarEquipoPorIdController extends HttpServlet {
@@ -30,7 +31,7 @@ public class BuscarEquipoPorIdController extends HttpServlet {
             Usuario equipo = usuarioService.findEquipoByid(id);
 
             if (equipo != null) {
-                // Si armás el JSON manualmente, constátalo contra esto:
+                // Si armï¿½s el JSON manualmente, constï¿½talo contra esto:
                 out.print("{"
                     + "\"id\":" + equipo.getId() + ","
                     + "\"nombreMac\":\"" + equipo.getNombreMac() + "\","

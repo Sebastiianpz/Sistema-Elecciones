@@ -1,14 +1,15 @@
 package com.sample.core.controller.dashboard;
 
 
-import com.sample.core.service.DashboardService;
-
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import com.sample.core.service.DashboardService;
+
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 // URL: GET /dashboard-stats
 // Responde con JSON de métricas generales para el dashboard

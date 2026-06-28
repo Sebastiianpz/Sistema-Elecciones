@@ -3,15 +3,15 @@ package com.sample.core.controller.usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.sample.core.domain.Usuario;
 import com.sample.core.service.UsuarioService;
 import com.sample.core.service.UsuarioServiceImp;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/modificarEquipo")
 public class ActualizarDatosEquiposController extends HttpServlet {
@@ -35,7 +35,7 @@ public class ActualizarDatosEquiposController extends HttpServlet {
                     || nombreMac == null || nombreMac.trim().isEmpty()
                     || macAddress == null || macAddress.trim().isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                out.print("{\"ok\":false,\"error\":\"Faltan parámetros requeridos.\"}");
+                out.print("{\"ok\":false,\"error\":\"Faltan parï¿½metros requeridos.\"}");
                 out.flush();
                 return;
             }
@@ -47,7 +47,7 @@ public class ActualizarDatosEquiposController extends HttpServlet {
 
             usuarioService.actualizarDatosEquipo(equipoModificado);
 
-            out.print("{\"ok\":true,\"mensaje\":\"¡Datos del equipo modificados con éxito!\"}");
+            out.print("{\"ok\":true,\"mensaje\":\"ï¿½Datos del equipo modificados con ï¿½xito!\"}");
             out.flush();
 
         } catch (Exception e) {

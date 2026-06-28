@@ -1,17 +1,16 @@
 package com.sample.core.controller.voto;
 
 import java.io.IOException;
-import java.sql.Date;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.sample.core.service.VotosService;
 import com.sample.core.service.VotosServiceImp;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/guardarVoto")
 public class VotoController extends HttpServlet {
@@ -34,16 +33,16 @@ public class VotoController extends HttpServlet {
 
 			if (pcIdReal == null) {
 				pcIdReal = Integer.parseInt(request.getParameter("pcId"));
-				System.out.println("No se encontró idPcMesa en sesión, usando pcId del parámetro.");
+				System.out.println("No se encontrï¿½ idPcMesa en sesiï¿½n, usando pcId del parï¿½metro.");
 			} else {
-				System.out.println("Voto recibido. PC ID real de la sesión: " + pcIdReal);
+				System.out.println("Voto recibido. PC ID real de la sesiï¿½n: " + pcIdReal);
 			}
 
 			java.sql.Date fechaVoto = new java.sql.Date(System.currentTimeMillis());
 
 			votosService.save(personaId, candidatoId, pcIdReal);
 			
-			String jsonExito = String.format("{\"success\": %b, \"mensaje\": \"%s\"}", true, "Voto registrado con éxito");
+			String jsonExito = String.format("{\"success\": %b, \"mensaje\": \"%s\"}", true, "Voto registrado con ï¿½xito");
 			response.getWriter().write(jsonExito);
 			
 		} catch (Exception e) {
