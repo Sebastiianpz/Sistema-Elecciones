@@ -37,7 +37,9 @@ CREATE INDEX idx_nro_doc
 ON personas(nro_documento);
 
 INSERT INTO usuarios (username, password)
-SELECT 'admin', SHA2('admin123', 256)
+SELECT 'admin', 'admin123'
 WHERE NOT EXISTS (
-    SELECT 1 FROM usuarios WHERE username = 'admin'
+    SELECT *
+    FROM usuarios
+    WHERE username = 'admin'
 );
