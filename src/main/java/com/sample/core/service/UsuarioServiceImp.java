@@ -1,6 +1,5 @@
 package com.sample.core.service;
 
-import java.sql.Date;
 import java.util.List;
 
 import com.sample.core.dao.UsuarioDao;
@@ -64,7 +63,11 @@ public void deleteEquipos(int id) throws Exception {
 }
 
 @Override
-public void cambiarEstadoEquipos(Usuario mac) throws Exception {
-    usuarioDao.cambiarEstadoEquipos(mac);
+public void cambiarEstadoEquipos(int id, boolean habilitada) throws Exception {
+    usuarioDao.cambiarEstadoEquipos(id, habilitada);
+}
+
+public void actualizarDatosEquipo(Usuario mac) throws Exception {
+    usuarioDao.actualizarDatosEquipo(mac);
 }
 }

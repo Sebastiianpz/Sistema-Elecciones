@@ -21,7 +21,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	private static final String queryDeleteCandidato = "DELETE FROM candidatos WHERE id=?";
 	private static final String queryFindEquipo = "SELECT id, mac_address, nombre, habilitada, votos_emitidos, usuario_id FROM pcs_habilitadas WHERE id=?";
 	private static final String queryListEquipo = "SELECT id, mac_address, nombre, habilitada, votos_emitidos, usuario_id FROM pcs_habilitadas";
-	private static final String queryAddEquipo = "INSERT INTO pcs_habilitadas (mac_address, nombre, habilitada, votos_emitidos, usuario_id) VALUES (?, ?, ?, 0, NOW(), ?)";	
+	private static final String queryAddEquipo = "INSERT INTO pcs_habilitadas (mac_address, nombre, habilitada, votos_emitidos, usuario_id) VALUES (?, ?, ?, 0, NOW(), ?)";
 	private static final String queryDeleteMac = "DELETE FROM pcs_habilitadas WHERE id=?";
 	private static final String queryUpdateEquipos = "UPDATE pcs_habilitadas SET mac_address =?, nombre =?, habilitada =? WHERE id=?";
 

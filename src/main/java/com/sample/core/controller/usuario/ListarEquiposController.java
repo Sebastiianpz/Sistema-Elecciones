@@ -32,10 +32,17 @@ public class ListarEquiposController extends HttpServlet {
             for (int i = 0; i < lista.size(); i++) {
                 Usuario e = lista.get(i);
                 
+                String nombre = (e.getNombreMac() != null) ? e.getNombreMac() : "PC Sin Nombre";
+                String mac = (e.getMacAddress() != null) ? e.getMacAddress() : "00-00-00-00-00-00";
+                
                 out.print("{");
                 out.print("\"id\":" + e.getId() + ",");
-                // Modificá estos getters según cómo se llamen en tu Domain para los Equipos
-                out.print("\"nombreMac\":\"" + e.getNombreCompleto() + "\""); 
+                out.print("\"nombreMac\":\"" + nombre + "\","); 
+                out.print("\"macAddress\":\"" + mac + "\",");   
+                
+                out.print("\"estadoPc\":" + e.isEstadoPc() + ","); // <-- Mapea true o false directo
+                
+                out.print("\"votosEmitidos\":" + e.getVotos()); 
                 out.print("}");
                 
                 if (i < lista.size() - 1) {
