@@ -67,26 +67,29 @@ $(document).ready(function () {
 // ═══════════════════════════════════════
 
 $(document).ready(function () {
-	
-	// ===============================
-	// BÚSQUEDA POR DNI
-	// ===============================
 
-	if ($("#btn-consultar").length) {
+    // ===============================
+    // BÚSQUEDA POR DNI
+    // ===============================
 
-	    $("#btn-consultar").click(function () {
-	        consultar();
-	    });
+    if ($("#btn-consultar").length) {
 
-	    $("#input-dni").keypress(function (e) {
+        $("#btn-consultar").click(function () {
+            consultar();
+        });
 
-	        if (e.which == 13) {
-	            consultar();
-	        }
+        $("#input-dni").keypress(function (e) {
+            if (e.which == 13) {
+                consultar();
+            }
+        });
 
-	    });
+    }
 
-	}
+    // Si NO existe la tabla del padrón, salir.
+    if ($("#tabla-padron-body").length == 0) {
+        return;
+    }
 
     function cargarPadron() {
 
