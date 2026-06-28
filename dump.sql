@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS personas (
     apellido VARCHAR(100) NOT NULL,
     nombre VARCHAR(100) NOT NULL,
     fecha_nacimiento DATE,
-    sexo CHAR(1) CHECK (sexo IN ('M','F','X')),
+    sexo ENUM('M','F','X'),
     domicilio VARCHAR(200),
     habilitado_votar BOOLEAN DEFAULT TRUE,
     fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP
