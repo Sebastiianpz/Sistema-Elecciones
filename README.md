@@ -1,6 +1,6 @@
 # 🗳️ Sistema de Elecciones
 
-Proyecto desarrollado para la materia **Laboratorio de Programación**, cuyo objetivo es simular un sistema completo de gestión electoral mediante una arquitectura dividida en dos módulos principales.
+Proyecto desarrollado para la materia **Programación Sobre Redes**, cuyo objetivo es simular un sistema completo de gestión electoral mediante una arquitectura dividida en dos módulos principales.
 
 ## 📋 Descripción
 
