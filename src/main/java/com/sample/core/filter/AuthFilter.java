@@ -41,6 +41,7 @@ public class AuthFilter implements Filter {
         	    uri.contains("/habilitado-administrador")           ||
         	    uri.contains("/votacion/")                          ||
         	    uri.contains("/confirmacion/")                      ||
+        	    uri.contains("/no-existe/")                      ||
         	    uri.contains("/ya-voto/")   ||
         	    uri.contains("/no-habilitado/no-habilitado.jsp/")                      ||
         	    // Servlets del votante (públicos)

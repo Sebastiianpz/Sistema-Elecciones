@@ -2,78 +2,75 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Administrativo</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel Administrativo</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/Style.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/Style.css">
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>var contextPath = '<%=request.getContextPath()%>';</script>
-    <script src="<%=request.getContextPath()%>/scripts/loginAdmin.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>var contextPath = '<%=request.getContextPath()%>';</script>
 
-    <style>
+<style>
+/* ── Skeleton loader ─────────────────────────────── */
+.skeleton {
+    background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+    border-radius: 8px;
+    display: inline-block;
+}
+@keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+.sk-numero  { width: 80px;  height: 32px; }
+.sk-texto   { width: 120px; height: 16px; margin-top: 6px; }
+.sk-line    { width: 100%;  height: 18px; margin-bottom: 10px; }
+.sk-circle  { width: 220px; height: 220px; border-radius: 50%; }
+.sk-ganador-nombre  { width: 180px; height: 28px; margin: 12px auto; }
+.sk-ganador-partido { width: 130px; height: 16px; margin: 0 auto 16px; }
+.sk-stat    { width: 60px;  height: 28px; }
 
-        /* ── Skeleton loader ─────────────────────────────── */
-        .skeleton {
-            background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.4s infinite;
-            border-radius: 8px;
-            display: inline-block;
-        }
-        @keyframes shimmer {
-            0%   { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-        .sk-numero  { width: 80px;  height: 32px; }
-        .sk-texto   { width: 120px; height: 16px; margin-top: 6px; }
-        .sk-line    { width: 100%;  height: 18px; margin-bottom: 10px; }
-        .sk-circle  { width: 220px; height: 220px; border-radius: 50%; }
-        .sk-ganador-nombre  { width: 180px; height: 28px; margin: 12px auto; }
-        .sk-ganador-partido { width: 130px; height: 16px; margin: 0 auto 16px; }
-        .sk-stat    { width: 60px;  height: 28px; }
+/* ── Fade-in al revelar contenido ────────────────── */
+.fade-in {
+    animation: fadeInUp .5s ease forwards;
+}
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
 
-        /* ── Fade-in al revelar contenido ────────────────── */
-        .fade-in {
-            animation: fadeInUp .5s ease forwards;
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(12px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
+/* ── Indicador de refresh ────────────────────────── */
+.refresh-badge {
+    font-size: 0.75rem;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.refresh-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: .5; transform: scale(1.4); }
+}
 
-        /* ── Indicador de refresh ────────────────────────── */
-        .refresh-badge {
-            font-size: 0.75rem;
-            color: #64748b;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .refresh-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #22c55e;
-            animation: pulse-dot 2s infinite;
-        }
-        @keyframes pulse-dot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50%       { opacity: .5; transform: scale(1.4); }
-        }
-
-        /* ── Contador de próximo refresh ─────────────────── */
-        .countdown-text {
-            font-size: 0.7rem;
-            color: #94a3b8;
-        }
-
-    </style>
+/* ── Contador de próximo refresh ─────────────────── */
+.countdown-text {
+    font-size: 0.7rem;
+    color: #94a3b8;
+}
+</style>
 </head>
 <body>
 
@@ -86,7 +83,7 @@
                 Panel Administrativo
             </a>
             <div class="d-flex gap-2">
-                <button class="btn btn-logout">
+                <button class="btn btn-logout" id="btnLogout">
                     <i class="fas fa-right-from-bracket me-2"></i>
                     Cerrar Sesión
                 </button>
@@ -99,7 +96,6 @@
 <main class="main-content">
     <div class="container px-4">
 
-        <!-- Título + indicador tiempo real -->
         <div class="mb-5 mt-4 d-flex justify-content-between align-items-start flex-wrap gap-3">
             <div>
                 <h1 class="titulo-dashboard">Dashboard Electoral</h1>
@@ -206,32 +202,32 @@
         <!-- ══ RESULTADOS + GANADOR ══ -->
         <div class="row g-4 mb-5">
 
-           <!-- Gráfico de torta -->
-<div class="col-lg-6">
-    <div class="card-custom">
-        <h3>Resultados en Tiempo Real</h3>
+            <!-- Gráfico de torta -->
+            <div class="col-lg-6">
+                <div class="card-custom">
+                    <h3>Resultados en Tiempo Real</h3>
 
-        <!-- Skeleton gráfico -->
-        <div id="skeletonGrafico" class="d-flex justify-content-center mb-4">
-            <span class="skeleton sk-circle"></span>
-        </div>
-        <div id="skeletonLista">
-            <span class="skeleton sk-line d-block"></span>
-            <span class="skeleton sk-line d-block"></span>
-            <span class="skeleton sk-line d-block"></span>
-        </div>
+                    <!-- Skeleton gráfico -->
+                    <div id="skeletonGrafico" class="d-flex justify-content-center mb-4">
+                        <span class="skeleton sk-circle"></span>
+                    </div>
+                    <div id="skeletonLista">
+                        <span class="skeleton sk-line d-block"></span>
+                        <span class="skeleton sk-line d-block"></span>
+                        <span class="skeleton sk-line d-block"></span>
+                    </div>
 
-        <!-- Contenido real — completamente separado del skeleton -->
-        <div id="contenidoGrafico" style="display:none;">
-            <div class="d-flex justify-content-center mb-4">
-                <div class="grafico-circular" id="graficoCircular">
-                    <div class="centro-grafico"></div>
+                    <!-- Contenido real -->
+                    <div id="contenidoGrafico" style="display:none;">
+                        <div class="d-flex justify-content-center mb-4">
+                            <div class="grafico-circular" id="graficoCircular">
+                                <div class="centro-grafico"></div>
+                            </div>
+                        </div>
+                        <div id="listaResultados"></div>
+                    </div>
                 </div>
             </div>
-            <div id="listaResultados"></div>
-        </div>
-    </div>
-</div>
 
             <!-- Ganador -->
             <div class="col-lg-6">
@@ -286,8 +282,7 @@
         <div class="row justify-content-center">
 
             <div class="col-lg-6 mb-4">
-                <a href="/gestion-equipos/gestion-equipos.jsp"
-                   class="text-decoration-none d-block card-clickable">
+                <a href="/gestion-equipos/gestion-equipos.jsp" class="text-decoration-none d-block card-clickable">
                     <div class="card-action action-purple">
                         <div class="icon-action purple">
                             <i class="fas fa-computer"></i>
@@ -316,8 +311,9 @@
     </div>
 </main>
 
-<script src="<%=request.getContextPath()%>/scripts/dashboard.js?v=2">
-</script>
+<!-- Scripts al final del body — en este orden -->
+<script src="<%=request.getContextPath()%>/scripts/dashboard.js?v=2"></script>
+<script src="<%=request.getContextPath()%>/scripts/loginAdmin.js?v=4"></script>
 
 </body>
 </html>

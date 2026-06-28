@@ -65,21 +65,6 @@
         </div>
     </main>
 
-    <script>
-    var nombre = sessionStorage.getItem("nombrePersona") || "Ciudadano";
-    var dni    = sessionStorage.getItem("dniPersona")    || "-";
-    var cand   = sessionStorage.getItem("candidatoVotado") || "Candidato";
-
-    document.getElementById("lblNombreVotante").textContent = nombre;
-    document.getElementById("lblDniVotante").textContent    = "DNI " + dni;
-    document.getElementById("nombreCandidato").textContent  = cand;
-    document.getElementById("partidoCandidato").textContent = "";
-
-    sessionStorage.clear();
-
-    document.getElementById("btnVolverFin").addEventListener("click", function() {
-        window.location.href = contextPath + "/home/home.jsp";
-    });
-</script>
+    <script src="<%=request.getContextPath()%>/scripts/guardarVoto.js"></script>
 </body>
 </html>
