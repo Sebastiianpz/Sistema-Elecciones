@@ -15,7 +15,6 @@ public class Usuario extends GenericEntity{
 	String nombreMac;
 	boolean estadoPc;
 	int votosEmitidos;
-	Date fechaRegistro;
 	
 	public Usuario() {
 		super();

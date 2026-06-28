@@ -26,10 +26,11 @@
     <div class="container">
         
         <div class="mb-4">
-            <a href="dashboard.html" class="btn btn-outline-primary btn-sm rounded-2 px-3">
-                <i class="fas fa-arrow-left me-2"></i> VOLVER AL DASHBOARD
-            </a>
-        </div>
+    <a class="btn btn-outline-primary btn-sm rounded-2 px-3"
+       onclick="window.location.href='/dashboard/dashboard.jsp'">
+        <i class="fas fa-arrow-left me-2"></i> VOLVER AL DASHBOARD
+    </a>
+</div>
 
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
             <div>
