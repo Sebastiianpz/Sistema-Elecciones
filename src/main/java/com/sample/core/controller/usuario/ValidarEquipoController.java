@@ -1,7 +1,8 @@
 package com.sample.core.controller.usuario;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.NetworkInterface;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import com.sample.core.domain.Usuario;
@@ -15,7 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/ingresarMesa")
-public class ValidarEquipoController extends HttpServlet { // 🚨 ARREGLADO: Faltaba el extends
+public class ValidarEquipoController extends HttpServlet { 
 
 	private static final long serialVersionUID = 1L;
 	private UsuarioService usuarioService = new UsuarioServiceImp();
@@ -28,7 +29,7 @@ public class ValidarEquipoController extends HttpServlet { // 🚨 ARREGLADO: Fa
 
 		try {
 			String macActual = obtenerMacDeEstaPc();
-			System.out.println("PC intentando entrar con MAC: " + macActual);
+			System.out.println("PC intentando entrar con MAC real del Host: " + macActual);
 
 			List<Usuario> equipos = usuarioService.listEquipos();
 			Usuario pcEncontrada = null;
@@ -67,28 +68,28 @@ public class ValidarEquipoController extends HttpServlet { // 🚨 ARREGLADO: Fa
 		}
 	}
 
+	// 🌟 METODO MODIFICADO: Ahora lee el hardware de Ubuntu saliendo de Docker
 	private String obtenerMacDeEstaPc() throws Exception {
-	    java.util.Enumeration<NetworkInterface> interfaces = 
-	        NetworkInterface.getNetworkInterfaces();
-	    
-	    while (interfaces.hasMoreElements()) {
-	        NetworkInterface ni = interfaces.nextElement();
-	        
-	        // Saltear loopback y interfaces inactivas
-	        if (ni.isLoopback() || !ni.isUp()) continue;
-	        
-	        byte[] mac = ni.getHardwareAddress();
-	        if (mac == null) continue;
-	        
-	        StringBuilder sb = new StringBuilder();
-	        for (int i = 0; i < mac.length; i++) {
-	            sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
-	        }
-	        
-	        String macStr = sb.toString();
-	        System.out.println("MAC encontrada: " + macStr); // para debug
-	        return macStr;
-	    }
-	    return "00-00-00-00-00-00";
+		try {
+			// Ejecuta el comando nativo de Linux gracias al volumen mapeado en docker-compose
+			ProcessBuilder pb = new ProcessBuilder("cat", "/sys/class/net/enp0s3/address");
+			Process proceso = pb.start();
+
+			BufferedReader lector = new BufferedReader(new InputStreamReader(proceso.getInputStream()));
+			String macReal = lector.readLine();
+			lector.close();
+
+			if (macReal != null && !macReal.trim().isEmpty()) {
+				// Transforma la respuesta de "08:00:27:8c:4e:16" a "08-00-27-8C-4E-16"
+				String macFormateada = macReal.trim().toUpperCase().replace(":", "-");
+				System.out.println("MAC Real del Host encontrada: " + macFormateada);
+				return macFormateada;
+			}
+		} catch (Exception e) {
+			System.out.println("Error al ejecutar ProcessBuilder en el Host Linux: " + e.getMessage());
+		}
+		
+		// Retorno por defecto si el archivo no es accesible
+		return "00-00-00-00-00-00";
 	}
 }

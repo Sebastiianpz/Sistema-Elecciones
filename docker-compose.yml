@@ -1,9 +1,9 @@
 services:
-	
   mesa:
     container_name: mesa
     build: .
     restart: always
-
     ports:
       - "8080:8080"
+    volumes:
+      - /sys/class/net:/sys/class/net:ro
