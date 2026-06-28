@@ -9,46 +9,45 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sample.core.domain.Usuario;
 import com.sample.core.service.UsuarioService;
 import com.sample.core.service.UsuarioServiceImp;
 
-@WebServlet("/cambiarEstadoEquipo")
-public class CambiarEstadoEquiposController extends HttpServlet {
+@WebServlet("/modificarEquipo")
+public class ActualizarDatosEquiposController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private UsuarioService usuarioService = new UsuarioServiceImp();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        
+
         request.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
         try (PrintWriter out = response.getWriter()) {
-            String idParam = request.getParameter("id");
-            String estadoParam = request.getParameter("estadoPc");
+            String idParam    = request.getParameter("id");
+            String nombreMac  = request.getParameter("nombreMac");
+            String macAddress = request.getParameter("macAddress");
 
-            if (idParam == null || idParam.trim().isEmpty()) {
+            if (idParam == null || idParam.trim().isEmpty()
+                    || nombreMac == null || nombreMac.trim().isEmpty()
+                    || macAddress == null || macAddress.trim().isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                out.print("{\"ok\":false,\"error\":\"Falta el parámetro requerido (id).\"}");
+                out.print("{\"ok\":false,\"error\":\"Faltan parámetros requeridos.\"}");
                 out.flush();
                 return;
             }
 
-            if (estadoParam == null || estadoParam.trim().isEmpty()) {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                out.print("{\"ok\":false,\"error\":\"Falta el parámetro requerido (estadoPc).\"}");
-                out.flush();
-                return;
-            }
+            Usuario equipoModificado = new Usuario();
+            equipoModificado.setId(Integer.parseInt(idParam));
+            equipoModificado.setNombreMac(nombreMac.trim());
+            equipoModificado.setMacAddress(macAddress.trim());
 
-            int id = Integer.parseInt(idParam);
-            boolean estadoPc = Boolean.parseBoolean(estadoParam);
+            usuarioService.actualizarDatosEquipo(equipoModificado);
 
-            usuarioService.cambiarEstadoEquipos(id, estadoPc);
-
-            out.print("{\"ok\":true,\"mensaje\":\"¡Estado de la terminal actualizado con éxito!\"}");
+            out.print("{\"ok\":true,\"mensaje\":\"¡Datos del equipo modificados con éxito!\"}");
             out.flush();
 
         } catch (Exception e) {

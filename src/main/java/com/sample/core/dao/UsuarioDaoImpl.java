@@ -1,6 +1,5 @@
 package com.sample.core.dao;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,13 +16,13 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	private static final String queryFindCandidato = "SELECT id, nombre_completo, partido, num_partido, color_partido, votos FROM candidatos WHERE id=?";
 	private static final String queryListCandidato = "SELECT id, nombre_completo, partido, num_partido, color_partido, votos FROM candidatos";
 	private static final String queryAddCandidato = "INSERT INTO candidatos (nombre_completo, partido, num_partido, color_partido, votos) VALUES (?, ?, ?, ?, 0)";	
-	private static final String queryUpdateCandidato = "UPDATE candidatos SET nombre_completo=?, partido=?, num_partido=?, color_partido=? WHERE id=?";
-	private static final String queryFindEquipo = "SELECT id, mac_address, nombre, habilitada, votos_emitidos, usuario_id FROM pcs_habilitadas WHERE id=?";
-	private static final String queryListEquipo = "SELECT id, mac_address, nombre, habilitada, votos_emitidos, usuario_id FROM pcs_habilitadas";
-	private static final String queryAddEquipo = "INSERT INTO pcs_habilitadas (mac_address, nombre, habilitada, votos_emitidos, usuario_id) VALUES (?, ?, ?, 0, ?)";	
+	private static final String queryUpdateCandidato = "UPDATE candidatos SET nombre_completo=?, partido=?, color_partido=? WHERE id=?";
+	private static final String queryFindEquipo = "SELECT id, mac_address, nombre, habilitada, votos_emitidos FROM pcs_habilitadas WHERE id=?";
+	private static final String queryListEquipo = "SELECT id, mac_address, nombre, habilitada, votos_emitidos FROM pcs_habilitadas";
+	private static final String queryAddEquipo = "INSERT INTO pcs_habilitadas (mac_address, nombre, habilitada, votos_emitidos) VALUES (?, ?, ?, 0)";	
 	private static final String queryDeleteMac = "DELETE FROM pcs_habilitadas WHERE id=?";
-	private static final String queryUpdateEquipos = "UPDATE pcs_habilitadas SET mac_address =?, nombre =?, habilitada =? WHERE id=?";
-
+	private static final String queryUpdateEquipos = "UPDATE pcs_habilitadas SET mac_address =?, nombre =? WHERE id=?";
+	private static final String queryUpdateEstadoEquipos = "UPDATE pcs_habilitadas SET habilitada =? WHERE id=?";
 	
 	private Conexion conexion = Conexion.getInstance();
 
@@ -154,9 +153,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	        
 	        st.setString(1, can.getNombreCompleto());
 	        st.setString(2, can.getPartido());
-	        st.setInt(3, can.getNumPartido());
-	        st.setString(4, can.getColorPartido());
-	        st.setInt(5, can.getId()); 
+	        st.setString(3, can.getColorPartido());
+	        st.setInt(4, can.getId()); 
 	        
 	        int filasAfectadas = st.executeUpdate();
 	        
@@ -227,7 +225,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	            gestionDeEquipo.setEstadoPc(rs.getBoolean("habilitada"));
 	            gestionDeEquipo.setVotos(rs.getInt("votos_emitidos"));
 	            
-	            gestionDeEquipos.add(gestionDeEquipo); // ✅ FIX: se agrega el equipo a la lista
+	            gestionDeEquipos.add(gestionDeEquipo); 
 	        }
 	        
 	    } catch (Exception e) {
@@ -240,27 +238,23 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	    return gestionDeEquipos;
 	}
 	
-	public void saveEquipos(String macAddress, String nombreMac, boolean estadoPc, int votosEmitidos, Date fechaRegistro) throws ErrorException {
-
-		 ResultSet rs = null;
-		 PreparedStatement st = null;
-		 try{
-			st = conexion.dameConnection().prepareStatement(queryAddEquipo);
-			st.setString(1, macAddress);
+	public void saveEquipos(String macAddress, String nombreMac, boolean estadoPc, int votosEmitidos) throws ErrorException {
+	     PreparedStatement st = null;
+	     try {
+	        st = conexion.dameConnection().prepareStatement(queryAddEquipo);
+	        st.setString(1, macAddress);
 	        st.setString(2, nombreMac);
 	        st.setBoolean(3, estadoPc);
-	        st.setInt(4, votosEmitidos);
 	        st.executeUpdate();
-		 }catch (Exception e) {
-				throw new ErrorException("Hubo un error al realizar la consulta", e);
-		}finally {
-			try {
-				st.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}		
+	     } catch (Exception e) {
+	        throw new ErrorException("Hubo un error al realizar la consulta", e);
+	     } finally {
+	        try {
+	            if (st != null) st.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	     }		
 	}
 	
 	public void deleteEquipos(int id) throws Exception {
@@ -274,7 +268,32 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		st.close();
 	}
 	
-	public void cambiarEstadoEquipos(Usuario mac) throws Exception {
+	public void cambiarEstadoEquipos(int id, boolean habilitada) throws Exception {
+	    PreparedStatement st = null;
+	    try {
+	        java.sql.Connection con = conexion.dameConnection();
+	        
+	        st = con.prepareStatement(queryUpdateEstadoEquipos);
+	        
+	        st.setBoolean(1, habilitada);
+	        st.setInt(2, id);
+	        
+	        st.executeUpdate();
+	        
+	        if (!con.getAutoCommit()) {
+	            con.commit();
+	        }
+	        
+	    } catch (Exception e) {
+	        try { conexion.dameConnection().rollback(); } catch (Exception ex) { }
+	        e.printStackTrace();
+	        throw new Exception("Error al actualizar el estado en la BD: " + e.getMessage());
+	    } finally {
+	        if (st != null) st.close();
+	    }
+	}
+	
+	public void actualizarDatosEquipo(Usuario mac) throws Exception {
 	    PreparedStatement st = null;
 	    try {
 	        java.sql.Connection con = conexion.dameConnection();
@@ -283,8 +302,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	        
 	        st.setString(1, mac.getMacAddress());
 	        st.setString(2, mac.getNombreMac());
-	        st.setBoolean(3, mac.isEstadoPc());
-	        st.setInt(4, mac.getId()); 
+	        st.setInt(3, mac.getId()); 
 	        
 	        int filasAfectadas = st.executeUpdate();
 	        
@@ -293,12 +311,9 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	        }
 	        
 	    } catch (Exception e) {
-	        try {
-	            conexion.dameConnection().rollback();
-	        } catch (Exception ex) { }
-	        
+	        try { conexion.dameConnection().rollback(); } catch (Exception ex) { }
 	        e.printStackTrace();
-	        throw new Exception("Error al actualizar en BD: " + e.getMessage());
+	        throw new Exception("Error al actualizar los datos en la BD: " + e.getMessage());
 	    } finally {
 	        if (st != null) st.close();
 	    }

@@ -1,6 +1,5 @@
 package com.sample.core.service;
 
-import java.sql.Date;
 import java.util.List;
 
 import com.sample.core.dao.UsuarioDao;
@@ -49,8 +48,8 @@ public List<Usuario> listEquipos() throws Exception {
 }
 
 @Override
-public void saveEquipos(String macAddress, String nombreMac,boolean estadoPc, int votosEmitidos,Date fechaRegistro) throws Exception {
-    usuarioDao.saveEquipos( macAddress, nombreMac, estadoPc,votosEmitidos,fechaRegistro );
+public void saveEquipos(String macAddress, String nombreMac,boolean estadoPc, int votosEmitidos) throws Exception {
+    usuarioDao.saveEquipos( macAddress, nombreMac, estadoPc,votosEmitidos);
 }
 
 @Override
@@ -59,7 +58,11 @@ public void deleteEquipos(int id) throws Exception {
 }
 
 @Override
-public void cambiarEstadoEquipos(Usuario mac) throws Exception {
-    usuarioDao.cambiarEstadoEquipos(mac);
+public void cambiarEstadoEquipos(int id, boolean habilitada) throws Exception {
+    usuarioDao.cambiarEstadoEquipos(id, habilitada);
+}
+
+public void actualizarDatosEquipo(Usuario mac) throws Exception {
+    usuarioDao.actualizarDatosEquipo(mac);
 }
 }

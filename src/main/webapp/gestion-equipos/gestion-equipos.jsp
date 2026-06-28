@@ -26,7 +26,7 @@
     <div class="container">
         
         <div class="mb-4">
-            <a href="dashboard.html" class="btn btn-outline-primary btn-sm rounded-2 px-3">
+            <a href="/dashboard/dashboard.jsp" class="btn btn-outline-primary btn-sm rounded-2 px-3">
                 <i class="fas fa-arrow-left me-2"></i> VOLVER AL DASHBOARD
             </a>
         </div>

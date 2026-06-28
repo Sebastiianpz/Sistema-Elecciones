@@ -30,14 +30,14 @@ public class BuscarEquipoPorIdController extends HttpServlet {
             Usuario equipo = usuarioService.findEquipoByid(id);
 
             if (equipo != null) {
-                out.print("{");
-                out.print("\"id\":" + equipo.getId() + ",");
-                out.print("\"nombreMac\":\"" + equipo.getNombreCompleto() + "\"");
-                // Sumá acá las demás propiedades que tu compañera necesite leer para el formulario
-                out.print("}");
+                // Si arm�s el JSON manualmente, const�talo contra esto:
+                out.print("{"
+                    + "\"id\":" + equipo.getId() + ","
+                    + "\"nombreMac\":\"" + equipo.getNombreMac() + "\","
+                    + "\"macAddress\":\"" + equipo.getMacAddress() + "\""
+                + "}");
             } else {
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                out.print("{\"ok\":false,\"error\":\"Equipo no encontrado.\"}");
+                out.print("null");
             }
             out.flush();
 

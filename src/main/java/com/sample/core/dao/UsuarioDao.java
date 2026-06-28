@@ -1,8 +1,8 @@
 package com.sample.core.dao;
-import java.sql.Date;
-import java.util.List;
-import com.sample.core.domain.Usuario;
 
+import java.util.List;
+
+import com.sample.core.domain.Usuario;
 
 public interface UsuarioDao {
 
@@ -20,12 +20,13 @@ public interface UsuarioDao {
 	
 	public List<Usuario> listEquipos() throws Exception;
 	
-    public void saveEquipos(String macAddress, String nombreMac, boolean estadoPc, int votosEmitidos, Date fechaRegistro) throws Exception;
+    public void saveEquipos(String macAddress, String nombreMac, boolean estadoPc, int votosEmitidos) throws Exception;
 
 	public void deleteEquipos(int id) throws Exception;
 
-	public void cambiarEstadoEquipos(Usuario mac) throws Exception;
+	public void cambiarEstadoEquipos(int id, boolean habilitada) throws Exception;
 
+	public void actualizarDatosEquipo(Usuario mac) throws Exception;
 
 
 }

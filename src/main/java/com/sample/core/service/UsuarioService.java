@@ -1,6 +1,5 @@
 package com.sample.core.service;
 
-import java.sql.Date;
 import java.util.List;
 
 import com.sample.core.domain.Usuario;
@@ -21,9 +20,12 @@ public interface UsuarioService {
 
 	    public List<Usuario> listEquipos() throws Exception;
 
-	    public void saveEquipos(String macAddress, String nombreMac,boolean estadoPc, int votosEmitidos, Date fechaRegistro) throws Exception;
+	    public void saveEquipos(String macAddress, String nombreMac,boolean estadoPc, int votosEmitidos) throws Exception;
 
 	    public void deleteEquipos(int id) throws Exception;
 
-	    public void cambiarEstadoEquipos(Usuario mac) throws Exception;
+	    public void cambiarEstadoEquipos(int id, boolean habilitada) throws Exception;
+	    
+	    public void actualizarDatosEquipo(Usuario mac) throws Exception;
+
 }
