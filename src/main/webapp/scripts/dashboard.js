@@ -1,28 +1,24 @@
-
-
-
 // ── Contador regresivo ──────────────────────────────────────────────
 const INTERVALO_SEG = 30;
 let segundosRestantes = INTERVALO_SEG;
-
+ 
 function actualizarContador() {
     document.getElementById('countdownText').textContent =
         `Próxima actualización en ${segundosRestantes}s`;
     segundosRestantes--;
     if (segundosRestantes < 0) segundosRestantes = INTERVALO_SEG;
 }
-
 setInterval(actualizarContador, 1000);
-
-// ── Helper: animar número (contador) ───────────────────────────────
+ 
+// ── Helper: animar número ───────────────────────────────────────────
 function animarNumero(elemento, valorFinal, sufijo = '') {
     const duracion = 800;
     const inicio   = Date.now();
     const esFloat  = valorFinal % 1 !== 0;
-
+ 
     function tick() {
         const progreso = Math.min((Date.now() - inicio) / duracion, 1);
-        const ease     = 1 - Math.pow(1 - progreso, 3); // easeOutCubic
+        const ease     = 1 - Math.pow(1 - progreso, 3);
         const actual   = esFloat
             ? (valorFinal * ease).toFixed(1)
             : Math.round(valorFinal * ease);
@@ -31,49 +27,60 @@ function animarNumero(elemento, valorFinal, sufijo = '') {
     }
     requestAnimationFrame(tick);
 }
-
-// ── Revelar elemento con fade ───────────────────────────────────────
+ 
+// ── Revelar elemento con fade (sin duplicar la animación en refresh) ─
 function revelar(el) {
     el.style.display = 'block';
+    el.classList.remove('fade-in');
+    void el.offsetWidth; // fuerza reflow para reiniciar la animación
     el.classList.add('fade-in');
 }
-
+ 
+// ── Ocultar skeleton y mostrar contenido real ───────────────────────
+function reemplazar(idSkeleton, idContenido) {
+    const sk = document.getElementById(idSkeleton);
+    const ct = document.getElementById(idContenido);
+    if (sk) {
+        sk.style.display = 'none';
+        sk.style.visibility = 'hidden'; // doble seguro
+    }
+    if (ct) {
+        ct.style.visibility = 'visible';
+        revelar(ct);
+    }
+}
+ 
 // ══════════════════════════════════════════════════════════════════════
-// CARGA 1: Métricas generales
-// Servlet esperado: GET /dashboard-stats
-// Respuesta JSON:
-// {
-//   "totalPadron": 1247,
-//   "habilitados": 1089,
-//   "votosEmitidos": 523,
-//   "deshabilitados": 158,
-//   "equiposActivos": 8,
-//   "participacion": 48.0
-// }
+// CARGA 1: Métricas generales → GET /dashboard-stats
+// Responde: { totalPadron, habilitados, votosEmitidos,
+//             deshabilitados, equiposActivos, participacion }
 // ══════════════════════════════════════════════════════════════════════
 async function cargarMetricas() {
     try {
-        const res  = await fetch(`${contextPath}/dashboard-stats`, {
+        const res = await fetch(`${contextPath}/dashboard-stats`, {
             headers: { 'Accept': 'application/json' }
         });
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const d = await res.json();
-
+ 
+        // FIX: participación nunca supera 100%
+        const participacion = Math.min(d.participacion, 100.0);
+ 
         const campos = [
             { id: 'totalPadron',    val: d.totalPadron,    suf: '' },
             { id: 'habilitados',    val: d.habilitados,    suf: '' },
             { id: 'votosEmitidos',  val: d.votosEmitidos,  suf: '' },
             { id: 'deshabilitados', val: d.deshabilitados, suf: '' },
             { id: 'equiposActivos', val: d.equiposActivos, suf: '' },
-            { id: 'participacion',  val: d.participacion,  suf: '%' }
+            { id: 'participacion',  val: participacion,    suf: '%' }
         ];
-
+ 
         campos.forEach(({ id, val, suf }) => {
             const el = document.getElementById(id);
             el.innerHTML = '';
             animarNumero(el, val, suf);
         });
-
+ 
     } catch (err) {
         console.error('Error métricas:', err);
         ['totalPadron','habilitados','votosEmitidos',
@@ -84,16 +91,10 @@ async function cargarMetricas() {
             });
     }
 }
-
+ 
 // ══════════════════════════════════════════════════════════════════════
-// CARGA 2: Resultados por candidato + ganador
-// Servlet esperado: GET /dashboard-resultados
-// Respuesta JSON:
-// [
-//   { "nombre_completo": "María Rodríguez", "partido": "Partido Progresista",
-//     "votos": 203, "color_partido": "#2563eb" },
-//   ...
-// ]
+// CARGA 2: Resultados por candidato + ganador → GET /dashboard-resultados
+// Responde: [{ nombre_completo, partido, votos, color_partido }, ...]
 // ══════════════════════════════════════════════════════════════════════
 async function cargarResultados() {
     try {
@@ -102,22 +103,21 @@ async function cargarResultados() {
         });
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const candidatos = await res.json();
-
-        // Calcular total de votos
+ 
         const total = candidatos.reduce((sum, c) => sum + c.votos, 0);
-
-        // ── Gráfico de torta (conic-gradient) ──────────────────────
+ 
+        // ── Gráfico de torta ────────────────────────────────────────
         let acum = 0;
         const gradientPartes = candidatos.map(c => {
-            const pct = (c.votos * 100) / total;
+            const pct  = (c.votos * 100) / total;
             const parte = `${c.color_partido} ${acum.toFixed(2)}% ${(acum + pct).toFixed(2)}%`;
             acum += pct;
             return parte;
         });
         document.getElementById('graficoCircular').style.background =
             `conic-gradient(${gradientPartes.join(',')})`;
-
-        // ── Lista de resultados ─────────────────────────────────────
+ 
+        // ── Lista de candidatos ─────────────────────────────────────
         let htmlLista = '';
         candidatos.forEach(c => {
             const pct = ((c.votos * 100) / total).toFixed(1);
@@ -133,45 +133,41 @@ async function cargarResultados() {
             </div>`;
         });
         document.getElementById('listaResultados').innerHTML = htmlLista;
-
-        // Ocultar skeletons, mostrar gráfico
-        document.getElementById('skeletonGrafico').style.display = 'none';
-        document.getElementById('skeletonLista').style.display   = 'none';
-        revelar(document.getElementById('contenidoGrafico'));
-
+ 
+        // aca reemplazamos oculta el skeleton gris y muestra el gráfico real para que se vean lo candidatos
+        reemplazar('skeletonGrafico', 'contenidoGrafico');
+        document.getElementById('skeletonLista').style.display = 'none';
+ 
         // ── Ganador ─────────────────────────────────────────────────
-        const ordenados = [...candidatos].sort((a, b) => b.votos - a.votos);
-        const ganador   = ordenados[0];
-        const segundo   = ordenados[1];
+        const ordenados  = [...candidatos].sort((a, b) => b.votos - a.votos);
+        const ganador    = ordenados[0];
+        const segundo    = ordenados[1];
         const pctGanador = ((ganador.votos * 100) / total).toFixed(1);
         const ventaja    = ganador.votos - (segundo ? segundo.votos : 0);
-
-        document.getElementById('ganadorNombre').textContent    = ganador.nombre_completo;
-        document.getElementById('ganadorPartido').textContent   = ganador.partido;
-        document.getElementById('ganadorVotos').textContent     = ganador.votos;
+ 
+        document.getElementById('ganadorNombre').textContent     = ganador.nombre_completo;
+        document.getElementById('ganadorPartido').textContent    = ganador.partido;
+        document.getElementById('ganadorVotos').textContent      = ganador.votos;
         document.getElementById('ganadorPorcentaje').textContent = pctGanador + '%';
-        document.getElementById('textoVentaja').textContent =
-            segundo
-                ? `Ventaja: ${ventaja} voto${ventaja !== 1 ? 's' : ''} sobre el segundo lugar`
-                : 'Único candidato con votos';
-
-        // Ocultar skeleton ganador, mostrar datos
-        document.getElementById('skeletonGanador').style.display = 'none';
-        revelar(document.getElementById('contenidoGanador'));
-
+        document.getElementById('textoVentaja').textContent      = segundo
+            ? `Ventaja: ${ventaja} voto${ventaja !== 1 ? 's' : ''} sobre el segundo lugar`
+            : 'Único candidato con votos';
+ 
+        reemplazar('skeletonGanador', 'contenidoGanador');
+ 
     } catch (err) {
         console.error('Error resultados:', err);
         document.getElementById('skeletonGrafico').innerHTML =
-            '<p class="text-danger text-center">Error al cargar resultados</p>';
+            '<p class="text-danger text-center mt-3">Error al cargar resultados</p>';
         document.getElementById('skeletonLista').style.display = 'none';
     }
 }
-
+ 
 // ── Carga inicial y auto-refresh cada 30 segundos ──────────────────
 function cargarTodo() {
     cargarMetricas();
     cargarResultados();
 }
-
+ 
 window.addEventListener('DOMContentLoaded', cargarTodo);
 setInterval(cargarTodo, INTERVALO_SEG * 1000);

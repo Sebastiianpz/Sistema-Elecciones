@@ -1,59 +1,80 @@
 $(function() {
 
-  cargarCandidatos();
-	
-  $(document).on("click", ".btn-seleccionar-candidato", function (e) {
-          e.preventDefault();
-		  
-            var idCandidato =$(this).data("id");
-			var nombreCandidato = $(this).data("nombre");
-			var idPersonaVotando = sessionStorage.getItem("idPersonaVotando");
-            var idPC = sessionStorage.getItem("idPcMesa");
-            
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                  confirmButton: "btn btn-success",
-                  cancelButton: "btn btn-danger"
-                },
-                buttonsStyling: false
-              });
+    var nombreVotante = sessionStorage.getItem("nombrePersona");
+    var dniVotante = sessionStorage.getItem("dniPersona");
 
-              swalWithBootstrapButtons.fire({
-                title: "¿Confirma su voto?",
-                text: "Esta apunto de votar por: " + nombreCandidato,
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Si, confirmar voto",
-                cancelButtonText: "No, cancelar!",
-                reverseButtons: true
-              }).then((result) => {
+    if (nombreVotante) {
+        $("#lblNombreVotante").text(nombreVotante);
+    }
+    if (dniVotante) {
+        $("#lblDniVotante").text("DNI " + dniVotante);
+    }
+
+    var idCandidatoSeleccionado = null;
+    var nombreCandidatoSeleccionado = null;
+
+    cargarCandidatos();
 	
-				if (result.isConfirmed) {
-					
-				   $.ajax({
-				        url: contextPath + '/guardarVoto', 
-				        method: 'POST',
-				        data: {
-				            personaId: idPersonaVotando,  
-				            candidatoId: idCandidato,   
-				            pcId: idPC
-				        },
-				        success: function (response) {
-				            sessionStorage.clear();
-				            
-				            window.location.href = contextPath + "/confirmacion/confirmacion.jsp"; 
-				        },
-				        error: function(xhr) {
-				            console.log("Error al registrar el voto:", xhr);
-				            Swal.fire("Error", "No se pudo registrar el voto en el servidor.", "error");
-				        }
-					}); 
-					                
-					            }
-					            
-					        });
-					    }); 
-					}); 
+    $(document).on("click", ".btn-seleccionar-candidato", function (e) {
+        e.preventDefault();
+		  
+        idCandidatoSeleccionado = $(this).data("id");
+        nombreCandidatoSeleccionado = $(this).data("nombre");
+
+        $(".btn-seleccionar-candidato").removeClass("btn-success").addClass("btn-primary").html("<i class='fas fa-vote-yea me-2'></i>VOTAR");
+        $(this).removeClass("btn-primary").addClass("btn-success").html("<i class='fas fa-check me-2'></i>SELECCIONADO");
+        
+    }); 
+
+    $(document).on("click", "#btnConfirmar", function (e) {
+        e.preventDefault();
+
+        if (!idCandidatoSeleccionado) {
+            Swal.fire("Atención", "Por favor, seleccione un candidato antes de confirmar su voto.", "warning");
+            return;
+        }
+
+        var idPersonaVotando = sessionStorage.getItem("idPersonaVotando");
+        var idPC = sessionStorage.getItem("idPcMesa");
+            
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger"
+            },
+            buttonsStyling: false
+        });
+
+        swalWithBootstrapButtons.fire({
+            title: "¿Confirma su voto?",
+            text: "Está a punto de votar por: " + nombreCandidatoSeleccionado,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, confirmar voto",
+            cancelButtonText: "No, cancelar!",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: contextPath + '/guardarVoto', 
+                    method: 'POST',
+                    data: {
+                        personaId: idPersonaVotando,  
+                        candidatoId: idCandidatoSeleccionado,   
+                        pcId: idPC
+                    },
+                    success: function (response) {
+                        sessionStorage.clear();
+                        window.location.href = contextPath + "/confirmacion/confirmacion.jsp"; 
+                    },
+                    error: function(xhr) {
+                        Swal.fire("Error", "No se pudo registrar el voto en el servidor.", "error");
+                    }
+                }); 
+            }
+        });
+    });
+}); 
 					
 function cargarCandidatos() {
     $.ajax({
@@ -61,51 +82,59 @@ function cargarCandidatos() {
         method: "GET",
         dataType: "json",
         success: function(listaCandidatos) {
-            
             var contenedor = $("#contenedor-candidatos"); 
+            
+            if(contenedor.length === 0) return;
+
             contenedor.empty();
 
             $.each(listaCandidatos, function(index, candidato) {
-                
+                var nombreMostrar = candidato.nombreCompleto; 
+                var partidoMostrar = candidato.partido;
+                var colorPartido = candidato.colorPartido;
+
                 var tarjetaHTML = `
                     <div class="col-md-4 mb-4">
-                        <div class="card text-center p-3">
-                            <img src="${contextPath}/assets/img/avatar.png" class="card-img-top mx-auto" style="width: 100px;">
-                            <div class="card-body">
-                                <h5 class="card-title">${candidato.nombre} ${candidato.apellido}</h5>
-                                <p class="card-text text-muted">${candidato.partidoPolitico}</p>
+                        <div class="card text-center p-3 shadow-sm border-0" style="border-top: 5px solid ${colorPartido} !important;">
+                            
+                            <div class="my-3 d-inline-flex align-items-center justify-content-center rounded-circle mx-auto shadow-sm text-white" 
+                                 style="width: 85px; height: 85px; font-size: 2.5rem; background-color: ${colorPartido};">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            
+                            <div class="card-body p-2">
+                                <h5 class="card-title fw-bold mb-1">${nombreMostrar}</h5>
                                 
-                                <button class="btn btn-primary btn-seleccionar-candidato" 
+                                <p class="card-text small mb-3 fw-semibold" style="color: ${colorPartido};">
+                                    ${partidoMostrar}
+                                </p>
+                                
+                                <button class="btn btn-primary w-100 btn-seleccionar-candidato" 
                                         data-id="${candidato.id}" 
-                                        data-nombre="${candidato.nombre} ${candidato.apellido}">
-                                    VOTAR
+                                        data-nombre="${nombreMostrar}">
+                                    <i class="fas fa-vote-yea me-2"></i>VOTAR
                                 </button>
                             </div>
                         </div>
                     </div>
                 `;
-                
                 contenedor.append(tarjetaHTML);
             });
         },
         error: function(xhr) {
-            console.log("Error crítico al cargar los candidatos en la pantalla:", xhr);
+            console.log("Error al cargar los candidatos remotos.");
         }
-        
-        
     });
-    
-    
-}
+} 
+
 
 function volverPagina() {
     const params = new URLSearchParams(window.location.search);
     const tipo = params.get('tipo');
-    
+  
     if (tipo === 'admin') {
-        // Usamos contextPath para que busque bien dentro del servidor
-        window.location.href = contextPath + '/habilitado-administrador/habilitado-administrador.jsp'; 
+        window.location.href = contextPath + '/habilitado-administrador/habilitado-administrador.jsp';
     } else {
-        window.location.href = contextPath + '/habilitado-ciudadano/habilitado-ciudadano.jsp'; 
+        window.location.href = contextPath + '/habilitado-ciudadano/habilitado-ciudadano.jsp';
     }
 }
