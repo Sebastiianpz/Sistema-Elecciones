@@ -31,14 +31,30 @@ public class AuthFilter implements Filter {
 
         // Rutas públicas — no requieren sesión
         boolean esPublica =
-        		   uri.equals(ctx + "/Login")           ||
-        		    uri.equals(ctx + "/Logout")          ||
-        		    uri.contains("/login-admin/login-admin.jsp")    ||
-        		    uri.contains("/home/home.jsp") ||
-        		    uri.equals(ctx + "/home")        ||
-        		    uri.contains("/scripts/")             ||
-        		    uri.contains("/css/");             // hojas de estilo
-
+        	    // Auth
+        	    uri.equals(ctx + "/Login")                          ||
+        	    uri.equals(ctx + "/Logout")                         ||
+        	    uri.equals(ctx + "/loginAdministrador")             ||
+        	    // Páginas JSP públicas
+        	    uri.contains("/login-admin/login-admin.jsp")        ||
+        	    uri.contains("/home/home.jsp")                      ||
+        	    uri.contains("/habilitado-administrador")           ||
+        	    uri.contains("/votacion/")                          ||
+        	    uri.contains("/confirmacion/")                      ||
+        	    // Servlets del votante (públicos)
+        	    uri.equals(ctx + "/dashboard-stats")        ||
+        	    uri.equals(ctx + "/dashboard-resultados")   ||
+        	    uri.equals(ctx + "/validarPersonaPorDNI")           ||
+        	    uri.equals(ctx + "/votar")                          ||
+        	    uri.equals(ctx + "/voto-confirmado")                ||
+        	    // Recursos estáticos
+        	    uri.contains("/scripts/")                           ||
+        	    uri.contains("/css/")                               ||
+        	    uri.contains("/images/")                            ||
+        	    uri.endsWith(".js")                                 ||
+        	    uri.endsWith(".css")                                ||
+        	    uri.endsWith(".png")                                ||
+        	    uri.endsWith(".jpg");
         if (esPublica) {
             chain.doFilter(request, response);
             return;
@@ -58,7 +74,7 @@ public class AuthFilter implements Filter {
                 response.setContentType("application/json");
                 response.getWriter().print("{\"ok\":false,\"error\":\"Sesion expirada.\"}");
             } else {
-                response.sendRedirect(ctx + "/login-admin/login-admin.jsp");
+                response.sendRedirect(ctx + "/home/home.jsp");
             }
         }
     }

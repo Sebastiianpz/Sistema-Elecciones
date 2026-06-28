@@ -17,7 +17,6 @@ public class DashboardDAO {
         this.conn = Conexion.getInstance().dameConnection();
     }
 
-    // ── Total de personas en el padrón ─────────────────────────────────
     public int getTotalPadron() throws Exception {
         String sql = "SELECT COUNT(*) FROM Personas";
         try (PreparedStatement ps = conn.prepareStatement(sql);
@@ -26,7 +25,6 @@ public class DashboardDAO {
         }
     }
 
-    // ── Personas habilitadas para votar ────────────────────────────────
     public int getHabilitados() throws Exception {
         String sql = "SELECT COUNT(*) FROM Personas WHERE habilitado_votar = true";
         try (PreparedStatement ps = conn.prepareStatement(sql);
@@ -35,7 +33,6 @@ public class DashboardDAO {
         }
     }
 
-    // ── Votos emitidos ─────────────────────────────────────────────────
     public int getVotosEmitidos() throws Exception {
         String sql = "SELECT COUNT(*) FROM votos";
         try (PreparedStatement ps = conn.prepareStatement(sql);
@@ -44,7 +41,6 @@ public class DashboardDAO {
         }
     }
 
-    // ── Personas deshabilitadas ────────────────────────────────────────
     public int getDeshabilitados() throws Exception {
         String sql = "SELECT COUNT(*) FROM Personas WHERE habilitado_votar = false";
         try (PreparedStatement ps = conn.prepareStatement(sql);
@@ -53,7 +49,6 @@ public class DashboardDAO {
         }
     }
 
-    // ── PCs habilitadas (equipos activos) ──────────────────────────────
     public int getEquiposActivos() throws Exception {
         String sql = "SELECT COUNT(*) FROM pcs_habilitadas WHERE habilitada = true";
         try (PreparedStatement ps = conn.prepareStatement(sql);
@@ -62,8 +57,6 @@ public class DashboardDAO {
         }
     }
 
-    // ── Resultados por candidato (votos + color) ───────────────────────
-    // Devuelve lista de maps con: nombre_completo, partido, votos, color_partido
     public List<Map<String, Object>> getResultadosCandidatos() throws Exception {
         String sql = "SELECT c.nombre_completo, c.partido, c.color_partido, " +
                      "COUNT(v.id) AS votos " +

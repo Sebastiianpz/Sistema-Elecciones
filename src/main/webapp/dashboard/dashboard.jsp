@@ -211,32 +211,32 @@
         <!-- ══ RESULTADOS + GANADOR ══ -->
         <div class="row g-4 mb-5">
 
-            <!-- Gráfico de torta -->
-            <div class="col-lg-6">
-                <div class="card-custom">
-                    <h3>Resultados en Tiempo Real</h3>
+           <!-- Gráfico de torta -->
+<div class="col-lg-6">
+    <div class="card-custom">
+        <h3>Resultados en Tiempo Real</h3>
 
-                    <!-- Skeleton gráfico -->
-                    <div id="skeletonGrafico" class="d-flex justify-content-center mb-4">
-                        <span class="skeleton sk-circle"></span>
-                    </div>
-                    <div id="skeletonLista">
-                        <span class="skeleton sk-line d-block"></span>
-                        <span class="skeleton sk-line d-block"></span>
-                        <span class="skeleton sk-line d-block"></span>
-                    </div>
+        <!-- Skeleton gráfico -->
+        <div id="skeletonGrafico" class="d-flex justify-content-center mb-4">
+            <span class="skeleton sk-circle"></span>
+        </div>
+        <div id="skeletonLista">
+            <span class="skeleton sk-line d-block"></span>
+            <span class="skeleton sk-line d-block"></span>
+            <span class="skeleton sk-line d-block"></span>
+        </div>
 
-                    <!-- Contenido real (oculto hasta que carga) -->
-                    <div id="contenidoGrafico" style="display:none;">
-                        <div class="d-flex justify-content-center mb-4">
-                            <div class="grafico-circular" id="graficoCircular">
-                                <div class="centro-grafico"></div>
-                            </div>
-                        </div>
-                        <div id="listaResultados"></div>
-                    </div>
+        <!-- Contenido real — completamente separado del skeleton -->
+        <div id="contenidoGrafico" style="display:none;">
+            <div class="d-flex justify-content-center mb-4">
+                <div class="grafico-circular" id="graficoCircular">
+                    <div class="centro-grafico"></div>
                 </div>
             </div>
+            <div id="listaResultados"></div>
+        </div>
+    </div>
+</div>
 
             <!-- Ganador -->
             <div class="col-lg-6">
