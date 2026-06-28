@@ -31,9 +31,7 @@ public class GuardarEquiposController extends HttpServlet {
             boolean estadoPc = Boolean.parseBoolean(request.getParameter("estadoPc"));
             int votosEmitidos = Integer.parseInt(request.getParameter("votosEmitidos"));
 
-            java.sql.Date fechaRegistro = new java.sql.Date(System.currentTimeMillis());
-            // Tu interfaz: saveEquipos(String macAddress, String nombreMac, boolean estadoPc, int votos)
-            usuarioService.saveEquipos(macAddress, nombreMac, estadoPc, votosEmitidos, fechaRegistro);
+            usuarioService.saveEquipos(macAddress, nombreMac, estadoPc, votosEmitidos);
 
             out.print("{\"ok\":true,\"mensaje\":\"Equipo registrado correctamente.\"}");
             out.flush();

@@ -39,6 +39,11 @@ public void updateCandidato(Usuario can) throws Exception {
 }
 
 @Override
+public void deleteCandidato(int id) throws Exception {
+    usuarioDao.deleteCandidato(id);
+}
+
+@Override
 public Usuario findEquipoByid(int id) throws Exception {
     return usuarioDao.findEquipoByid(id);
 }
@@ -49,8 +54,8 @@ public List<Usuario> listEquipos() throws Exception {
 }
 
 @Override
-public void saveEquipos(String macAddress, String nombreMac,boolean estadoPc, int votosEmitidos,Date fechaRegistro) throws Exception {
-    usuarioDao.saveEquipos( macAddress, nombreMac, estadoPc,votosEmitidos,fechaRegistro );
+public void saveEquipos(String macAddress, String nombreMac,boolean estadoPc, int votosEmitidos) throws Exception {
+    usuarioDao.saveEquipos( macAddress, nombreMac, estadoPc,votosEmitidos);
 }
 
 @Override
