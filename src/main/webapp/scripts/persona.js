@@ -23,7 +23,7 @@ $(document).ready(function () {
 
 			    if (data.ok) {
 
-			        toast(data.mensaje || "Ciudadano registrado correctamente.");
+			        alert(data.mensaje || "Ciudadano registrado correctamente.");
 
 			        setTimeout(function () {
 			            window.location.href = ctx + "/vistas/listar.jsp";
@@ -34,7 +34,7 @@ $(document).ready(function () {
                     if (data.errores) {
                         alert(data.errores.join("\n"));
                     } else {
-                        toast("Ocurrio un error.", "danger");
+                        alert("Ocurrió un error.");
                     }
 
                 }
@@ -549,7 +549,7 @@ $(document).ready(function () {
 
                 } else {
 
-                    toast("No se pudo eliminar.", "danger");
+                    alert("No se pudo eliminar el ciudadano.");
 
                 }
 
