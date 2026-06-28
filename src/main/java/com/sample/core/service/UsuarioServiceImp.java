@@ -39,6 +39,11 @@ public void updateCandidato(Usuario can) throws Exception {
 }
 
 @Override
+public void deleteCandidato(int id) throws Exception {
+    usuarioDao.deleteCandidato(id);
+}
+
+@Override
 public Usuario findEquipoByid(int id) throws Exception {
     return usuarioDao.findEquipoByid(id);
 }

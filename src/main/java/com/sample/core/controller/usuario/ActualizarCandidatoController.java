@@ -21,45 +21,37 @@ public class ActualizarCandidatoController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         request.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        // Usamos el try con recursos para el PrintWriter, igual al código del padrón
-        try (PrintWriter out = response.getWriter()) {
+        String jsonRespuesta;
 
-            // 1. Levantamos los parámetros que envía el AJAX de tu compañera
+        try {
             int id = Integer.parseInt(request.getParameter("id"));
             String nombreCompleto = request.getParameter("nombreCompleto");
             String partido = request.getParameter("partido");
-            int numPartido = Integer.parseInt(request.getParameter("numPartido"));
+            String colorPartido = request.getParameter("colorPartido");
 
-            // 2. Armamos el objeto Usuario
             Usuario candidato = new Usuario();
             candidato.setId(id);
-            // candidato.setNombreCompleto(nombreCompleto); <-- Usá tus setters reales
+            candidato.setNombreCompleto(nombreCompleto);
+            candidato.setPartido(partido);
+            candidato.setColorPartido(colorPartido);
 
-            // 3. Llamamos al servicio para guardar los cambios
             usuarioService.updateCandidato(candidato);
 
-            // 4. Respondemos con JSON escrito a mano (tal cual tu ejemplo)
-            out.print("{");
-            out.print("\"ok\":true,");
-            out.print("\"mensaje\":\"Candidato actualizado correctamente\"");
-            out.print("}");
+            jsonRespuesta = "{\"ok\":true,\"mensaje\":\"Candidato actualizado correctamente\"}";
 
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            
-            // Si algo falla, respondemos el JSON de error a mano
-            try (PrintWriter out = response.getWriter()) {
-                out.print("{");
-                out.print("\"ok\":false,");
-                out.print("\"error\":\"" + e.getMessage().replace("\"", "'") + "\"");
-                out.print("}");
-            }
+            String mensajeError = (e.getMessage() != null) ? e.getMessage().replace("\"", "'") : "Error interno del servidor";
+            jsonRespuesta = "{\"ok\":false,\"error\":\"" + mensajeError + "\"}";
+        }
+
+        try (PrintWriter out = response.getWriter()) {
+            out.print(jsonRespuesta);
         }
     }
 }

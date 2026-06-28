@@ -19,51 +19,37 @@ public class ListarCandidatosController extends HttpServlet {
     private UsuarioService usuarioService = new UsuarioServiceImp();
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        try (PrintWriter out = response.getWriter()) {
-            // 1. Obtenemos la lista desde tu interfaz real
+        PrintWriter out = response.getWriter();
+
+        try {
             List<Usuario> lista = usuarioService.listCandidatos();
-            
-            // 2. Empezamos a armar el JSON de la lista abriendo corchetes
+
             out.print("[");
-            
             for (int i = 0; i < lista.size(); i++) {
                 Usuario u = lista.get(i);
-                
                 out.print("{");
-                out.print("\"id\":" + u.getId() + ",");
-                
-                // OJO: Si en tu domain 'Usuario' el método se llama getNombre() 
-                // o getUsername(), recordá cambiarlo acá para que coincida:
-                out.print("\"nombreCompleto\":\"" + u.getNombreCompleto() + "\""); 
-                // Si necesitás agregar más datos como el partido político podés sumarlos acá con una coma intermedia.
-                
+                out.print("\"id\":"               + u.getId()             + ",");
+                out.print("\"nombreCompleto\":\"" + u.getNombreCompleto() + "\",");
+                out.print("\"partido\":\""        + u.getPartido()        + "\",");
+                out.print("\"colorPartido\":\""   + u.getColorPartido()   + "\",");
+                out.print("\"votos\":"            + u.getVotos());
                 out.print("}");
-                
-                // Si NO es el último elemento de la lista, le metemos una coma para separar los objetos
-                if (i < lista.size() - 1) {
-                    out.print(",");
-                }
+                if (i < lista.size() - 1) out.print(",");
             }
-            
-            out.print("]"); // Cerramos la lista JSON
-            out.flush();
+            out.print("]");
 
         } catch (Exception e) {
             e.printStackTrace();
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            
-            try (PrintWriter out = response.getWriter()) {
-                out.print("{");
-                out.print("\"ok\":false,");
-                out.print("\"error\":\"Error al listar los candidatos: " + e.getMessage().replace("\"", "'") + "\"");
-                out.print("}");
-            }
+            out.print("{\"ok\":false,\"error\":\"Error al listar candidatos.\"}");
         }
+
+        out.flush();
     }
+    
 }

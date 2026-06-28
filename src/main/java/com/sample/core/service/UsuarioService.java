@@ -16,6 +16,8 @@ public interface UsuarioService {
 	    public void saveCandidato(String nombreCompleto,String partido,int numPartido,String colorPartido  ) throws Exception;
 
 	    public void updateCandidato(Usuario can) throws Exception;
+	    
+	    public void deleteCandidato(int id) throws Exception;
 
 	    public Usuario findEquipoByid(int id) throws Exception;
 

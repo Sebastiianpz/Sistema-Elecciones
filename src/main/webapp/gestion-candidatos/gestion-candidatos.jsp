@@ -7,16 +7,16 @@
     <title>Gestión de Candidatos Electoral</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/Style.css">
-    
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
-    
-    <script>
-        var contextPath = "${pageContext.request.contextPath}";
-    </script>
+
+ 	<script>
+ 		var contextPath = "${pageContext.request.contextPath}";
+ 	</script>
 </head>
 <body class="bg-light">
 
@@ -50,6 +50,37 @@
 
         <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
             <div class="d-flex flex-column gap-4" id="contenedor-candidatos"></div>
+
+            <template id="template-candidato">
+                <div class="row align-items-center g-3">
+                    <div class="col-12 col-md-9 d-flex align-items-center gap-4">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm avatar-candidato"
+                             style="width:48px;height:48px;min-width:48px;font-size:1.2rem;"></div>
+                        <div>
+                            <h5 class="mb-0 fw-bold text-dark nombre-candidato" style="font-size:1.1rem;"></h5>
+                            <div class="text-muted mt-1" style="font-size:0.85rem;">
+                                <span class="me-3">Partido: <strong class="text-dark partido-candidato"></strong></span>
+                                <span class="me-3">Color: <code class="px-2 rounded text-dark color-candidato" style="background-color:#f1f5f9;"></code></span>
+                                <span>Votos: <strong class="text-dark votos-candidato"></strong></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3 d-flex justify-content-md-end justify-content-start align-items-center">
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-light btn-sm text-primary rounded-2 px-3 fw-medium border btn-editar-candidato">
+                                <i class="fas fa-edit me-1"></i> Editar
+                            </button>
+                            <button class="btn btn-light btn-sm text-danger rounded-2 px-3 fw-medium border btn-eliminar-candidato">
+                                <i class="fas fa-trash-alt me-1"></i> Eliminar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <template id="template-sin-candidatos">
+                <div class="text-center py-4 text-muted">No hay candidatos registrados en la boleta electoral.</div>
+            </template>
         </div>
     </div>
 </main>
