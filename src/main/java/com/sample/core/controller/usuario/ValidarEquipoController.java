@@ -24,11 +24,16 @@ public class ValidarEquipoController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		System.out.println("========================================");
+System.out.println("ENTRO AL NUEVO VALIDAR EQUIPO");
+System.out.println("========================================");
+
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 
 		try {
 			String macActual = obtenerMacDeEstaPc();
+			System.out.println("EJECUTANDO NUEVO METODO obtenerMacDeEstaPc()");
 			System.out.println("PC intentando entrar con MAC real del Host: " + macActual);
 
 			List<Usuario> equipos = usuarioService.listEquipos();
