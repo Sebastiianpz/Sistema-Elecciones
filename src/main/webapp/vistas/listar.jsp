@@ -554,6 +554,32 @@ const ctx = "${pageContext.request.contextPath}";
 src="${pageContext.request.contextPath}/scripts/persona.js?v=${pageContext.session.lastAccessedTime}">
 </script>
 
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+
+    <div id="toastMensaje"
+         class="toast align-items-center text-bg-success border-0"
+         role="alert"
+         aria-live="assertive"
+         aria-atomic="true">
+
+        <div class="d-flex">
+
+            <div class="toast-body" id="toastTexto">
+                Mensaje
+            </div>
+
+            <button
+                type="button"
+                class="btn-close btn-close-white me-2 m-auto"
+                data-bs-dismiss="toast">
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
 </body>
 
 </html>

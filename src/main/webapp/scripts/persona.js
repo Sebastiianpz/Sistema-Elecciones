@@ -19,20 +19,22 @@ $(document).ready(function () {
             contentType: false,
             dataType: "json",
 
-            success: function (data) {
+			success: function (data) {
 
-                if (data.ok) {
+			    if (data.ok) {
 
-                    alert(data.mensaje || "Ciudadano registrado correctamente.");
+			        toast(data.mensaje || "Ciudadano registrado correctamente.");
 
-                    $("#formPersona")[0].reset();
+			        setTimeout(function () {
+			            window.location.href = ctx + "/vistas/listar.jsp";
+			        }, 500);
 
-                } else {
+			    } else {
 
                     if (data.errores) {
                         alert(data.errores.join("\n"));
                     } else {
-                        alert("Ocurrió un error.");
+                        toast("Ocurrio un error.", "danger");
                     }
 
                 }
@@ -407,6 +409,55 @@ function consultar() {
 
 }
 
+function actualizarContadores() {
+
+    let hab = 0;
+    let inhab = 0;
+
+    $(".badge-estado").each(function () {
+
+        if ($(this).hasClass("on")) {
+            hab++;
+        } else {
+            inhab++;
+        }
+
+    });
+
+    $("#dash-habilitados").text(hab);
+    $("#dash-inhabilitados").text(inhab);
+
+}
+
+function toast(mensaje, tipo = "success") {
+
+    const toast = $("#toastMensaje");
+
+    toast.removeClass(
+        "text-bg-success text-bg-danger text-bg-warning"
+    );
+
+    if (tipo === "success") {
+
+        toast.addClass("text-bg-success");
+
+    } else if (tipo === "danger") {
+
+        toast.addClass("text-bg-danger");
+
+    } else {
+
+        toast.addClass("text-bg-warning");
+
+    }
+
+    $("#toastTexto").text(mensaje);
+
+    new bootstrap.Toast(
+        document.getElementById("toastMensaje")
+    ).show();
+
+}
 
 // ═══════════════════════════════════════
 // ELIMINAR
@@ -498,7 +549,7 @@ $(document).ready(function () {
 
                 } else {
 
-                    alert("No se pudo eliminar el ciudadano.");
+                    toast("No se pudo eliminar.", "danger");
 
                 }
 
@@ -664,29 +715,31 @@ $(document).ready(function () {
 
             dataType: "json",
 
-            success: function (response) {
+			success: function (response) {
 
-                if (response.habilitado) {
+			    if (response.habilitado) {
 
-                    badge
-                        .removeClass("off")
-                        .addClass("on")
-                        .html('<span class="badge-dot"></span>Habilitado');
+			        badge
+			            .removeClass("off")
+			            .addClass("on")
+			            .html('<span class="badge-dot"></span>Habilitado');
 
-                } else {
+			    } else {
 
-                    badge
-                        .removeClass("on")
-                        .addClass("off")
-                        .html('<span class="badge-dot"></span>Inhabilitado');
+			        badge
+			            .removeClass("on")
+			            .addClass("off")
+			            .html('<span class="badge-dot"></span>Inhabilitado');
 
-                }
+			    }
 
-                fila.find(".btn-ver").data("habilitado", response.habilitado);
+				fila.find(".btn-ver").data("habilitado", response.habilitado);
 
-                toggle.prop("disabled", false);
+				actualizarContadores();
 
-            },
+				toggle.prop("disabled", false);
+
+			},
 
             error: function () {
 
