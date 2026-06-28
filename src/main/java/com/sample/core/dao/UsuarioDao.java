@@ -20,7 +20,7 @@ public interface UsuarioDao {
 	
 	public List<Usuario> listEquipos() throws Exception;
 	
-    public void saveEquipos(String macAddress, String nombreMac, boolean estadoPc, int votosEmitidos, Date fechaRegistro) throws Exception;
+    public void saveEquipos(String macAddress, String nombreMac, boolean estadoPc, int votosEmitidos) throws Exception;
 
 	public void deleteEquipos(int id) throws Exception;
 

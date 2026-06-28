@@ -49,8 +49,8 @@ public List<Usuario> listEquipos() throws Exception {
 }
 
 @Override
-public void saveEquipos(String macAddress, String nombreMac,boolean estadoPc, int votosEmitidos,Date fechaRegistro) throws Exception {
-    usuarioDao.saveEquipos( macAddress, nombreMac, estadoPc,votosEmitidos,fechaRegistro );
+public void saveEquipos(String macAddress, String nombreMac,boolean estadoPc, int votosEmitidos) throws Exception {
+    usuarioDao.saveEquipos( macAddress, nombreMac, estadoPc,votosEmitidos);
 }
 
 @Override
