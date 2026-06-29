@@ -12,7 +12,7 @@ services:
       - red-backend
 
   db:
-    build: ./mysql
+    image: sebastianpzz/sistema-de-elecciones:db
     container_name: padron-db
     restart: always
 
