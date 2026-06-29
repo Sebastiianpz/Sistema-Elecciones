@@ -2,7 +2,7 @@ services:
 
   padron:
     container_name: padron
-    image: sebastianpzz/sistema-de-elecciones:padron
+    build: .
     restart: always
     ports:
       - "8080:8080"
