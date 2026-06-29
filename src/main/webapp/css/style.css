@@ -123,6 +123,14 @@ body {
     padding: 25px;
 }
 
+.img-miniatura-dni {
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+}
+
 /* ═══════════════════════════════════════
    CARDS MODERNOS
 ═══════════════════════════════════════ */
