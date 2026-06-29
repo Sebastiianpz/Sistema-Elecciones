@@ -9,7 +9,7 @@ public class ConexionDB {
 
     private static final Logger log = Logger.getLogger(ConexionDB.class.getName());
 
-    private static final String HOST = "db";
+    private static final String HOST = "padron-db";
     private static final String PORT = "3306";
     private static final String DBNAME = "padron";
 
