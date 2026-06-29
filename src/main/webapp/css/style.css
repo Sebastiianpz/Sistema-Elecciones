@@ -123,10 +123,15 @@ body {
     padding: 25px;
 }
 
+.padron-table td {
+    vertical-align: middle;
+}
+
 .padron-table img {
     width: 50px !important;
     height: 50px !important;
     object-fit: cover !important;
+    display: inline-block;
 }
 
 /* ═══════════════════════════════════════

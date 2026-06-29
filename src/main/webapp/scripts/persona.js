@@ -154,6 +154,8 @@ $(document).ready(function () {
 <img
 src="../Imagen?id=${p.id}"
 class="img-miniatura-dni"
+width="50"
+height="50"
 alt="Foto DNI"
 onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' viewBox=\\'0 0 24 24\\' fill=\\'%239ca3af\\'><path d=\\'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z\\'/></svg>'">
 
