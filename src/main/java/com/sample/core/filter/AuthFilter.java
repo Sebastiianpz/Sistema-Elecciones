@@ -39,11 +39,12 @@ public class AuthFilter implements Filter {
         	    uri.contains("/login-admin/login-admin.jsp")        ||
         	    uri.contains("/home/home.jsp")                      ||
         	    uri.contains("/habilitado-administrador")           ||
+        	    uri.contains("/habilitado-ciudadano")               ||
         	    uri.contains("/votacion/")                          ||
         	    uri.contains("/confirmacion/")                      ||
         	    uri.contains("/no-existe/")                      ||
         	    uri.contains("/ya-voto/")   ||
-        	    uri.contains("/no-habilitado/no-habilitado.jsp/")                      ||
+        	    uri.contains("/no-habilitado/")                      ||
         	    // Servlets del votante (públicos)
         	    uri.equals(ctx + "/ingresarMesa")           ||
         	    uri.equals(ctx + "/dashboard-stats")        ||
@@ -57,7 +58,8 @@ public class AuthFilter implements Filter {
         	    uri.contains("/css/")                               ||
         	    uri.contains("/images/")                            ||
         	    uri.endsWith(".js")                                 ||
-        	    uri.equals(ctx + "/guardarVoto")            ||
+        	    uri.equals(ctx + "/votar") ||
+        	    uri.equals(ctx + "/guardarVoto") ||
         	    uri.endsWith(".css")                                ||
         	    uri.endsWith(".png")                                ||
         	    uri.endsWith(".jpg");
